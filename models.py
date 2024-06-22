@@ -145,7 +145,7 @@ class User(db.Model):
     img_url = db.Column(db.String, nullable=False, default="/static/images/user_vesikalik.png")
 
     # Relationships
-    decks = db.relationship("Deck", back_populates="users", cascade="all, delete-orphan")
+    decks = db.relationship("Deck", back_populates="user", cascade="all, delete-orphan")
 
     # Methods
     @classmethod
@@ -179,7 +179,7 @@ class Deck(db.Model):
 
     # Relationships
     user = db.relationship("User", back_populates="decks")
-    deck_cards = db.relationship("DeckCard", back_populates="decks", cascade="all, delete-orphan")
+    deck_cards = db.relationship("DeckCard", back_populates="deck", cascade="all, delete-orphan")
     cover_card = db.relationship("Card", foreign_keys=[cover_card_id], uselist=False)
 
     # Methods
@@ -210,7 +210,7 @@ class Card(db.Model):
     limit = db.Column(db.Integer, nullable=False, default=3)
 
     # Relationships
-    deck_cards = db.relationship("DeckCard", back_populates="cards", cascade="all, delete-orphan")
+    deck_cards = db.relationship("DeckCard", back_populates="card", cascade="all, delete-orphan")
 
 class DeckCard(db.Model):
     """A card in a deck."""
