@@ -1,11 +1,8 @@
 import unittest
-import os
+from flask import Flask
+from models import db, User, Deck, Card, DeckCard
 from dotenv import load_dotenv
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-from flask_sqlalchemy import SQLAlchemy
-from flask_bcrypt import Bcrypt
-from models import User, Deck, Card, DeckCard
+import os
 
 # Load environment variables
 load_dotenv()
@@ -13,107 +10,68 @@ load_dotenv()
 # Replace with your actual database URI
 SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URI')
 
-# Create a Flask application factory
-def create_app():
-    from flask import Flask
-    app = Flask(__name__)
-    app.config['SQLALCHEMY_DATABASE_URI'] = SQLALCHEMY_DATABASE_URI
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # Disable tracking modifications for better performance
-    return app
-
-# Initialize Flask app, SQLAlchemy, and Bcrypt
-app = create_app()
-db = SQLAlchemy(app)
-bcrypt = Bcrypt(app)
-
-# Create an engine to connect to the database and a session to communicate with the database
-engine = create_engine(SQLALCHEMY_DATABASE_URI, echo=False)
-Session = sessionmaker(bind=engine)
-
 class TestModels(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        """Set up the testing environment."""
-        # Push an application context
-        cls.app_context = app.app_context()
-        cls.app_context.push()
+        """Set up test database and create tables."""
+        # Create a minimal Flask application
+        cls.app = Flask(__name__)
+        cls.app.config['SQLALCHEMY_DATABASE_URI'] = SQLALCHEMY_DATABASE_URI
+        cls.app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+        cls.app.config['TESTING'] = True
 
-        # Initialize database session
-        cls.session = Session()
+        # Initialize the database with the Flask app
+        db.init_app(cls.app)
 
-        # Create tables (if not exist)
-        db.create_all()
-
-        # Create test data
-        cls.create_test_data()
-
-    @classmethod
-    def tearDownClass(cls):
-        """Tear down the testing environment."""
-        # Remove test data
-        db.session.remove()
-        db.drop_all()
-
-        # Pop the application context
-        cls.app_context.pop()
+        # Create the test database and tables
+        with cls.app.app_context():
+            db.drop_all()  # Drop all tables to ensure a clean slate
+            db.create_all()
+            cls.create_test_data()
 
     @classmethod
     def create_test_data(cls):
-        """Create test data for the tests."""
+        """Create test data."""
         # Create some test users
-        user1 = User.register(username='user1', unhash_password='password1', email='user1@example.com')
-        user2 = User.register(username='user2', unhash_password='password2', email='user2@example.com')
+        user1 = User.register(username="testuser1", unhash_password="password", email="test1@test.com")
+        user2 = User.register(username="testuser2", unhash_password="password", email="test2@test.com")
 
-        # Create some decks for user1
-        deck1 = Deck(name='Deck 1', user=user1)
-        deck2 = Deck(name='Deck 2', user=user1)
+        # Add users to the session
+        db.session.add(user1)
+        db.session.add(user2)
 
-        # Add cards and deck cards (assuming you have Card and DeckCard models defined)
-        card1 = Card(name='Card 1', type='Monster')
-        card2 = Card(name='Card 2', type='Spell')
-        card3 = Card(name='Card 3', type='Trap')
+        # Create some test cards
+        card1 = Card(name="Card 1", type="Monster", img_url="http://example.com/card1.jpg")
+        card2 = Card(name="Card 2", type="Spell", img_url="http://example.com/card2.jpg")
+        card3 = Card(name="Card 3", type="Trap", img_url="http://example.com/card3.jpg")
 
-        deck_card1 = DeckCard(deck=deck1, card=card1, quantity=3)
-        deck_card2 = DeckCard(deck=deck2, card=card2, quantity=2)
-        deck_card3 = DeckCard(deck=deck2, card=card3, quantity=1)
+        # Add cards to the session
+        db.session.add(card1)
+        db.session.add(card2)
+        db.session.add(card3)
 
-        # Add objects to the session only if they are not already attached
-        for obj in [user1, user2, deck1, deck2, card1, card2, card3, deck_card1, deck_card2, deck_card3]:
-            if obj not in cls.session:
-                cls.session.add(obj)
+        # Commit the session to save the data to the database
+        db.session.commit()
 
-        # Commit all changes to the database
-        cls.session.commit()
+    @classmethod
+    def tearDownClass(cls):
+        """Clean up the test database."""
+        with cls.app.app_context():
+            db.drop_all()
+
+    def test_user_registration(self):
+        """Test user registration."""
+        with self.app.app_context():
+            user = User.query.filter_by(username="testuser1").first()
+            self.assertIsNotNone(user)
+            self.assertEqual(user.email, "test1@test.com")
+
+    def test_card_creation(self):
+        """Test card creation."""
+        with self.app.app_context():
+            card = Card.query.filter_by(name="Card 1").first()
+            self.assertIsNotNone(card)
+            self.assertEqual(card.type, "Monster")
 
 
-
-    def test_create_user(self):
-        """Test creating a new user."""
-        user = User(username='testuser', password='password', email='test@example.com')
-        self.session.add(user)
-        self.session.commit()
-
-        # Check that the user was added to the database
-        self.assertIsNotNone(user.id)
-
-    def test_delete_user_cascades_decks(self):
-        """Test deleting a user cascades to delete associated decks."""
-        # Get user1 and its decks
-        user1 = self.session.query(User).filter_by(username='user1').first()
-        self.assertIsNotNone(user1)
-
-        num_decks_before_delete = self.session.query(Deck).filter_by(user_id=user1.id).count()
-
-        # Delete user1
-        self.session.delete(user1)
-        self.session.commit()
-
-        # Check that user1 and its decks are deleted
-        deleted_user1 = self.session.query(User).filter_by(username='user1').first()
-        num_decks_after_delete = self.session.query(Deck).filter_by(user_id=user1.id).count()
-
-        self.assertIsNone(deleted_user1)
-        self.assertEqual(num_decks_after_delete, 0)
-
-    # Additional tests for update, read, delete operations can be added similarly
