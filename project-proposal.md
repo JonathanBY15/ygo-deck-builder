@@ -21,7 +21,7 @@ The app will utilize the [Yu-Gi-Oh! API](https://ygoprodeck.com/api-guide/) to a
 
 ## Database Schema
 
-![Database Schema](/capstone1-ss/er.jpeg)
+![Database Schema](/capstone1-ss/db_schema.png)
 
 ## User Flow
 
