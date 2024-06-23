@@ -60,6 +60,7 @@ class Deck(db.Model):
     # Methods
     @validates('cover_card_id')
     def validate_cover_card(self, key, cover_card_id):
+        """Validate that cover card is in the deck."""
         if cover_card_id is not None:
             card_ids_in_deck = [deck_card.card_id for deck_card in self.deck_cards]
             if cover_card_id not in card_ids_in_deck:
@@ -100,6 +101,19 @@ class DeckCard(db.Model):
     # Relationships
     deck = db.relationship("Deck", back_populates="deck_cards")
     card = db.relationship("Card", back_populates="deck_cards")
+
+    @validates('quantity')
+    def validate_quantity(self, key, quantity):
+        """Validate that quantity does not exceed card limit"""
+        if self.card is None:
+            card = Card.query.get(self.card_id)
+        else:
+            card = self.card
+        if card is None:
+            raise ValueError("Card does not exist.")
+        if quantity > card.limit or quantity > 3 or quantity < 0:
+            raise ValueError(f"Invalid quantity. {card.name} quantity must be between 0 and {min(card.limit, 3)}.")
+        return quantity
 
 
 # Function to connect to the database
