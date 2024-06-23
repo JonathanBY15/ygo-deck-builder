@@ -7,7 +7,7 @@ import os
 # Load environment variables
 load_dotenv()
 
-# Replace with your actual database URI
+# Get the database URI from .env
 SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URI')
 
 class TestModels(unittest.TestCase):
