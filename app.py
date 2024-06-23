@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, flash, redirect, session, g
 from flask_bcrypt import Bcrypt
 from models import db, connect_db, User, Deck, Card, DeckCard
-from forms import RegisterForm
+from forms import RegisterForm, LoginForm
 from sqlalchemy.exc import IntegrityError
 
 # Environment libraries
@@ -58,3 +58,18 @@ def register():
         return redirect('/')
     
     return render_template('register.html', form=form)
+
+# Login route
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    """Login a user."""
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = User.authenticate(form.username.data, form.password.data)
+        if user:
+            session['username'] = user.username
+            flash(f"Welcome back {user.username}!", 'success')
+            return redirect('/')
+        flash("Invalid credentials", 'danger')
+    
+    return render_template('login.html', form=form)

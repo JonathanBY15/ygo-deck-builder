@@ -33,4 +33,15 @@ class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
 
-    
+    def validate_username(self, username):
+        """Validate that username exists."""
+        from models import User
+        if not User.query.filter_by(username=username.data).first():
+            raise ValidationError('Username not found')
+        
+    def validate_password(self, password):
+        """Validate that password is correct."""
+        from models import User
+        user = User.query.filter_by(username=self.username.data).first()
+        if user and not user.authenticate(self.username.data, password.data):
+            raise ValidationError('Invalid password')
