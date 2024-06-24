@@ -60,7 +60,6 @@
 
 </html> -->
 
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -74,7 +73,9 @@
     <script src="https://unpkg.com/popper"></script>
     <script src="https://unpkg.com/bootstrap"></script>
 
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css"
+        integrity="sha384-rZx2jg8CpMQv3mHoWg0jGfDmIcb0DI2PbEqpv6D6LsMvh4hL/HRScpIV+2Z6No1r" crossorigin="anonymous">
+
     <style>
         .card-container {
             height: 900px;
@@ -86,49 +87,74 @@
 </head>
 
 <body>
-    <div class="container">
-        {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-        <div class="flashes">
-            {% for category, message in messages %}
-            <div class="alert alert-{{ category }}">{{ message }}</div>
-            {% endfor %}
-        </div>
-        {% endif %}
-        {% endwith %}
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Left column for Deck -->
+            <div class="col-md-8">
+                <div class="container">
+                    <h1>Deck</h1>
+                </div>
+            </div>
 
-        <!-- Form for card search -->
-        <div class="container">
-            <form method="POST" id="card-search-form">
-                {{ form.hidden_tag() }}
+            <!-- Right column for Card Search -->
+            <div class="col-md-4">
+                <div class="container">
+                    <h1>Card Search</h1>
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                    <div class="flashes">
+                        {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    {% endwith %}
 
-                {% for field in form if field.widget.input_type != 'hidden' %}
-                {% for error in field.errors %}
-                <span class="text-danger">{{ error }}</span>
-                {% endfor %}
-                {{ field(placeholder=field.label.text, class="form-control") }}
-                {% endfor %}
-                <button type="submit" class="btn btn-primary">Search</button>
-                <a href="/" class="btn btn-primary">Back</a>
-            </form>
-        </div>
+                    <!-- Form for card search -->
+                    <form method="POST" id="card-search-form">
+                        {{ form.hidden_tag() }}
 
-        <!-- Card display section with fixed height and scrolling -->
-        <div class="card-container">
-            <div class="container">
-                {% for card in cards %}
-                <div class="card" style="width: 12rem; float: left; margin-right: 10px; margin-bottom: 10px;">
-                    <img src="{{ card['card_images'][0]['image_url_small'] }}" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <form method="POST" action="/add_to_deck/{{ card['id'] }}">
-                            <button type="submit" class="btn btn-success">Add</button>
-                        </form>
-                        <form method="POST" action="/remove_from_deck/{{ card['id'] }}">
-                            <button type="submit" class="btn btn-danger">Remove</button>
-                        </form>
+                        {% for field in form if field.widget.input_type != 'hidden' %}
+                        {% for error in field.errors %}
+                        <span class="text-danger">{{ error }}</span>
+                        {% endfor %}
+                        {{ field(placeholder=field.label.text, class="form-control") }}
+                        {% endfor %}
+                        <button type="submit" class="btn btn-primary">Search</button>
+                        <a href="/" class="btn btn-primary">Back</a>
+                    </form>
+
+                    <!-- Card display section with fixed height and scrolling -->
+                    <div class="card-container">
+                        <div class="container">
+                            {% for card in cards %}
+                            <div class="card"
+                                style="width: 8rem; float: left; margin-right: 10px; margin-bottom: 10px;">
+                                <img src="{{ card['card_images'][0]['image_url_small'] }}" class="card-img-top"
+                                    alt="...">
+
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col">
+                                            <form method="POST" action="/add_to_deck/{{ card['id'] }}">
+                                                <button type="submit" class="btn btn-success">+</button>
+                                            </form>
+                                        </div>
+                                        <div class="col">
+                                            <form method="POST" action="/remove_from_deck/{{ card['id'] }}">
+                                                <button type="submit" class="btn btn-danger">-</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+                            {% endfor %}
+                        </div>
                     </div>
                 </div>
-                {% endfor %}
             </div>
         </div>
     </div>
