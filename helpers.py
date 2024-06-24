@@ -27,3 +27,23 @@ def fetch_ygo_cards(fname="", type=None, attribute=None, race=None, level=None, 
     else:
         print(f"Error fetching data. Status code: {response.status_code}")
         return None
+    
+# Function to calculate card limit
+def calculate_card_limit(card):
+    """Calculate the card limit."""
+
+    # API ban_tcg, limit mapping
+    limit_mapping = {
+        'Banned': '0',
+        'Limited': '1',
+        'Semi-Limited': '2',
+        'Unlimited': '3'
+    }
+
+    # Get banlist info from card
+    if card.get('banlist_info'):
+        limit = card['banlist_info']['ban_tcg']
+    else:
+        limit = 'Unlimited'
+
+    return limit_mapping.get(limit)

@@ -3,7 +3,7 @@ from flask_bcrypt import Bcrypt
 from models import db, connect_db, User, Deck, Card, DeckCard
 from forms import RegisterForm, LoginForm, UserEditForm, DeckForm, CardSearchForm
 from sqlalchemy.exc import IntegrityError
-from helpers import fetch_ygo_cards
+from helpers import fetch_ygo_cards, calculate_card_limit
 import requests
 
 # Environment libraries
@@ -186,10 +186,6 @@ def delete_deck(deck_id):
 
 # TODO: Implement the following functions (then move it to a separate file)
 
-# Function to calculate card limit
-def calculate_card_limit(card):
-    """Calculate the card limit."""
-
 # Function to add card to database
 def add_card_to_db(card):
     """Add a card to the database."""
@@ -216,3 +212,5 @@ def get_cards():
         return render_template('cards.html', cards=cards_data, form=form)
     
     return render_template('cards.html', form=form)
+
+
