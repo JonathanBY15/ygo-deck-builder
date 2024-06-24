@@ -207,7 +207,8 @@ def get_cards():
                                      attack=f"gte{form.attack.data}" if form.attack.data != '' else None, 
                                      defense=f"gte{form.defense.data}" if form.defense.data != '' else None)
         if not cards_data:
-            return "Error fetching card data", 500
+            flash("No cards found that fit the filters", "danger")
+            return render_template('cards.html', form=form)
         
         return render_template('cards.html', cards=cards_data, form=form)
     

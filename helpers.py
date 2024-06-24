@@ -25,7 +25,7 @@ def fetch_ygo_cards(fname="", type=None, attribute=None, race=None, level=None, 
         data = response.json()
         return data['data']
     else:
-        print(f"Error fetching data. Status code: {response.status_code}")
+        print("No cards match the filters.")
         return None
     
 # Function to calculate card limit
