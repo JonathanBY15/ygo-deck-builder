@@ -3,6 +3,7 @@ from flask_bcrypt import Bcrypt
 from models import db, connect_db, User, Deck, Card, DeckCard
 from forms import RegisterForm, LoginForm, UserEditForm, DeckForm, CardSearchForm
 from sqlalchemy.exc import IntegrityError
+from helpers import fetch_ygo_cards
 import requests
 
 # Environment libraries
@@ -180,25 +181,35 @@ def delete_deck(deck_id):
     flash("Deck deleted.", "success")
     return redirect("/")
 
-# Function to fetch cards from API
-def fetch_ygo_cards(fname=""):
-    """Fetch Yu-Gi-Oh! cards from API by 'fname'."""
-    url = "https://db.ygoprodeck.com/api/v7/cardinfo.php"
-    params = {"fname": fname}
-    response = requests.get(url, params=params)
-    if response.status_code == 200:
-        data = response.json()
-        return data['data']
-    else:
-        print(f"Error fetching data. Status code: {response.status_code}")
-        return None
+
+
+
+# TODO: Implement the following functions (then move it to a separate file)
+
+# Function to calculate card limit
+def calculate_card_limit(card):
+    """Calculate the card limit."""
+
+# Function to add card to database
+def add_card_to_db(card):
+    """Add a card to the database."""
+    
+
+
 
 @app.route('/cards', methods=['GET', 'POST'])
 def get_cards():
     """Get card images. Search for cards by name and display images."""
     form = CardSearchForm()
+
     if form.validate_on_submit():
-        cards_data = fetch_ygo_cards(form.name.data)
+        cards_data = fetch_ygo_cards(fname=form.name.data, 
+                                     type=form.type.data if form.type.data != '' else None, 
+                                     attribute=form.attribute.data if form.attribute.data != '' else None, 
+                                     race=form.race.data if form.race.data != '' else None, 
+                                     level=form.level.data if form.level.data != '' else None, 
+                                     attack=f"gte{form.attack.data}" if form.attack.data != '' else None, 
+                                     defense=f"gte{form.defense.data}" if form.defense.data != '' else None)
         if not cards_data:
             return "Error fetching card data", 500
         
