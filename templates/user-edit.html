@@ -28,7 +28,7 @@
             {% endwith %}
             {% block content %}{% endblock %}
         </div>
-        <h1>Register</h1>
+        <h1>Edit Profile</h1>
         <div class="container">
             <form method="POST" id="register-form">
                 {{ form.hidden_tag() }}
@@ -39,7 +39,8 @@
                 {% endfor %}
                 {{ field(placeholder=field.label.text, class="form-control") }}
                 {% endfor %}
-                <button type="submit" class="btn btn-primary">Register</button>
+                <button type="submit" class="btn btn-primary">Save</button>
+                <a href="/" class="btn btn-primary">Back</a>
             </form>
         </div>
     </div>

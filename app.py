@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, flash, redirect, session, g
 from flask_bcrypt import Bcrypt
 from models import db, connect_db, User, Deck, Card, DeckCard
-from forms import RegisterForm, LoginForm
+from forms import RegisterForm, LoginForm, UserEditForm
 from sqlalchemy.exc import IntegrityError
 
 # Environment libraries
@@ -107,3 +107,30 @@ def logout():
         # If no user is logged in, flash message and redirect to home
         flash("You are not logged in.", "danger")
         return redirect("/")
+
+# Edit user profile route
+@app.route('/user/edit', methods=['GET', 'POST'])
+def edit_user():
+    """Edit user profile."""
+
+    if not g.user:
+        flash("Access unauthorized.", "danger")
+        return redirect("/")
+    
+    form = UserEditForm(obj=g.user, user_id=g.user.id)
+
+    if form.validate_on_submit():
+        # Authenticate user
+        if User.authenticate(g.user.username, form.password.data):
+            # Update user and commit changes
+            g.user.username = form.username.data
+            g.user.email = form.email.data
+            g.user.image_url = form.image_url.data
+
+            db.session.commit()
+            flash("You successfully updated your profile.", "success")
+            return redirect("/")
+        
+        flash("Invalid credentials.", "danger")
+
+    return render_template('user-edit.html', form=form)
