@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, flash, redirect, session, g
 from flask_bcrypt import Bcrypt
 from models import db, connect_db, User, Deck, Card, DeckCard
-from forms import RegisterForm, LoginForm, UserEditForm
+from forms import RegisterForm, LoginForm, UserEditForm, DeckForm
 from sqlalchemy.exc import IntegrityError
 
 # Environment libraries
@@ -51,7 +51,7 @@ def add_user_to_g():
 def homepage():
     """Home page."""
     if g.user:
-        return render_template('home.html', user=g.user)
+        return render_template('home.html', user=g.user, decks=g.user.decks)
     else:
         return render_template('/home-anon.html')
 
@@ -134,3 +134,48 @@ def edit_user():
         flash("Invalid credentials.", "danger")
 
     return render_template('user-edit.html', form=form)
+
+# Add deck route
+@app.route('/decks/new', methods=['GET', 'POST'])
+def add_deck():
+    """Add a deck."""
+
+    if not g.user:
+        flash("Access unauthorized.", "danger")
+        return redirect("/")
+    
+    form = DeckForm()
+
+    if form.validate_on_submit():
+        deck = Deck(user_id=g.user.id, name=form.name.data, description=form.description.data)
+        db.session.add(deck)
+        db.session.commit()
+        flash("Deck added.", "success")
+        return redirect(f"/decks/{deck.id}")
+    
+    return render_template('deck-add.html', form=form)
+
+# Deck edit route
+@app.route('/decks/<int:deck_id>')
+def show_deck(deck_id):
+    """Show a deck."""
+
+    deck = Deck.query.get_or_404(deck_id)
+    return render_template('deck-view.html', deck=deck)
+
+# Delete deck route
+@app.route('/decks/<int:deck_id>/delete', methods=['GET', 'POST'])
+def delete_deck(deck_id):
+    """Delete a deck."""
+
+    deck = Deck.query.get_or_404(deck_id)
+
+    if not g.user:
+        flash("Access unauthorized.", "danger")
+        return redirect("/")
+    
+    db.session.delete(deck)
+    db.session.commit()
+    flash("Deck deleted.", "success")
+    return redirect("/")
+

@@ -28,34 +28,9 @@
         {% block content %}{% endblock %}
     </div>
 
-    <h1>YGO Deck Builder</h1>
-    <h2>Home Page</h2>
-    <h2>Welcome {{user.username}}</h2>
+    <h1>{{deck.name}}</h1>
 
-    <div class="container">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Deck Name</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for deck in decks %}
-                <tr>
-                    <td>{{ deck.name }}</td>
-                    <td>
-                        <a href="/decks/{{ deck.id }}">Edit Deck</a>
-                        <a href="/decks/{{ deck.id }}/delete">Delete Deck</a>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-
-    <a href="/decks/new">New Deck</a>
-    <a href="/user/edit">Edit Profile</a>
-    <a href="/logout">Log out</a>
+    <a href="/" class="btn btn-primary">Back</a>
 </body>
 
 </html>

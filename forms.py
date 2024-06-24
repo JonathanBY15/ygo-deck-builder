@@ -78,3 +78,17 @@ class UserEditForm(FlaskForm):
         user = User.query.filter_by(email=email.data).first()
         if user and user.id != self.user_id:
             raise ValidationError('Email already taken')
+        
+class DeckForm(FlaskForm):
+    """Form for adding a deck."""
+    
+    name = StringField('Name', validators=[DataRequired(), Length(min=1, max=50)])
+    description = TextAreaField('Description')
+    
+    # def validate_cover_card_id(self, cover_card_id):
+    #     """Validate that cover card is in the deck."""
+    #     from models import Card
+    #     if cover_card_id.data:
+    #         card = Card.query.get(cover_card_id.data)
+    #         if not card:
+    #             raise ValidationError('Cover card not found')
