@@ -11,6 +11,8 @@ import os
 # Load environment variables
 load_dotenv()
 
+CURR_USER_KEY = "curr_user"
+
 # Get the database URI and secret key from .env
 SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URI')
 SECRET_KEY = os.getenv('SECRET_KEY')
@@ -33,11 +35,25 @@ with app.app_context():
 # Create bcrypt instance
 bcrypt = Bcrypt(app)
 
+# Add user to Flask global
+@app.before_request
+def add_user_to_g():
+    """If we're logged in, add curr user to Flask global."""
+
+    if CURR_USER_KEY in session:
+        g.user = User.query.get(session[CURR_USER_KEY])
+
+    else:
+        g.user = None
+
 # Home route
 @app.route('/')
-def home():
+def homepage():
     """Home page."""
-    return render_template('home.html')
+    if g.user:
+        return render_template('home.html', user=g.user)
+    else:
+        return render_template('/home-anon.html')
 
 # Register route
 @app.route('/register', methods=['GET', 'POST'])
@@ -53,7 +69,7 @@ def register():
             flash("Username already taken", 'danger')
             return render_template('register.html', form=form)
         
-        session['username'] = user.username
+        session[CURR_USER_KEY] = user.id
         flash(f"Welcome {user.username}!", 'success')
         return redirect('/')
     
@@ -65,11 +81,29 @@ def login():
     """Login a user."""
     form = LoginForm()
     if form.validate_on_submit():
+        # Authenticate user
         user = User.authenticate(form.username.data, form.password.data)
         if user:
-            session['username'] = user.username
+            # Add user to session and redirect to home
+            session[CURR_USER_KEY] = user.id
             flash(f"Welcome back {user.username}!", 'success')
             return redirect('/')
+        
         flash("Invalid credentials", 'danger')
     
     return render_template('login.html', form=form)
+
+# Logout route
+@app.route('/logout', methods=['GET', 'POST'])
+def logout():
+    """Logout a user."""
+
+    if CURR_USER_KEY in session:
+        # Remove user from session, if it exists and redirect to home
+        del session[CURR_USER_KEY]
+        flash("You have successfully logged out.", "success")
+        return redirect("/")
+    else:
+        # If no user is logged in, flash message and redirect to home
+        flash("You are not logged in.", "danger")
+        return redirect("/")
