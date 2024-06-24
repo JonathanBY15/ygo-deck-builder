@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, TextAreaField
+from wtforms import StringField, PasswordField, TextAreaField, SelectField
 from wtforms.validators import DataRequired, Email, Length, ValidationError
 
 class RegisterForm(FlaskForm):
@@ -92,3 +92,8 @@ class DeckForm(FlaskForm):
     #         card = Card.query.get(cover_card_id.data)
     #         if not card:
     #             raise ValidationError('Cover card not found')
+
+class CardSearchForm(FlaskForm):
+    """Form for searching for cards."""
+    
+    name = StringField('Name')
