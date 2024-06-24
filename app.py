@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, flash, redirect, session, g
+from flask import Flask, render_template, request, flash, redirect, url_for, session, g
 from flask_bcrypt import Bcrypt
 from models import db, connect_db, User, Deck, Card, DeckCard
 from forms import RegisterForm, LoginForm, UserEditForm, DeckForm, CardSearchForm
@@ -193,25 +193,66 @@ def add_card_to_db(card):
 
 
 
+
+# Route to get cards
 @app.route('/cards', methods=['GET', 'POST'])
 def get_cards():
-    """Get card images. Search for cards by name and display images."""
     form = CardSearchForm()
+    offset = request.args.get('offset', 0, type=int)
+    per_page = 20  # Number of cards per page
 
-    if form.validate_on_submit():
-        cards_data = fetch_ygo_cards(fname=form.name.data, 
-                                     type=form.type.data if form.type.data != '' else None, 
-                                     attribute=form.attribute.data if form.attribute.data != '' else None, 
-                                     race=form.race.data if form.race.data != '' else None, 
-                                     level=form.level.data if form.level.data != '' else None, 
-                                     attack=f"gte{form.attack.data}" if form.attack.data != '' else None, 
-                                     defense=f"gte{form.defense.data}" if form.defense.data != '' else None)
+    if form.validate_on_submit() or request.method == 'GET':
+        # Preserve form data if available
+        if not form.validate_on_submit():
+            form.name.data = request.args.get('name', '')
+            form.type.data = request.args.get('type', '')
+            form.attribute.data = request.args.get('attribute', '')
+            form.race.data = request.args.get('race', '')
+            form.level.data = request.args.get('level', '')
+            form.attack.data = request.args.get('attack', '')
+            form.defense.data = request.args.get('defense', '')
+
+        cards_data = fetch_ygo_cards(
+            fname=form.name.data,
+            type=form.type.data if form.type.data != '' else None,
+            attribute=form.attribute.data if form.attribute.data != '' else None,
+            race=form.race.data if form.race.data != '' else None,
+            level=form.level.data if form.level.data != '' else None,
+            attack=f"gte{form.attack.data}" if form.attack.data != '' else None,
+            defense=f"gte{form.defense.data}" if form.defense.data != '' else None,
+            num=per_page,
+            offset=offset
+        )
+
         if not cards_data:
             flash("No cards found that fit the filters", "danger")
-            return render_template('cards.html', form=form)
-        
-        return render_template('cards.html', cards=cards_data, form=form)
-    
-    return render_template('cards.html', form=form)
+            return render_template('cards.html', form=form, cards=[], offset=offset)
 
+        return render_template('cards.html', cards=cards_data, form=form, offset=offset)
+
+    return render_template('cards.html', form=form, cards=[], offset=0)
+
+# Previous card page route
+@app.route('/previous_page', methods=['POST'])
+def previous_page():
+    offset = int(request.form['offset'])
+    new_offset = max(0, offset - 10)
+
+    # Convert form data to dictionary and remove offset
+    form_data = request.form.to_dict()
+    form_data.pop('offset', None)
+    
+    return redirect(url_for('get_cards', offset=new_offset, **form_data))
+
+# Next card page route
+@app.route('/next_page', methods=['POST'])
+def next_page():
+    offset = int(request.form['offset'])
+    new_offset = offset + 10
+
+    # Convert form data to dictionary and remove offset
+    form_data = request.form.to_dict()
+    form_data.pop('offset', None)
+    
+    return redirect(url_for('get_cards', offset=new_offset, **form_data))
 

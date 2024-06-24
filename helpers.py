@@ -1,11 +1,16 @@
 import requests
 
 # Function to fetch cards from API
-def fetch_ygo_cards(fname="", type=None, attribute=None, race=None, level=None, attack=None, defense=None):
+def fetch_ygo_cards(fname="", type=None, attribute=None, race=None, level=None, attack=None, defense=None, num=20, offset=0):
     """Fetch Yu-Gi-Oh! cards from API by 'fname'."""
+    # url = "https://db.ygoprodeck.com/api/v7/cardinfo.php?&num=20&offset=0"
     url = "https://db.ygoprodeck.com/api/v7/cardinfo.php"
 
-    params = {"fname": fname}
+    params = {
+        "fname": fname,
+        "num": num,
+        "offset": offset
+    }
 
     if type:
         params["type"] = type

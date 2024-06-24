@@ -11,54 +11,109 @@
     <script src="https://unpkg.com/popper"></script>
     <script src="https://unpkg.com/bootstrap"></script>
 
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css"
+        integrity="sha384-rZx2jg8CpMQv3mHoWg0jGfDmIcb0DI2PbEqpv6D6LsMvh4hL/HRScpIV+2Z6No1r" crossorigin="anonymous">
+
+    <style>
+        .card-container {
+            height: 900px;
+            overflow: auto;
+        }
+    </style>
 </head>
 
 <body>
-    <div class="container">
-        {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-        <div class="flashes">
-            {% for category, message in messages %}
-            <div class="alert alert-{{ category }}">{{ message }}</div>
-            {% endfor %}
-        </div>
-        {% endif %}
-        {% endwith %}
-        {% block content %}{% endblock %}
-    </div>
+    <div class="container-fluid">
+        <div class="row">
 
-    <h2>Cards</h2>
+            <div class="col-md-8">
+                <div class="container">
+                    <h1>Deck</h1>
+                </div>
+            </div>
 
-    <div class="container">
-        <form method="POST" id="card-search-form">
-            {{ form.hidden_tag() }}
 
-            {% for field in form if field.widget.input_type != 'hidden' %}
-            {% for error in field.errors %}
-            <span class="text-danger">{{ error }}</span>
-            {% endfor %}
-            {{ field(placeholder=field.label.text, class="form-control") }}
-            {% endfor %}
-            <button type="submit" class="btn btn-primary">Search</button>
-            <a href="/" class="btn btn-primary">Back</a>
-        </form>
-    </div>
+            <div class="col-md-4">
+                <div class="container">
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                    <div class="flashes">
+                        {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    {% endwith %}
 
-    <div class="container">
-        {% for card in cards %}
-        <div class="card" style="width: 8rem;">
-            <img src="{{ card['card_images'][0]['image_url_small'] }}" class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">{{ card['name'] }}</h5>
-                <a href="#" class="btn btn-primary">Add to Deck</a>
+
+                    <form method="POST" id="card-search-form">
+                        {{ form.hidden_tag() }}
+
+                        {% for field in form if field.widget.input_type != 'hidden' %}
+                        {% for error in field.errors %}
+                        <span class="text-danger">{{ error }}</span>
+                        {% endfor %}
+                        {{ field(placeholder=field.label.text, class="form-control") }}
+                        {% endfor %}
+                        <button type="submit" class="btn btn-primary">Search</button>
+                        <a href="/" class="btn btn-primary">Back</a>
+                    </form>
+
+
+                    <div class="card-container">
+                        <div class="container">
+                            {% for card in cards %}
+                            <div class="card"
+                                style="width: 8rem; float: left; margin-right: 10px; margin-bottom: 10px;">
+                                <img src="{{ card['card_images'][0]['image_url_small'] }}" class="card-img-top"
+                                    alt="...">
+
+                                <div class="add-remove-container container-fluid" style="height: 1rem;">
+                                    <div class="row">
+                                        <div class="col">
+                                            <form method="POST" action="/add_to_deck/{{ card['id'] }}"
+                                                style="height: 100%;">
+                                                <button type="submit" class="btn btn-success btn-block h-100">+</button>
+                                            </form>
+                                        </div>
+                                        <div class="col">
+                                            <form method="POST" action="/remove_from_deck/{{ card['id'] }}"
+                                                style="height: 100%;">
+                                                <button type="submit" class="btn btn-danger btn-block h-100">-</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col">
+                                <form method="POST" action="/previous_page">
+                                    <button type="submit" class="btn btn-primary">Prev</button>
+                                </form>
+                            </div>
+                            <div class="col">
+                                <form method="POST" action="/next_page">
+                                    <button type="submit" class="btn btn-primary">Next</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
             </div>
         </div>
-        {% endfor %}
     </div>
 </body>
 
 </html> -->
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -79,9 +134,7 @@
     <style>
         .card-container {
             height: 900px;
-            /* Set the height as desired */
             overflow: auto;
-            /* Enable scrolling */
         }
     </style>
 </head>
@@ -89,17 +142,15 @@
 <body>
     <div class="container-fluid">
         <div class="row">
-            <!-- Left column for Deck -->
+
             <div class="col-md-8">
                 <div class="container">
                     <h1>Deck</h1>
                 </div>
             </div>
 
-            <!-- Right column for Card Search -->
             <div class="col-md-4">
                 <div class="container">
-                    <h1>Card Search</h1>
                     {% with messages = get_flashed_messages(with_categories=true) %}
                     {% if messages %}
                     <div class="flashes">
@@ -110,7 +161,6 @@
                     {% endif %}
                     {% endwith %}
 
-                    <!-- Form for card search -->
                     <form method="POST" id="card-search-form">
                         {{ form.hidden_tag() }}
 
@@ -124,7 +174,6 @@
                         <a href="/" class="btn btn-primary">Back</a>
                     </form>
 
-                    <!-- Card display section with fixed height and scrolling -->
                     <div class="card-container">
                         <div class="container">
                             {% for card in cards %}
@@ -133,27 +182,59 @@
                                 <img src="{{ card['card_images'][0]['image_url_small'] }}" class="card-img-top"
                                     alt="...">
 
-                                <div class="container-fluid">
+                                <div class="add-remove-container container-fluid" style="height: 1rem;">
                                     <div class="row">
                                         <div class="col">
-                                            <form method="POST" action="/add_to_deck/{{ card['id'] }}">
-                                                <button type="submit" class="btn btn-success">+</button>
+                                            <form method="POST" action="/add_to_deck/{{ card['id'] }}"
+                                                style="height: 100%;">
+                                                <button type="submit" class="btn btn-success btn-block h-100">+</button>
                                             </form>
                                         </div>
                                         <div class="col">
-                                            <form method="POST" action="/remove_from_deck/{{ card['id'] }}">
-                                                <button type="submit" class="btn btn-danger">-</button>
+                                            <form method="POST" action="/remove_from_deck/{{ card['id'] }}"
+                                                style="height: 100%;">
+                                                <button type="submit" class="btn btn-danger btn-block h-100">-</button>
                                             </form>
                                         </div>
                                     </div>
                                 </div>
 
-
-
                             </div>
                             {% endfor %}
                         </div>
                     </div>
+
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col">
+                                <form method="POST" action="/previous_page">
+                                    <input type="hidden" name="offset" value="{{ offset }}">
+                                    <input type="hidden" name="name" value="{{ form.name.data }}">
+                                    <input type="hidden" name="type" value="{{ form.type.data }}">
+                                    <input type="hidden" name="attribute" value="{{ form.attribute.data }}">
+                                    <input type="hidden" name="race" value="{{ form.race.data }}">
+                                    <input type="hidden" name="level" value="{{ form.level.data }}">
+                                    <input type="hidden" name="attack" value="{{ form.attack.data }}">
+                                    <input type="hidden" name="defense" value="{{ form.defense.data }}">
+                                    <button type="submit" class="btn btn-primary">Prev</button>
+                                </form>
+                            </div>
+                            <div class="col">
+                                <form method="POST" action="/next_page">
+                                    <input type="hidden" name="offset" value="{{ offset }}">
+                                    <input type="hidden" name="name" value="{{ form.name.data }}">
+                                    <input type="hidden" name="type" value="{{ form.type.data }}">
+                                    <input type="hidden" name="attribute" value="{{ form.attribute.data }}">
+                                    <input type="hidden" name="race" value="{{ form.race.data }}">
+                                    <input type="hidden" name="level" value="{{ form.level.data }}">
+                                    <input type="hidden" name="attack" value="{{ form.attack.data }}">
+                                    <input type="hidden" name="defense" value="{{ form.defense.data }}">
+                                    <button type="submit" class="btn btn-primary">Next</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
