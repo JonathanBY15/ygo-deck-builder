@@ -1,4 +1,5 @@
 import requests
+from models import db, Card
 
 # Function to fetch cards from API
 def fetch_ygo_cards(fname="", type=None, attribute=None, race=None, level=None, attack=None, defense=None, num=20, offset=0):
@@ -35,8 +36,6 @@ def fetch_ygo_cards(fname="", type=None, attribute=None, race=None, level=None, 
         return None
 
 
-
-    
 # Function to calculate card limit
 def calculate_card_limit(card):
     """Calculate the card limit."""
@@ -56,3 +55,33 @@ def calculate_card_limit(card):
         limit = 'Unlimited'
 
     return limit_mapping.get(limit)
+
+
+# Function to add card to database
+def add_card_to_db(card):
+    """Add a card to the database if it does not already exist in the database. Return the card."""
+
+    # Check if card already exists
+    existing_card = Card.query.filter_by(name=card['name']).first()
+
+    if existing_card:
+        return existing_card
+
+    # Create a new card
+    new_card = Card(
+        name=card['name'],
+        type=card['type'],
+        attribute=card['attribute'],
+        race=card['race'],
+        level=card['level'],
+        attack=card['atk'],
+        defense=card['def'],
+        description=card['desc'],
+        img_url=card['card_images'][0]['image_url'],
+        limit=calculate_card_limit(card)
+    )
+
+    db.session.add(new_card)
+    db.session.commit()
+
+    return new_card

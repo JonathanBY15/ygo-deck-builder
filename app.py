@@ -3,8 +3,8 @@ from flask_bcrypt import Bcrypt
 from models import db, connect_db, User, Deck, Card, DeckCard
 from forms import RegisterForm, LoginForm, UserEditForm, DeckForm, CardSearchForm
 from sqlalchemy.exc import IntegrityError
-from helpers import fetch_ygo_cards, calculate_card_limit
-import requests
+from helpers import fetch_ygo_cards, calculate_card_limit, add_card_to_db
+
 
 # Environment libraries
 from dotenv import load_dotenv
@@ -265,12 +265,4 @@ def delete_deck(deck_id):
     return redirect("/")
 
 
-
-
-# TODO: Implement the following functions (then move it to a separate file)
-
-# Function to add card to database
-def add_card_to_db(card):
-    """Add a card to the database."""
-    
 
