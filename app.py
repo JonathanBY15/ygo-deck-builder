@@ -157,46 +157,16 @@ def add_deck():
     
     return render_template('deck-add.html', form=form)
 
+
+# -------- DECK EDIT ROUTES -----------------------------------------------------------------------------------------------------------
+
 # Deck edit route
-@app.route('/decks/<int:deck_id>')
-def show_deck(deck_id):
-    """Show a deck."""
-
-    deck = Deck.query.get_or_404(deck_id)
-    return render_template('deck-view.html', deck=deck)
-
-# Delete deck route
-@app.route('/decks/<int:deck_id>/delete', methods=['GET', 'POST'])
-def delete_deck(deck_id):
-    """Delete a deck."""
+@app.route('/decks/<int:deck_id>', methods=['GET', 'POST'])
+def edit_deck(deck_id):
+    """View and edit a deck."""
 
     deck = Deck.query.get_or_404(deck_id)
 
-    if not g.user:
-        flash("Access unauthorized.", "danger")
-        return redirect("/")
-    
-    db.session.delete(deck)
-    db.session.commit()
-    flash("Deck deleted.", "success")
-    return redirect("/")
-
-
-
-
-# TODO: Implement the following functions (then move it to a separate file)
-
-# Function to add card to database
-def add_card_to_db(card):
-    """Add a card to the database."""
-    
-
-
-
-
-# Route to get cards
-@app.route('/cards', methods=['GET', 'POST'])
-def get_cards():
     form = CardSearchForm()
     offset = request.args.get('offset', 0, type=int)
     per_page = 20  # Number of cards per page
@@ -227,30 +197,32 @@ def get_cards():
 
         if not cards_data:
             flash("No cards found that fit the filters", "danger")
-            return render_template('cards.html', form=form, cards=[], offset=offset)
+            return render_template('deck-view.html', deck=deck, form=form, cards=[], offset=offset)
 
         # Extract relevant data for rendering
         cards = cards_data['data']
         pages_remaining = cards_data['meta']['pages_remaining']
 
-        return render_template('cards.html', cards=cards, form=form, offset=offset, pages_remaining=pages_remaining)
+        return render_template('deck-view.html', deck=deck, cards=cards, form=form, offset=offset, pages_remaining=pages_remaining)
 
-    return render_template('cards.html', form=form, cards=[], offset=0)
+    return render_template('deck-view.html', deck=deck, form=form, cards=[], offset=0)
 
-# New Search route
-@app.route('/cards/new_search', methods=['GET', 'POST'])
-def new_search():
-    # get form data, set offset to 0, and redirect to get_cards
+
+# New Search route for edit deck
+@app.route('/decks/<int:deck_id>/cards/new_search', methods=['POST'])
+def new_search(deck_id):
+    """Called when a new search is made. Resets offset to 0 and redirects to edit_deck with form data."""
+
+    # get form data, set offset to 0, and redirect to edit_deck
     form_data = request.form.to_dict()
-    # form_data['offset'] = 0
-    return redirect(url_for('get_cards', offset=0, **form_data))
-
-    
+    return redirect(url_for('edit_deck', deck_id=deck_id, offset=0, **form_data))
 
 
-# Previous card page route
-@app.route('/previous_page', methods=['POST'])
-def previous_page():
+# Previous card page route for deck edit
+@app.route('/decks/<int:deck_id>/cards/previous_page', methods=['POST'])
+def previous_page(deck_id):
+    """Load the previous page of cards."""
+
     offset = int(request.form['offset'])
     new_offset = max(0, offset - 20)
 
@@ -258,18 +230,47 @@ def previous_page():
     form_data = request.form.to_dict()
     form_data.pop('offset', None)
     
-    return redirect(url_for('get_cards', offset=new_offset, **form_data))
+    return redirect(url_for('edit_deck', deck_id=deck_id, offset=new_offset, **form_data))
 
-# Next card page route
-@app.route('/next_page', methods=['POST'])
-def next_page():
-        offset = int(request.form['offset'])
-        new_offset = offset + 20
+# Next card page route for deck edit
+@app.route('/decks/<int:deck_id>/cards/next_page', methods=['POST'])
+def next_page(deck_id):
+    """Load the next page of cards."""
 
-        # Convert form data to dictionary and remove offset
-        form_data = request.form.to_dict()
-        form_data.pop('offset', None)
-        
-        return redirect(url_for('get_cards', offset=new_offset, **form_data))
+    offset = int(request.form['offset'])
+    new_offset = offset + 20
 
+    # Convert form data to dictionary and remove offset
+    form_data = request.form.to_dict()
+    form_data.pop('offset', None)
+    
+    return redirect(url_for('edit_deck', deck_id=deck_id, offset=new_offset, **form_data))
+
+# ------------------------------------------------------------------------------------------------------------------------------------
+
+# Delete deck route
+@app.route('/decks/<int:deck_id>/delete', methods=['GET', 'POST'])
+def delete_deck(deck_id):
+    """Delete a deck."""
+
+    deck = Deck.query.get_or_404(deck_id)
+
+    if not g.user:
+        flash("Access unauthorized.", "danger")
+        return redirect("/")
+    
+    db.session.delete(deck)
+    db.session.commit()
+    flash("Deck deleted.", "success")
+    return redirect("/")
+
+
+
+
+# TODO: Implement the following functions (then move it to a separate file)
+
+# Function to add card to database
+def add_card_to_db(card):
+    """Add a card to the database."""
+    
 
