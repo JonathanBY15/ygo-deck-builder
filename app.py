@@ -202,6 +202,7 @@ def get_cards():
     per_page = 20  # Number of cards per page
 
     if form.validate_on_submit() or request.method == 'GET':
+
         # Preserve form data if available
         if not form.validate_on_submit():
             form.name.data = request.args.get('name', '')
@@ -228,15 +229,22 @@ def get_cards():
             flash("No cards found that fit the filters", "danger")
             return render_template('cards.html', form=form, cards=[], offset=offset)
 
-        return render_template('cards.html', cards=cards_data, form=form, offset=offset)
+        # Extract relevant data for rendering
+        cards = cards_data['data']
+        pages_remaining = cards_data['meta']['pages_remaining']
+
+        return render_template('cards.html', cards=cards, form=form, offset=offset, pages_remaining=pages_remaining)
 
     return render_template('cards.html', form=form, cards=[], offset=0)
+
+
+
 
 # Previous card page route
 @app.route('/previous_page', methods=['POST'])
 def previous_page():
     offset = int(request.form['offset'])
-    new_offset = max(0, offset - 10)
+    new_offset = max(0, offset - 20)
 
     # Convert form data to dictionary and remove offset
     form_data = request.form.to_dict()
@@ -247,12 +255,17 @@ def previous_page():
 # Next card page route
 @app.route('/next_page', methods=['POST'])
 def next_page():
-    offset = int(request.form['offset'])
-    new_offset = offset + 10
+        offset = int(request.form['offset'])
+        new_offset = offset + 20
 
-    # Convert form data to dictionary and remove offset
-    form_data = request.form.to_dict()
-    form_data.pop('offset', None)
-    
-    return redirect(url_for('get_cards', offset=new_offset, **form_data))
+        # Convert form data to dictionary and remove offset
+        form_data = request.form.to_dict()
+        form_data.pop('offset', None)
+        
+        return redirect(url_for('get_cards', offset=new_offset, **form_data))
 
+
+
+
+# response = fetch_ygo_cards(fname="Dark Magician", num=2, offset=0)
+# print(response['meta']['pages_remaining'])

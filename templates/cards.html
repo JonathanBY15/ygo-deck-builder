@@ -216,7 +216,8 @@
                                     <input type="hidden" name="level" value="{{ form.level.data }}">
                                     <input type="hidden" name="attack" value="{{ form.attack.data }}">
                                     <input type="hidden" name="defense" value="{{ form.defense.data }}">
-                                    <button type="submit" class="btn btn-primary">Prev</button>
+                                    <button type="submit" class="btn btn-primary" {% if offset==0 %}disabled{% endif
+                                        %}>Prev</button>
                                 </form>
                             </div>
                             <div class="col">
@@ -229,11 +230,13 @@
                                     <input type="hidden" name="level" value="{{ form.level.data }}">
                                     <input type="hidden" name="attack" value="{{ form.attack.data }}">
                                     <input type="hidden" name="defense" value="{{ form.defense.data }}">
-                                    <button type="submit" class="btn btn-primary">Next</button>
+                                    <button type="submit" class="btn btn-primary" {% if pages_remaining==0 %}disabled{%
+                                        endif %}>Next</button>
                                 </form>
                             </div>
                         </div>
                     </div>
+
 
                 </div>
             </div>
