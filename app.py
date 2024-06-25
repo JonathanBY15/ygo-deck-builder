@@ -237,7 +237,15 @@ def get_cards():
 
     return render_template('cards.html', form=form, cards=[], offset=0)
 
+# New Search route
+@app.route('/cards/new_search', methods=['GET', 'POST'])
+def new_search():
+    # get form data, set offset to 0, and redirect to get_cards
+    form_data = request.form.to_dict()
+    # form_data['offset'] = 0
+    return redirect(url_for('get_cards', offset=0, **form_data))
 
+    
 
 
 # Previous card page route
@@ -265,7 +273,3 @@ def next_page():
         return redirect(url_for('get_cards', offset=new_offset, **form_data))
 
 
-
-
-# response = fetch_ygo_cards(fname="Dark Magician", num=2, offset=0)
-# print(response['meta']['pages_remaining'])
