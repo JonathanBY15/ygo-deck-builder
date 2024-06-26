@@ -292,6 +292,11 @@ def add_card_to_deck(deck_id, card_id):
     # If card exists, add it to the db
     card = add_card_to_db(card)
 
+    # Check if the card is banned
+    if card.limit == 0:
+        flash(f"{card.name} is banned and cannot be added to a deck.", "danger")
+        return redirect(request.referrer or f"/decks/{deck_id}")
+
     # Select deck_card from database if it exists
     deck_card = DeckCard.query.filter_by(deck_id=deck_id, card_id=card_id).first()
 
