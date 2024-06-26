@@ -97,3 +97,41 @@ def add_card_to_db(card):
     db.session.commit()
 
     return new_card
+
+# Map card type to main deck or extra deck
+card_type_to_deck = {
+    'Skill Card': False,
+    'Spell Card': False,
+    'Trap Card': False,
+    'Normal Monster': False,
+    'Normal Tuner Monster': False,
+    'Effect Monster': False,
+    'Tuner Monster': False,
+    'Flip Monster': False,
+    'Flip Effect Monster': False,
+    'Flip Tuner Effect Monster': False,
+    'Spirit Monster': False,
+    'Union Effect Monster': False,
+    'Gemini Monster': False,
+    'Pendulum Effect Monster': False,
+    'Pendulum Normal Monster': False,
+    'Pendulum Tuner Effect Monster': False,
+    'Ritual Monster': False,
+    'Ritual Effect Monster': False,
+    'Toon Monster': False,
+    'Pendulum Flip Effect Monster': False,
+    'Token': False,
+    'Fusion Monster': True,
+    'Synchro Monster': True,
+    'Synchro Tuner Monster': True,
+    'Synchro Pendulum Effect Monster': True,
+    'XYZ Monster': True,
+    'XYZ Pendulum Effect Monster': True,
+    'Link Monster': True,
+    'Pendulum Effect Fusion Monster': True
+}
+
+# Function to check if card belongs in the extra deck
+def is_extra_deck(card):
+    """Return True if card belongs in the extra deck."""
+    return card_type_to_deck.get(card['type'], False)

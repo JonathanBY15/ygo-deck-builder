@@ -4,7 +4,7 @@ from flask_bcrypt import Bcrypt
 from models import db, connect_db, User, Deck, Card, DeckCard
 from forms import RegisterForm, LoginForm, UserEditForm, DeckForm, CardSearchForm
 from sqlalchemy.exc import IntegrityError
-from helpers import fetch_ygo_cards, calculate_card_limit, add_card_to_db, fetch_card_by_id
+from helpers import fetch_ygo_cards, calculate_card_limit, add_card_to_db, fetch_card_by_id, is_extra_deck
 
 
 # Environment libraries

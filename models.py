@@ -84,6 +84,7 @@ class Card(db.Model):
     description = db.Column(db.Text, nullable=True)
     img_url = db.Column(db.String, nullable=False)
     limit = db.Column(db.Integer, nullable=False, default=3)
+    extra_deck = db.Column(db.Boolean, nullable=False) # True if card is in extra deck
 
     # Relationships
     deck_cards = db.relationship("DeckCard", back_populates="card", cascade="all, delete-orphan")
