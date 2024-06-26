@@ -210,7 +210,7 @@
                 <div class="deck-col col-md-7">
                     <div class="container">
                         <div class="container text-center">
-                            <h1>Deck</h1>
+                            <h1>{{deck.name}}</h1>
                         </div>
 
                         <div class="main-deck-container container">
@@ -261,7 +261,7 @@
                             <button type="submit" class="btn btn-primary w-100">Search</button>
                         </form>
 
-                        <div class="card-container">
+                        <!-- <div class="search-result-container">
                             <div class="container">
                                 {% for card in cards %}
                                 <div class="card">
@@ -290,6 +290,32 @@
                                 </div>
                                 {% endfor %}
                             </div>
+                        </div> -->
+
+                        <div class="search-result-container">
+                            {% for card in cards %}
+                            <div class="card-frame">
+
+                                <img src="{{ card['card_images'][0]['image_url_small'] }}">
+
+                                <div class="card-buttons-container container-fluid">
+                                    <div class="row">
+                                        <div class="col">
+                                            <form method="POST"
+                                                action="{{ url_for('add_card_to_deck', deck_id=deck.id, card_id=card['id']) }}">
+                                                <button type="submit" class="btn btn-success w-100"></button>
+                                            </form>
+                                        </div>
+                                        <div class="col">
+                                            <form method="POST"
+                                                action="{{ url_for('remove_card_from_deck', deck_id=deck.id, card_id=card['id']) }}">
+                                                <button type="submit" class="btn btn-danger w-100"></button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
                         </div>
 
                         <div class="container-fluid">

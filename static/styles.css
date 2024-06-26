@@ -1,14 +1,14 @@
-.card-container {
+.search-result-container {
     height: 900px;
     overflow: auto;
 }
 
 .main-deck-container {
-    border: 1px solid #ff0000;
+    /* border: 1px solid #ff0000; */
 }
 
 .extra-deck-container {
-    border: 1px solid #ff0000;
+    /* border: 1px solid #ff0000; */
 }
 
 .main-card-slot,
@@ -39,12 +39,14 @@
     overflow: auto;
     padding: 20px;
     background-color: white;
-    border: 1px solid #ff0000;
+
+    /* border: 1px solid #ff0000; */
 }
 
 .card-view-container {
-    border: 1px solid #ff0000;
     padding: 0px;
+
+    /* border: 1px solid #ff0000; */
 }
 
 .card-view {
@@ -56,14 +58,16 @@
     align-items: center;
     justify-content: center;
     height: 100vh;
-    border: 1px solid #ff0000;
+
+    /* border: 1px solid #ff0000; */
 }
 
 .left-col {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    border: 1px solid #ff0000;
+
+    /* border: 1px solid #ff0000; */
 }
 
 
@@ -72,12 +76,96 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    border: 1px solid #51ff00;
+
+    /* border: 1px solid #51ff00; */
 }
 
 .search-col {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    border: 1px solid #0051ff;
+
+    /* border: 1px solid #0051ff; */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.search-result-container {
+    height: 900px;
+    overflow: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    /* border: #51ff00 1px solid; */
+}
+
+.card-frame {
+    width: 6rem;
+    height: 7.5rem;
+    float: left;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    /* border: #ff0000 1px solid; */
+}
+
+.card-frame img {
+    width: 100%;
+    height: 100%;
+
+    /* border: #51ff00 1px solid; */
+}
+
+.card-buttons-container {
+    width: 100%;
+    height: 1rem;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+
+
+    /* border: #51ff00 1px solid; */
+}
+
+.card-buttons-container .col {
+    flex: 1;
+    padding: 0;
+}
+
+.card-buttons-container .btn {
+    height: 100%;
+    border-radius: 0;
+}
+
+.btn-success {
+    background-color: #66bd3e;
+    border: none;
+}
+
+.btn-danger {
+    border: none;
 }
