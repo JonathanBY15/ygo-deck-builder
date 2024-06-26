@@ -20,14 +20,21 @@
             overflow: auto;
         }
 
-        .grid-container {
+        .main-deck-container {
             display: grid;
             grid-template-columns: repeat(15, 1fr);
             grid-template-rows: repeat(4, 1fr);
             gap: 5px;
         }
 
-        .grid-item {
+        .extra-deck-container {
+            display: grid;
+            grid-template-columns: repeat(15, 1fr);
+            grid-template-rows: repeat(1, 1fr);
+            gap: 5px;
+        }
+
+        .card-slot {
             border: 1px solid #ccc;
             padding: 10px;
             text-align: center;
@@ -44,9 +51,16 @@
             <div class="col-md-8">
                 <div class="container">
                     <h1>{{deck.name}}</h1>
-                    <div class="grid-container">
+                    <div class="main-deck-container">
                         {% for i in range(1, 61) %}
-                        <div class="grid-item">{{ i }}</div>
+                        <div class="card-slot">{{ i }}</div>
+                        {% endfor %}
+                    </div>
+                    <br>
+                    <br>
+                    <div class="extra-deck-container">
+                        {% for i in range(1, 16) %}
+                        <div class="card-slot">{{ i }}</div>
                         {% endfor %}
                     </div>
                 </div>
