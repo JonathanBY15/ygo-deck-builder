@@ -193,16 +193,16 @@
 
                     <div class="buttons-container container mb-3">
                         <div class="row mb-1">
-                            <button class="btn btn-primary">Clear</button>
+                            <button class="btn btn-primary">Clear Deck</button>
                         </div>
                         <div class="row mb-1">
-                            <button class="btn btn-primary">Sort</button>
+                            <button class="btn btn-primary">Sort Cards</button>
                         </div>
                         <div class="row mb-1">
-                            <button class="btn btn-primary">Exit</button>
+                            <button class="btn btn-primary">Delete Deck</button>
                         </div>
                         <div class="row mb-1">
-                            <button class="btn btn-primary">Delete</button>
+                            <a href="/" class="btn btn-primary">Back</a>
                         </div>
                     </div>
                 </div>
@@ -260,37 +260,6 @@
                             {% endfor %}
                             <button type="submit" class="btn btn-primary w-100">Search</button>
                         </form>
-
-                        <!-- <div class="search-result-container">
-                            <div class="container">
-                                {% for card in cards %}
-                                <div class="card">
-                                    <img src="{{ card['card_images'][0]['image_url_small'] }}" class="card-img-top"
-                                        alt="...">
-
-                                    <div class="add-remove-container container-fluid">
-                                        <div class="row">
-                                            <div class="col">
-                                                <form method="POST"
-                                                    action="{{ url_for('add_card_to_deck', deck_id=deck.id, card_id=card['id']) }}">
-                                                    <button type="submit"
-                                                        class="btn btn-success btn-block h-100">+</button>
-                                                </form>
-                                            </div>
-                                            <div class="col">
-                                                <form method="POST"
-                                                    action="{{ url_for('remove_card_from_deck', deck_id=deck.id, card_id=card['id']) }}">
-                                                    <button type="submit"
-                                                        class="btn btn-danger btn-block h-100">-</button>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                                {% endfor %}
-                            </div>
-                        </div> -->
 
                         <div class="search-result-container">
                             {% for card in cards %}
