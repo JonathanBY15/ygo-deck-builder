@@ -222,13 +222,15 @@
                                 <div class="add-remove-container container-fluid" style="height: 1rem;">
                                     <div class="row">
                                         <div class="col">
-                                            <form method="POST" action="/add_to_deck/{{ card['id'] }}"
+                                            <form method="POST"
+                                                action="{{ url_for('add_card_to_deck', deck_id=deck.id, card_id=card['id']) }}"
                                                 style="height: 100%;">
                                                 <button type="submit" class="btn btn-success btn-block h-100">+</button>
                                             </form>
                                         </div>
                                         <div class="col">
-                                            <form method="POST" action="/remove_from_deck/{{ card['id'] }}"
+                                            <form method="POST"
+                                                action="/decks/{{deck.id}}/cards/remove/{{ card['id'] }}"
                                                 style="height: 100%;">
                                                 <button type="submit" class="btn btn-danger btn-block h-100">-</button>
                                             </form>

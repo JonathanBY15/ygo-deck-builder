@@ -34,6 +34,17 @@ def fetch_ygo_cards(fname="", type=None, attribute=None, race=None, level=None, 
     else:
         print("No cards match the filters.")
         return None
+    
+# Function to fetch card by ID
+def fetch_card_by_id(id):
+    """Fetch a Yu-Gi-Oh! card by 'id'."""
+    url = f"https://db.ygoprodeck.com/api/v7/cardinfo.php?id={id}"
+    response = requests.get(url)
+    if response.status_code == 200:
+        data = response.json()
+        return data['data'][0]
+    else:
+        return None
 
 
 # Function to calculate card limit
@@ -69,14 +80,15 @@ def add_card_to_db(card):
 
     # Create a new card
     new_card = Card(
+        id=card['id'],
         name=card['name'],
         type=card['type'],
-        attribute=card['attribute'],
-        race=card['race'],
-        level=card['level'],
-        attack=card['atk'],
-        defense=card['def'],
-        description=card['desc'],
+        attribute=card.get('attribute', None),
+        race=card.get('race', None),
+        level=card.get('level', None),
+        attack=card.get('atk', None),
+        defense=card.get('def', None),
+        description=card.get('desc', ''),
         img_url=card['card_images'][0]['image_url'],
         limit=calculate_card_limit(card)
     )

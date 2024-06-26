@@ -1,9 +1,10 @@
 from flask import Flask, render_template, request, flash, redirect, url_for, session, g
+from flask_debugtoolbar import DebugToolbarExtension
 from flask_bcrypt import Bcrypt
 from models import db, connect_db, User, Deck, Card, DeckCard
 from forms import RegisterForm, LoginForm, UserEditForm, DeckForm, CardSearchForm
 from sqlalchemy.exc import IntegrityError
-from helpers import fetch_ygo_cards, calculate_card_limit, add_card_to_db
+from helpers import fetch_ygo_cards, calculate_card_limit, add_card_to_db, fetch_card_by_id
 
 
 # Environment libraries
@@ -26,6 +27,8 @@ app.config['SECRET_KEY'] = SECRET_KEY
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 app.config['SQLALCHEMY_ECHO'] = False
+
+toolbar = DebugToolbarExtension(app)
 
 # Connect to database
 connect_db(app)
@@ -263,6 +266,53 @@ def delete_deck(deck_id):
     db.session.commit()
     flash("Deck deleted.", "success")
     return redirect("/")
+
+
+
+# Add card to deck route
+@app.route('/decks/<int:deck_id>/cards/add/<int:card_id>', methods=['GET', 'POST'])
+def add_card_to_deck(deck_id, card_id):
+    """Add one card to a deck. If the user wants to add multiple copies of a card, they can do so by adding the card multiple times. Don't allow the user to add more than limit copies of a card to a deck. CardSearchForm fields should be preserved in the form."""
+
+    # Check if user is logged in
+    if not g.user:
+            flash("Access unauthorized.", "danger")
+            return redirect("/")
+
+    deck = Deck.query.get_or_404(deck_id)
+
+    # Fetch card from external database
+    card = fetch_card_by_id(card_id)
+
+    # Flash message if card is not found in the API
+    if not card:
+        flash("Card not found in the external database.", "danger")
+        return redirect(request.referrer or "/")
+    
+    # If card exists, add it to the db
+    card = add_card_to_db(card)
+
+    # Select deck_card from database if it exists
+    deck_card = DeckCard.query.filter_by(deck_id=deck_id, card_id=card_id).first()
+
+    # Ceck if card is in deck
+    if deck_card:
+        if deck_card.quantity >= card.limit:
+            # If quantity is greater than or equal to limit, flash message
+            flash(f"Cannot add more than {card.limit} copies of {card.name}.", "danger")
+        else:
+            # Increment quantity and commit changes
+            deck_card.quantity += 1
+            db.session.commit()
+            flash(f"{card.name} added to {deck.name}.", "success")
+    else:
+        # If card is not in deck, add card to deck
+        deck_card = DeckCard(deck_id=deck_id, card_id=card.id, quantity=1)
+        db.session.add(deck_card)
+        db.session.commit()
+        flash(f"{card.name} added to {deck.name}.", "success")
+
+    return redirect(f"/decks/{deck_id}")
 
 
 
