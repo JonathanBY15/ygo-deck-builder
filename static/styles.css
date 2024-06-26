@@ -4,30 +4,26 @@
 }
 
 .main-deck-container {
-    display: grid;
-    grid-template-columns: repeat(15, 1fr);
-    grid-template-rows: repeat(4, 1fr);
-    gap: 5px;
+    border: 1px solid #ff0000;
 }
 
 .extra-deck-container {
-    display: grid;
-    grid-template-columns: repeat(15, 1fr);
-    grid-template-rows: repeat(1, 1fr);
-    gap: 5px;
+    border: 1px solid #ff0000;
 }
 
-.card-slot {
+.main-card-slot,
+.extra-card-slot {
     border: 1px solid #ccc;
     padding: 10px;
     text-align: center;
     width: 6rem;
-    height: 10rem;
+    height: 8rem;
     background-color: rgba(168, 187, 187, 0.479);
 }
 
 .card {
-    width: 8rem;
+    width: 6rem;
+    height: 8rem;
     float: left;
     margin-right: 10px;
     margin-bottom: 10px;
@@ -35,4 +31,53 @@
 
 .add-remove-container {
     height: 1rem;
+}
+
+/* Testing Styles */
+.description-container {
+    height: 300px;
+    overflow: auto;
+    padding: 20px;
+    background-color: white;
+    border: 1px solid #ff0000;
+}
+
+.card-view-container {
+    border: 1px solid #ff0000;
+    padding: 0px;
+}
+
+.card-view {
+    width: 24rem;
+}
+
+.outer-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    border: 1px solid #ff0000;
+}
+
+.left-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border: 1px solid #ff0000;
+}
+
+
+.deck-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #51ff00;
+}
+
+.search-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border: 1px solid #0051ff;
 }

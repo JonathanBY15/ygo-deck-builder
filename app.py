@@ -172,7 +172,7 @@ def edit_deck(deck_id):
 
     form = CardSearchForm()
     offset = request.args.get('offset', 0, type=int)
-    per_page = 20  # Number of cards per page
+    per_page = 30  # Number of cards per page
 
     if form.validate_on_submit() or request.method == 'GET':
 
@@ -227,7 +227,7 @@ def previous_page(deck_id):
     """Load the previous page of cards."""
 
     offset = int(request.form['offset'])
-    new_offset = max(0, offset - 20)
+    new_offset = max(0, offset - 30)
 
     # Convert form data to dictionary and remove offset
     form_data = request.form.to_dict()
@@ -241,7 +241,7 @@ def next_page(deck_id):
     """Load the next page of cards."""
 
     offset = int(request.form['offset'])
-    new_offset = offset + 20
+    new_offset = offset + 30
 
     # Convert form data to dictionary and remove offset
     form_data = request.form.to_dict()
