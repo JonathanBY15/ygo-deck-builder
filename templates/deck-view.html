@@ -96,7 +96,7 @@
                                         </div>
                                         <div class="col">
                                             <form method="POST"
-                                                action="/decks/{{deck.id}}/cards/remove/{{ card['id'] }}"
+                                                action="{{ url_for('remove_card_from_deck', deck_id=deck.id, card_id=card['id']) }}"
                                                 style="height: 100%;">
                                                 <button type="submit" class="btn btn-danger btn-block h-100">-</button>
                                             </form>

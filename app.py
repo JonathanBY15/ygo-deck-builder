@@ -321,3 +321,41 @@ def add_card_to_deck(deck_id, card_id):
 
 
 
+# Remove card from deck route
+@app.route('/decks/<int:deck_id>/cards/remove/<int:card_id>', methods=['GET', 'POST'])
+def remove_card_from_deck(deck_id, card_id):
+    """Remove one card from a deck. If the user wants to remove multiple copies of a card, they can do so by removing the card multiple times. CardSearchForm fields should be preserved in the form."""
+
+    # Check if user is logged in
+    if not g.user:
+        flash("Access unauthorized.", "danger")
+        return redirect("/")
+    
+    deck = Deck.query.get_or_404(deck_id)
+
+    # Select deck_card from database if it exists
+    deck_card = DeckCard.query.filter_by(deck_id=deck_id, card_id=card_id).first()
+
+    # Fetch card from external database
+    card = fetch_card_by_id(card_id)
+
+    # Flash message if card is not found in the API
+    if not card:
+        flash("Card not found in the external database.", "danger")
+        return redirect(request.referrer or "/")
+    
+    # If card exists, add it to the db
+    card = add_card_to_db(card)
+
+    if deck_card:
+        # Decrement quantity and commit changes
+        deck_card.quantity -= 1
+        db.session.commit()
+        flash(f"{card.name} removed from {deck.name}.", "success")
+
+        # If quantity is 0, remove card from deck
+        if deck_card.quantity == 0:
+            db.session.delete(deck_card)
+            db.session.commit()
+    
+    return redirect(f"/decks/{deck_id}")
