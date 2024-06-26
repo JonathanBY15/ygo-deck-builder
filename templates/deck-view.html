@@ -10,38 +10,10 @@
     <script src="https://unpkg.com/jquery"></script>
     <script src="https://unpkg.com/popper.js"></script>
     <script src="https://unpkg.com/bootstrap"></script>
+    <link rel="stylesheet" href="/static/styles.css">
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css"
         integrity="sha384-rZx2jg8CpMQv3mHoWg0jGfDmIcb0DI2PbEqpv6D6LsMvh4hL/HRScpIV+2Z6No1r" crossorigin="anonymous">
-
-    <style>
-        .card-container {
-            height: 900px;
-            overflow: auto;
-        }
-
-        .main-deck-container {
-            display: grid;
-            grid-template-columns: repeat(15, 1fr);
-            grid-template-rows: repeat(4, 1fr);
-            gap: 5px;
-        }
-
-        .extra-deck-container {
-            display: grid;
-            grid-template-columns: repeat(15, 1fr);
-            grid-template-rows: repeat(1, 1fr);
-            gap: 5px;
-        }
-
-        .card-slot {
-            border: 1px solid #ccc;
-            padding: 10px;
-            text-align: center;
-            width: 6rem;
-            height: 10rem;
-        }
-    </style>
 </head>
 
 <body>
@@ -94,24 +66,21 @@
                     <div class="card-container">
                         <div class="container">
                             {% for card in cards %}
-                            <div class="card"
-                                style="width: 8rem; float: left; margin-right: 10px; margin-bottom: 10px;">
+                            <div class="card">
                                 <img src="{{ card['card_images'][0]['image_url_small'] }}" class="card-img-top"
                                     alt="...">
 
-                                <div class="add-remove-container container-fluid" style="height: 1rem;">
+                                <div class="add-remove-container container-fluid">
                                     <div class="row">
                                         <div class="col">
                                             <form method="POST"
-                                                action="{{ url_for('add_card_to_deck', deck_id=deck.id, card_id=card['id']) }}"
-                                                style="height: 100%;">
+                                                action="{{ url_for('add_card_to_deck', deck_id=deck.id, card_id=card['id']) }}">
                                                 <button type="submit" class="btn btn-success btn-block h-100">+</button>
                                             </form>
                                         </div>
                                         <div class="col">
                                             <form method="POST"
-                                                action="{{ url_for('remove_card_from_deck', deck_id=deck.id, card_id=card['id']) }}"
-                                                style="height: 100%;">
+                                                action="{{ url_for('remove_card_from_deck', deck_id=deck.id, card_id=card['id']) }}">
                                                 <button type="submit" class="btn btn-danger btn-block h-100">-</button>
                                             </form>
                                         </div>

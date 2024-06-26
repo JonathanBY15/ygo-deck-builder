@@ -1,0 +1,37 @@
+.card-container {
+    height: 900px;
+    overflow: auto;
+}
+
+.main-deck-container {
+    display: grid;
+    grid-template-columns: repeat(15, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    gap: 5px;
+}
+
+.extra-deck-container {
+    display: grid;
+    grid-template-columns: repeat(15, 1fr);
+    grid-template-rows: repeat(1, 1fr);
+    gap: 5px;
+}
+
+.card-slot {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+    width: 6rem;
+    height: 10rem;
+}
+
+.card {
+    width: 8rem;
+    float: left;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+.add-remove-container {
+    height: 1rem;
+}
