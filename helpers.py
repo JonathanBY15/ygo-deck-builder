@@ -90,7 +90,8 @@ def add_card_to_db(card):
         defense=card.get('def', None),
         description=card.get('desc', ''),
         img_url=card['card_images'][0]['image_url'],
-        limit=calculate_card_limit(card)
+        limit=calculate_card_limit(card),
+        extra_deck=is_extra_deck(card)
     )
 
     db.session.add(new_card)
