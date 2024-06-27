@@ -451,3 +451,13 @@ def clear_deck(deck_id):
     
     flash(f"{deck.name} cleared.", "success")
     return redirect(f"/decks/{deck_id}")
+
+
+
+# API endpoint to get all cards in a deck
+@app.route('/api/decks/<int:deck_id>/cards', methods=['GET'])
+def get_deck_cards(deck_id):
+    """API endpoint to get all cards in a deck."""
+    deck = Deck.query.get_or_404(deck_id)
+    cards = [{'id': dc.card_id, 'quantity': dc.quantity, 'img_url': dc.card.img_url} for dc in deck.deck_cards]
+    return jsonify(cards)
