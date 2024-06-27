@@ -50,11 +50,11 @@ async function updateMainDeckGrid(deckId) {
         const deckCards = await response.json();
 
         // Clear the grid
-        for (let row = 0; row < 4; row++) {
-            for (let col = 0; col < 15; col++) {
-                document.getElementById(`main-card-img-${(row * 15) + (col + 1)}`).src = '/static/images/placeholder.png';
-            }
-        }
+        // for (let row = 0; row < 4; row++) {
+        //     for (let col = 0; col < 15; col++) {
+        //         document.getElementById(`main-card-img-${(row * 15) + (col + 1)}`).src = '/static/images/placeholder.png';
+        //     }
+        // }
 
         // Update the grid with deck's cards
         let cardIndex = 0;
@@ -112,6 +112,18 @@ document.querySelectorAll('.remove-card-icon').forEach(button => {
         }
     });
 });
+
+// Event listeners for displaying the card image in 'card-view' when hovering over a card in the grid
+document.querySelectorAll('.main-card-slot').forEach(cardSlot => {
+    cardSlot.addEventListener('mouseover', (event) => {
+        const cardImg = cardSlot.querySelector('img'); // Get the image inside the cardSlot
+        if (cardImg) {
+            document.querySelector('.card-view').src = cardImg.src; // Set the image source to the source of the image inside the cardSlot
+        }
+    });
+});
+
+
 
 // Function to extract deckId from the URL
 function getDeckIdFromUrl() {
