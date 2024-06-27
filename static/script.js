@@ -109,7 +109,7 @@ document.querySelectorAll('.remove-card-icon').forEach(button => {
 
 // HOVER EFFECTS (View Card and Description)
 
-// Event listener for displaying the card image in 'card-view' when hovering over a card in the main deck
+// Event listener for displaying the card IMAGE in 'card-view' when hovering over a card in the MAIN DECK
 document.querySelectorAll('.main-card-slot').forEach(cardSlot => {
     cardSlot.addEventListener('mouseover', (event) => {
         const cardImg = cardSlot.querySelector('img'); // Get the image inside the cardSlot
@@ -119,7 +119,7 @@ document.querySelectorAll('.main-card-slot').forEach(cardSlot => {
     });
 });
 
-// Event listener for displaying the card description in 'description' when hovering over a card in the main deck
+// Event listener for displaying the card DESCRIPTION in 'description' when hovering over a card in the MAIN DECK
 document.querySelectorAll('.main-card-slot').forEach(cardSlot => {
     cardSlot.addEventListener('mouseover', (event) => {
         const cardDescription = cardSlot.dataset.cardDescription; // Get the description from the cardSlot's data attribute
@@ -127,7 +127,7 @@ document.querySelectorAll('.main-card-slot').forEach(cardSlot => {
     });
 });
 
-// Event listener for displaying the card image in 'card-view' when hovering over a card in the search results
+// Event listener for displaying the card IMAGE in 'card-view' when hovering over a card in the SEARCH RESULTS
 document.querySelectorAll('.card-frame').forEach(cardSlot => {
     cardSlot.addEventListener('mouseover', (event) => {
         const cardImg = cardSlot.querySelector('img'); // Get the image inside the cardSlot
@@ -137,7 +137,13 @@ document.querySelectorAll('.card-frame').forEach(cardSlot => {
     });
 });
 
-
+// Event listener for displaying the card DESCRIPTION in 'description' when hovering over a card in the SEARCH RESULTS
+document.querySelectorAll('.card-frame').forEach(cardSlot => {
+    cardSlot.addEventListener('mouseover', (event) => {
+        const cardDescription = cardSlot.dataset.carddescription; // Get the description from the cardSlot's data attribute
+        document.querySelector('.description').textContent = cardDescription; // Set the description text to the cardDescription
+    });
+});
 
 
 
