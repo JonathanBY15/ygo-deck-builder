@@ -40,6 +40,26 @@ with app.app_context():
 # Create bcrypt instance
 bcrypt = Bcrypt(app)
 
+
+
+# GLOBAL ERROR HANDLERS
+@app.errorhandler(404)
+def not_found_error(error):
+    return jsonify({"error": "Resource not found"}), 404
+
+@app.errorhandler(500)
+def internal_error(error):
+    return jsonify({"error": "An unexpected error occurred"}), 500
+
+@app.errorhandler(Exception)
+def handle_exception(error):
+    response = {
+        "error": "An unexpected error occurred",
+        "message": str(error)
+    }
+    return jsonify(response), 500
+
+
 # Add user to Flask global
 @app.before_request
 def add_user_to_g():
@@ -51,10 +71,15 @@ def add_user_to_g():
     else:
         g.user = None
 
+# --------------
+# --- ROUTES ---
+# --------------
+
 # Home route
 @app.route('/')
 def homepage():
     """Home page."""
+    
     if g.user:
         return render_template('home.html', user=g.user, decks=g.user.decks)
     else:
@@ -64,6 +89,7 @@ def homepage():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     """Register a user."""
+
     form = RegisterForm()
     if form.validate_on_submit():
         try:
@@ -160,9 +186,6 @@ def add_deck():
     
     return render_template('deck-add.html', form=form)
 
-
-# -------- DECK EDIT ROUTES -----------------------------------------------------------------------------------------------------------
-
 # Deck edit route
 @app.route('/decks/<int:deck_id>', methods=['GET', 'POST'])
 def edit_deck(deck_id):
@@ -249,8 +272,6 @@ def next_page(deck_id):
     
     return redirect(url_for('edit_deck', deck_id=deck_id, offset=new_offset, **form_data))
 
-# ------------------------------------------------------------------------------------------------------------------------------------
-
 # Delete deck route
 @app.route('/decks/<int:deck_id>/delete', methods=['GET', 'POST'])
 def delete_deck(deck_id):
@@ -271,7 +292,11 @@ def delete_deck(deck_id):
 # Add card to deck route
 @app.route('/decks/<int:deck_id>/cards/add/<int:card_id>', methods=['POST'])
 def add_card_to_deck(deck_id, card_id):
-    """Add one card to a deck. If the user wants to add multiple copies of a card, they can do so by adding the card multiple times. Don't allow the user to add more than limit copies of a card to a deck. CardSearchForm fields should be preserved in the form."""
+    """Add one card to a deck. If the user wants to add multiple copies of a card, 
+    they can do so by adding the card multiple times. Don't allow the user to add 
+    more than limit copies of a card to a deck. CardSearchForm fields should be preserved 
+    in the form."""
+
     if not g.user:
         return jsonify({"error": "Access unauthorized."}), 401
 
@@ -302,7 +327,10 @@ def add_card_to_deck(deck_id, card_id):
 # Remove card from deck route
 @app.route('/decks/<int:deck_id>/cards/remove/<int:card_id>', methods=['POST'])
 def remove_card_from_deck(deck_id, card_id):
-    """Remove one card from a deck. If the user wants to remove multiple copies of a card, they can do so by removing the card multiple times. CardSearchForm fields should be preserved in the form."""
+    """Remove one card from a deck. If the user wants to remove multiple copies of a card, 
+    they can do so by removing the card multiple times. CardSearchForm fields should be 
+    preserved in the form."""
+
     if not g.user:
         return jsonify({"error": "Access unauthorized."}), 401
 
@@ -352,6 +380,7 @@ def clear_deck(deck_id):
 @app.route('/api/decks/<int:deck_id>/cards', methods=['GET'])
 def get_deck_cards(deck_id):
     """API endpoint to get all cards in a deck."""
+
     deck = Deck.query.get_or_404(deck_id)
     cards = [{'id': dc.card_id, 'quantity': dc.quantity, 'img_url': dc.card.img_url} for dc in deck.deck_cards]
     return jsonify(cards)

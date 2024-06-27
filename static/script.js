@@ -56,8 +56,6 @@ async function updateMainDeckGrid(deckId) {
             }
         }
 
-        console.log(deckCards);
-
         // Update the grid with deck's cards
         let cardIndex = 0;
         deckCards.forEach(card => {
@@ -74,27 +72,29 @@ async function updateMainDeckGrid(deckId) {
     }
 }
 
-// // Event listeners for adding/removing cards using AJAX
-// document.querySelectorAll('.add-card-button').forEach(button => {
-//     button.addEventListener('click', async (event) => {
-//         const deckId = button.dataset.deckId;
-//         const cardId = button.dataset.cardId;
-//         try {
-//             const response = await fetch(`/decks/${deckId}/cards/add/${cardId}`, { method: 'POST' });
-//             const result = await response.json();
-//             if (response.ok) {
-//                 alert(result.message);
-//                 updateDeckGrid(deckId);
-//             } else {
-//                 alert(result.error);
-//             }
-//         } catch (error) {
-//             console.error('Error adding card:', error);
-//         }
-//     });
-// });
+// Event listeners for adding cards using AJAX
+document.querySelectorAll('.add-card-icon').forEach(button => {
+    button.addEventListener('click', async (event) => {
+        const deckId = getDeckIdFromUrl();
+        const cardId = button.dataset.cardId;
+        try {
+            const response = await fetch(`/decks/${deckId}/cards/add/${cardId}`, { method: 'POST' });
+            const result = await response.json();
+            if (response.ok) {
+                // alert(result.message);
+                updateMainDeckGrid(deckId);
+            } else {
+                alert(result.error);
+            }
+        } catch (error) {
+            console.error('Error adding card:', error);
+        }
+    });
+});
 
-// document.querySelectorAll('.remove-card-button').forEach(button => {
+
+// Event listeners for removing cards using AJAX
+// document.querySelectorAll('.remove-card-icon').forEach(button => {
 //     button.addEventListener('click', async (event) => {
 //         const deckId = button.dataset.deckId;
 //         const cardId = button.dataset.cardId;
