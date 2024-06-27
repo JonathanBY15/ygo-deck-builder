@@ -94,24 +94,24 @@ document.querySelectorAll('.add-card-icon').forEach(button => {
 
 
 // Event listeners for removing cards using AJAX
-// document.querySelectorAll('.remove-card-icon').forEach(button => {
-//     button.addEventListener('click', async (event) => {
-//         const deckId = button.dataset.deckId;
-//         const cardId = button.dataset.cardId;
-//         try {
-//             const response = await fetch(`/decks/${deckId}/cards/remove/${cardId}`, { method: 'POST' });
-//             const result = await response.json();
-//             if (response.ok) {
-//                 alert(result.message);
-//                 updateDeckGrid(deckId);
-//             } else {
-//                 alert(result.error);
-//             }
-//         } catch (error) {
-//             console.error('Error removing card:', error);
-//         }
-//     });
-// });
+document.querySelectorAll('.remove-card-icon').forEach(button => {
+    button.addEventListener('click', async (event) => {
+        const deckId = getDeckIdFromUrl();;
+        const cardId = button.dataset.cardId;
+        try {
+            const response = await fetch(`/decks/${deckId}/cards/remove/${cardId}`, { method: 'POST' });
+            const result = await response.json();
+            if (response.ok) {
+                // alert(result.message);
+                updateMainDeckGrid(deckId);
+            } else {
+                alert(result.error);
+            }
+        } catch (error) {
+            console.error('Error removing card:', error);
+        }
+    });
+});
 
 // Function to extract deckId from the URL
 function getDeckIdFromUrl() {
