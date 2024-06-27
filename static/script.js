@@ -40,7 +40,7 @@ function removeCardFromDeck(deckId, cardId) {
 
 
 // Function to fetch the deck's cards and update the grid
-async function updateDeckGrid(deckId) {
+async function updateMainDeckGrid(deckId) {
     try {
         const response = await fetch(`/api/decks/${deckId}/cards`);
         if (!response.ok) {
@@ -61,11 +61,12 @@ async function updateDeckGrid(deckId) {
         // Update the grid with deck's cards
         let cardIndex = 0;
         deckCards.forEach(card => {
-            const row = Math.floor(cardIndex / 15);
-            const col = cardIndex % 4;
-            // document.getElementById(`main-card-img-${row}-${col}`).src = card.img_url;
-            document.getElementById(`main-card-img-${cardIndex + 1}`).src = card.img_url;
-            cardIndex++;
+            for (let i = 0; i < card.quantity; i++) {
+                const row = Math.floor(cardIndex / 15);
+                const col = cardIndex % 4;
+                document.getElementById(`main-card-img-${cardIndex + 1}`).src = card.img_url;
+                cardIndex++;
+            }
         });
 
     } catch (error) {
@@ -121,5 +122,5 @@ function getDeckIdFromUrl() {
 // Initial update when the page loads
 document.addEventListener('DOMContentLoaded', () => {
     const deckId = getDeckIdFromUrl();
-    updateDeckGrid(deckId);
+    updateMainDeckGrid(deckId);
 });
