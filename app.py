@@ -79,7 +79,7 @@ def add_user_to_g():
 @app.route('/')
 def homepage():
     """Home page."""
-    
+
     if g.user:
         return render_template('home.html', user=g.user, decks=g.user.decks)
     else:
@@ -382,5 +382,5 @@ def get_deck_cards(deck_id):
     """API endpoint to get all cards in a deck."""
 
     deck = Deck.query.get_or_404(deck_id)
-    cards = [{'id': dc.card_id, 'quantity': dc.quantity, 'img_url': dc.card.img_url} for dc in deck.deck_cards]
+    cards = [{'id': dc.card_id, 'quantity': dc.quantity, 'img_url': dc.card.img_url, 'card_desc': dc.card.description} for dc in deck.deck_cards]
     return jsonify(cards)

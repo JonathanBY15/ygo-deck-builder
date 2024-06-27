@@ -35,11 +35,7 @@ function removeCardFromDeck(deckId, cardId) {
 }
 
 
-
-
-
-
-// Function to fetch the deck's cards and update the grid
+// FUNCTION to FETCH the deck's cards and UPDATE THE MAIN DECK GRID
 async function updateMainDeckGrid(deckId) {
     try {
         const response = await fetch(`/api/decks/${deckId}/cards`);
@@ -49,20 +45,15 @@ async function updateMainDeckGrid(deckId) {
 
         const deckCards = await response.json();
 
-        // Clear the grid
-        // for (let row = 0; row < 4; row++) {
-        //     for (let col = 0; col < 15; col++) {
-        //         document.getElementById(`main-card-img-${(row * 15) + (col + 1)}`).src = '/static/images/placeholder.png';
-        //     }
-        // }
-
         // Update the grid with deck's cards
         let cardIndex = 0;
         deckCards.forEach(card => {
             for (let i = 0; i < card.quantity; i++) {
                 const row = Math.floor(cardIndex / 15);
                 const col = cardIndex % 4;
-                document.getElementById(`main-card-img-${cardIndex + 1}`).src = card.img_url;
+                cardImg = document.getElementById(`main-card-img-${cardIndex + 1}`)
+                cardImg.src = card.img_url;
+                cardImg.parentElement.dataset.cardDescription = card.card_desc;
                 cardIndex++;
             }
         });
@@ -71,6 +62,8 @@ async function updateMainDeckGrid(deckId) {
         console.error('Error fetching deck cards:', error);
     }
 }
+
+
 
 // Event listeners for adding cards using AJAX
 document.querySelectorAll('.add-card-icon').forEach(button => {
@@ -113,6 +106,9 @@ document.querySelectorAll('.remove-card-icon').forEach(button => {
     });
 });
 
+
+// HOVER EFFECTS (View Card and Description)
+
 // Event listener for displaying the card image in 'card-view' when hovering over a card in the main deck
 document.querySelectorAll('.main-card-slot').forEach(cardSlot => {
     cardSlot.addEventListener('mouseover', (event) => {
@@ -120,6 +116,14 @@ document.querySelectorAll('.main-card-slot').forEach(cardSlot => {
         if (cardImg) {
             document.querySelector('.card-view').src = cardImg.src; // Set the image source to the source of the image inside the cardSlot
         }
+    });
+});
+
+// Event listener for displaying the card description in 'description' when hovering over a card in the main deck
+document.querySelectorAll('.main-card-slot').forEach(cardSlot => {
+    cardSlot.addEventListener('mouseover', (event) => {
+        const cardDescription = cardSlot.dataset.cardDescription; // Get the description from the cardSlot's data attribute
+        document.querySelector('.description').textContent = cardDescription; // Set the description text to the cardDescription
     });
 });
 
@@ -132,6 +136,8 @@ document.querySelectorAll('.card-frame').forEach(cardSlot => {
         }
     });
 });
+
+
 
 
 
