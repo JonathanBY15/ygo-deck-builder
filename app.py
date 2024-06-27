@@ -359,3 +359,26 @@ def remove_card_from_deck(deck_id, card_id):
             db.session.commit()
     
     return redirect(f"/decks/{deck_id}")
+
+# Clear deck route
+@app.route('/decks/<int:deck_id>/clear', methods=['GET', 'POST'])
+def clear_deck(deck_id):
+    """Clear a deck of all cards."""
+
+    # Check if user is logged in
+    if not g.user:
+        flash("Access unauthorized.", "danger")
+        return redirect("/")
+    
+    deck = Deck.query.get_or_404(deck_id)
+
+    # Select all deck_cards from database
+    deck_cards = DeckCard.query.filter_by(deck_id=deck_id).all()
+
+    # Delete all deck_cards and commit changes
+    for deck_card in deck_cards:
+        db.session.delete(deck_card)
+    db.session.commit()
+    
+    flash(f"{deck.name} cleared.", "success")
+    return redirect(f"/decks/{deck_id}")
