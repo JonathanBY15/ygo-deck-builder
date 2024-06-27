@@ -208,7 +208,18 @@
                 </div>
 
                 <div class="deck-col col-md-7">
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                    <div class="flashes">
+                        {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    {% endwith %}
+
                     <div class="container">
+
                         <div class="container text-center">
                             <h1>{{deck.name}}</h1>
                         </div>
@@ -239,15 +250,6 @@
 
                 <div class="search-col col-md-3">
                     <div class="container">
-                        {% with messages = get_flashed_messages(with_categories=true) %}
-                        {% if messages %}
-                        <div class="flashes">
-                            {% for category, message in messages %}
-                            <div class="alert alert-{{ category }}">{{ message }}</div>
-                            {% endfor %}
-                        </div>
-                        {% endif %}
-                        {% endwith %}
 
                         <form action="/decks/{{deck.id}}/cards/new_search" method="POST" id="card-search-form">
                             {{ form.hidden_tag() }}
