@@ -268,105 +268,7 @@ def delete_deck(deck_id):
     return redirect("/")
 
 
-
-# # Add card to deck route
-# @app.route('/decks/<int:deck_id>/cards/add/<int:card_id>', methods=['GET', 'POST'])
-# def add_card_to_deck(deck_id, card_id):
-#     """Add one card to a deck. If the user wants to add multiple copies of a card, they can do so by adding the card multiple times. Don't allow the user to add more than limit copies of a card to a deck. CardSearchForm fields should be preserved in the form."""
-
-#     # Check if user is logged in
-#     if not g.user:
-#             flash("Access unauthorized.", "danger")
-#             return redirect("/")
-
-#     deck = Deck.query.get_or_404(deck_id)
-
-#     # Fetch card from external database
-#     card = fetch_card_by_id(card_id)
-
-#     # Flash message if card is not found in the API
-#     if not card:
-#         flash("Card not found in the external database.", "danger")
-#         return redirect(request.referrer or "/")
-    
-#     # If card exists, add it to the db
-#     card = add_card_to_db(card)
-
-#     # Check if the card is banned
-#     if card.limit == 0:
-#         flash(f"{card.name} is banned and cannot be added to a deck.", "danger")
-#         return redirect(request.referrer or f"/decks/{deck_id}")
-
-#     # Select deck_card from database if it exists
-#     deck_card = DeckCard.query.filter_by(deck_id=deck_id, card_id=card_id).first()
-
-#     # Ceck if card is in deck
-#     if deck_card:
-#         if deck_card.quantity >= card.limit:
-#             # If quantity is greater than or equal to limit, flash message
-#             flash(f"Cannot add more than {card.limit} copies of {card.name}.", "danger")
-#         else:
-#             # Increment quantity and commit changes
-#             deck_card.quantity += 1
-#             db.session.commit()
-#             flash(f"{card.name} added to {deck.name}.", "success")
-#     else:
-#         # If card is not in deck, add card to deck
-#         deck_card = DeckCard(deck_id=deck_id, card_id=card.id, quantity=1)
-#         db.session.add(deck_card)
-#         db.session.commit()
-#         flash(f"{card.name} added to {deck.name}.", "success")
-
-#     return redirect(f"/decks/{deck_id}")
-
-
-
-# # Remove card from deck route
-# @app.route('/decks/<int:deck_id>/cards/remove/<int:card_id>', methods=['GET', 'POST'])
-# def remove_card_from_deck(deck_id, card_id):
-#     """Remove one card from a deck. If the user wants to remove multiple copies of a card, they can do so by removing the card multiple times. CardSearchForm fields should be preserved in the form."""
-
-#     # Check if user is logged in
-#     if not g.user:
-#         flash("Access unauthorized.", "danger")
-#         return redirect("/")
-    
-#     deck = Deck.query.get_or_404(deck_id)
-
-#     # Select deck_card from database if it exists
-#     deck_card = DeckCard.query.filter_by(deck_id=deck_id, card_id=card_id).first()
-
-#     # Fetch card from external database
-#     card = fetch_card_by_id(card_id)
-
-#     # Flash message if card is not found in the API
-#     if not card:
-#         flash("Card not found in the external database.", "danger")
-#         return redirect(request.referrer or "/")
-    
-#     # If card exists, add it to the db
-#     card = add_card_to_db(card)
-
-#     if deck_card:
-#         # Decrement quantity and commit changes
-#         deck_card.quantity -= 1
-#         db.session.commit()
-#         flash(f"{card.name} removed from {deck.name}.", "success")
-
-#         # If quantity is 0, remove card from deck
-#         if deck_card.quantity == 0:
-#             db.session.delete(deck_card)
-#             db.session.commit()
-    
-#     return redirect(f"/decks/{deck_id}")
-
-
-
-# --------------------- Test Routes ----------------------------
-
-
-
-
+# Add card to deck route
 @app.route('/decks/<int:deck_id>/cards/add/<int:card_id>', methods=['POST'])
 def add_card_to_deck(deck_id, card_id):
     """Add one card to a deck. If the user wants to add multiple copies of a card, they can do so by adding the card multiple times. Don't allow the user to add more than limit copies of a card to a deck. CardSearchForm fields should be preserved in the form."""
@@ -397,7 +299,7 @@ def add_card_to_deck(deck_id, card_id):
     return jsonify({"message": f"{card.name} added to {deck.name}."}), 200
 
 
-
+# Remove card from deck route
 @app.route('/decks/<int:deck_id>/cards/remove/<int:card_id>', methods=['POST'])
 def remove_card_from_deck(deck_id, card_id):
     """Remove one card from a deck. If the user wants to remove multiple copies of a card, they can do so by removing the card multiple times. CardSearchForm fields should be preserved in the form."""
@@ -419,14 +321,6 @@ def remove_card_from_deck(deck_id, card_id):
         db.session.commit()
         return jsonify({"message": f"{card.name} removed from {deck.name}."}), 200
     return jsonify({"error": f"{card.name} is not in the deck."}), 400
-
-
-
-
-# -------------------------------------------------------------------------------
-
-
-
 
 
 # Clear deck route
