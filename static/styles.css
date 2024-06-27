@@ -11,7 +11,7 @@
     /* border: 1px solid #ff0000; */
 }
 
-.main-card-slot,
+/* .main-card-slot,
 .extra-card-slot {
     border: 1px solid #ccc;
     padding: 10px;
@@ -19,6 +19,29 @@
     width: 6rem;
     height: 8rem;
     background-color: rgba(168, 187, 187, 0.479);
+} */
+
+.main-deck-container .row .col,
+.extra-deck-container .row .col {
+    border: 1px solid #ccc;
+    /* padding: 10px; */
+    text-align: center;
+    width: 6rem;
+    height: 8rem;
+    background-color: rgba(168, 187, 187, 0.479);
+    display: flex;
+    align-items: center;
+    /* Center content vertically */
+    justify-content: center;
+    /* Center content horizontally */
+}
+
+.main-deck-container .row .col img,
+.extra-deck-container .row .col img {
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+    /* Maintain aspect ratio and fit within the container */
 }
 
 .card {

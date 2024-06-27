@@ -16,6 +16,9 @@ function addCardToDeck(deckId, cardId) {
     });
 }
 
+
+
+
 function removeCardFromDeck(deckId, cardId) {
     $.ajax({
         url: `/decks/${deckId}/cards/remove/${cardId}`,

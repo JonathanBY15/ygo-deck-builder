@@ -223,15 +223,52 @@
                             <h1>{{deck.name}}</h1>
                         </div>
 
+                        <!-- <div class="main-deck-container container">
+                            {% for row in range(4) %}
+                            <div class="row">
+                                {% for col in range(15) %}
+                                <div class="col main-card-slot-{{row * 15 + col + 1}}">
+                                    <img src="" alt="">
+                                </div>
+                                {% endfor %}
+                            </div>
+                            {% endfor %}
+                        </div> -->
+
+
+
+
+
                         <div class="main-deck-container container">
                             {% for row in range(4) %}
                             <div class="row">
                                 {% for col in range(15) %}
-                                <div class="col main-card-slot">{{ row * 15 + col + 1 }}</div>
+                                <div class="col main-card-slot-{{ row * 15 + col + 1 }}">
+                                    {% if deck.deck_cards %}
+                                    {% set card_index = row * 15 + col %}
+                                    {% if card_index < deck.deck_cards|length %} {% set
+                                        deck_card=deck.deck_cards[card_index] %} {% if deck_card.quantity> 0 %}
+                                        {% for _ in range(deck_card.quantity) %}
+                                        <img src="{{ deck_card.card.img_url }}" alt="">
+                                        {% endfor %}
+                                        {% else %}
+                                        <img src="" alt="">
+                                        {% endif %}
+                                        {% else %}
+                                        <img src="" alt="">
+                                        {% endif %}
+                                        {% else %}
+                                        <img src="" alt="">
+                                        {% endif %}
+                                </div>
                                 {% endfor %}
                             </div>
                             {% endfor %}
                         </div>
+
+
+
+
 
                         <br>
                         <br>
@@ -239,7 +276,9 @@
                         <div class="extra-deck-container container">
                             <div class="row">
                                 {% for col in range(15) %}
-                                <div class="col extra-card-slot">{{ col + 1 }}</div>
+                                <div class="col extra-card-slot-{{ col + 1 }}">
+                                    <img src="" alt="">
+                                </div>
                                 {% endfor %}
                             </div>
                         </div>

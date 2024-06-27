@@ -396,6 +396,8 @@ def add_card_to_deck(deck_id, card_id):
     db.session.commit()
     return jsonify({"message": f"{card.name} added to {deck.name}."}), 200
 
+
+
 @app.route('/decks/<int:deck_id>/cards/remove/<int:card_id>', methods=['POST'])
 def remove_card_from_deck(deck_id, card_id):
     """Remove one card from a deck. If the user wants to remove multiple copies of a card, they can do so by removing the card multiple times. CardSearchForm fields should be preserved in the form."""
