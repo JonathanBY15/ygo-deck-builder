@@ -156,16 +156,24 @@
     padding: 0;
 }
 
-.card-buttons-container .btn {
-    height: 100%;
-    border-radius: 0;
+.add-card-icon,
+.remove-card-icon {
+    cursor: pointer;
+    transition: color 0.3s;
 }
 
-.btn-success {
-    background-color: #66bd3e;
-    border: none;
+.add-card-icon {
+    color: #14A44D;
 }
 
-.btn-danger {
-    border: none;
+.remove-card-icon {
+    color: #dc3545;
+}
+
+.add-card-icon:hover {
+    color: #ACE1AF;
+}
+
+.remove-card-icon:hover {
+    color: #F88379;
 }

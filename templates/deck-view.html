@@ -155,8 +155,7 @@
     <script src="https://unpkg.com/bootstrap"></script>
     <link rel="stylesheet" href="/static/styles.css">
 
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css"
-        integrity="sha384-rZx2jg8CpMQv3mHoWg0jGfDmIcb0DI2PbEqpv6D6LsMvh4hL/HRScpIV+2Z6No1r" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 
 <body>
@@ -271,27 +270,14 @@
 
                                 <div class="card-buttons-container container-fluid">
                                     <div class="row">
-                                        <!-- <div class="col">
-                                            <form method="POST"
-                                                action="{{ url_for('add_card_to_deck', deck_id=deck.id, card_id=card['id']) }}">
-                                                <button type="submit"
-                                                    class="add-card-button btn btn-success w-100"></button>
-                                            </form>
+
+                                        <div class="col">
+                                            <i class="fa-solid fa-square-plus add-card-icon"
+                                                onclick="addCardToDeck({{deck.id}}, {{card['id']}})"></i>
                                         </div>
                                         <div class="col">
-                                            <form method="POST"
-                                                action="{{ url_for('remove_card_from_deck', deck_id=deck.id, card_id=card['id']) }}">
-                                                <button type="submit"
-                                                    class="remove-card-button btn btn-danger w-100"></button>
-                                            </form>
-                                        </div> -->
-                                        <div class="col">
-                                            <button type="button" class="add-card-button btn btn-success w-100"
-                                                onclick="addCardToDeck({{deck.id}}, {{card['id']}})">Add</button>
-                                        </div>
-                                        <div class="col">
-                                            <button type="button" class="remove-card-button btn btn-danger w-100"
-                                                onclick="removeCardFromDeck({{deck.id}}, {{card['id']}})">Remove</button>
+                                            <i class="fa-solid fa-square-minus remove-card-icon"
+                                                onclick="removeCardFromDeck({{deck.id}}, {{card['id']}})"></i>
                                         </div>
 
                                     </div>
