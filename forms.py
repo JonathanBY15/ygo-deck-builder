@@ -106,7 +106,6 @@ class CardSearchForm(FlaskForm):
         ('Normal Tuner Monster', 'Normal Tuner Monster'), 
         ('Effect Monster', 'Effect Monster'), 
         ('Tuner Monster', 'Tuner Monster'), 
-        ('Flip Monster', 'Flip Monster'), 
         ('Flip Effect Monster', 'Flip Effect Monster'), 
         ('Flip Tuner Effect Monster', 'Flip Tuner Effect Monster'), 
         ('Spirit Monster', 'Spirit Monster'), 
