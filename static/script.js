@@ -113,8 +113,18 @@ document.querySelectorAll('.remove-card-icon').forEach(button => {
     });
 });
 
-// Event listeners for displaying the card image in 'card-view' when hovering over a card in the grid
+// Event listener for displaying the card image in 'card-view' when hovering over a card in the main deck
 document.querySelectorAll('.main-card-slot').forEach(cardSlot => {
+    cardSlot.addEventListener('mouseover', (event) => {
+        const cardImg = cardSlot.querySelector('img'); // Get the image inside the cardSlot
+        if (cardImg) {
+            document.querySelector('.card-view').src = cardImg.src; // Set the image source to the source of the image inside the cardSlot
+        }
+    });
+});
+
+// Event listener for displaying the card image in 'card-view' when hovering over a card in the search results
+document.querySelectorAll('.card-frame').forEach(cardSlot => {
     cardSlot.addEventListener('mouseover', (event) => {
         const cardImg = cardSlot.querySelector('img'); // Get the image inside the cardSlot
         if (cardImg) {
