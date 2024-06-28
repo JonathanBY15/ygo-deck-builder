@@ -1,40 +1,5 @@
 // Scripts will be written here
 
-// ADD CARD TO DECK
-function addCardToDeck(deckId, cardId) {
-    $.ajax({
-        url: `/decks/${deckId}/cards/add/${cardId}`,
-        type: 'POST',
-        success: function (response) {
-            // Optionally handle success, e.g., update the UI to reflect the added card
-            alert('Card added successfully!');
-        },
-        error: function (xhr, status, error) {
-            // Handle error
-            alert('Error adding card: ' + error);
-        }
-    });
-}
-
-
-
-// REMOVE CARD FROM DECK
-function removeCardFromDeck(deckId, cardId) {
-    $.ajax({
-        url: `/decks/${deckId}/cards/remove/${cardId}`,
-        type: 'POST',
-        success: function (response) {
-            // Optionally handle success, e.g., update the UI to reflect the removed card
-            alert('Card removed successfully!');
-        },
-        error: function (xhr, status, error) {
-            // Handle error
-            alert('Error removing card: ' + error);
-        }
-    });
-}
-
-
 // FUNCTION to FETCH the deck's cards and UPDATE THE MAIN DECK GRID
 async function updateMainDeckGrid(deckId) {
     try {
@@ -44,6 +9,13 @@ async function updateMainDeckGrid(deckId) {
         }
 
         const deckCards = await response.json();
+
+        // Reset the grid
+        for (let i = 1; i <= 60; i++) {
+            const cardImg = document.getElementById(`main-card-img-${i}`);
+            cardImg.src = '/static/images/placeholder.png';
+            cardImg.parentElement.dataset.cardDescription = '';
+        }
 
         // Update the grid with deck's cards
         let cardIndex = 0;
@@ -157,4 +129,22 @@ function getDeckIdFromUrl() {
 document.addEventListener('DOMContentLoaded', () => {
     const deckId = getDeckIdFromUrl();
     updateMainDeckGrid(deckId);
+});
+
+
+// Add AJAX to clear deck
+document.querySelector('#clear-deck').addEventListener('click', async (event) => {
+    const deckId = getDeckIdFromUrl();
+    try {
+        const response = await fetch(`/api/decks/${deckId}/clear`, { method: 'POST' });
+        const result = await response.json();
+        if (response.ok) {
+            // alert(result.message);
+            updateMainDeckGrid(deckId);
+        } else {
+            alert(result.error);
+        }
+    } catch (error) {
+        console.error('Error clearing deck:', error);
+    }
 });

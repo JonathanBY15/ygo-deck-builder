@@ -376,6 +376,8 @@ def clear_deck(deck_id):
 
 
 
+# API ENDPOINTS
+
 # API endpoint to get all cards in a deck
 @app.route('/api/decks/<int:deck_id>/cards', methods=['GET'])
 def get_deck_cards(deck_id):
@@ -384,3 +386,17 @@ def get_deck_cards(deck_id):
     deck = Deck.query.get_or_404(deck_id)
     cards = [{'id': dc.card_id, 'quantity': dc.quantity, 'img_url': dc.card.img_url, 'card_desc': dc.card.description} for dc in deck.deck_cards]
     return jsonify(cards)
+
+# API endpoint to clear a deck
+@app.route('/api/decks/<int:deck_id>/clear', methods=['POST'])
+def clear_deck_api(deck_id):
+    """API endpoint to clear a deck of all cards."""
+
+    deck = Deck.query.get_or_404(deck_id)
+    deck_cards = DeckCard.query.filter_by(deck_id=deck_id).all()
+
+    for deck_card in deck_cards:
+        db.session.delete(deck_card)
+    db.session.commit()
+
+    return jsonify({"message": f"{deck.name} cleared."})
