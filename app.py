@@ -181,7 +181,6 @@ def add_deck():
         deck = Deck(user_id=g.user.id, name=form.name.data, description=form.description.data)
         db.session.add(deck)
         db.session.commit()
-        flash("Deck added.", "success")
         return redirect(f"/decks/{deck.id}")
     
     return render_template('deck-add.html', form=form)
