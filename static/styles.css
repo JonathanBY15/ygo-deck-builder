@@ -1,3 +1,7 @@
+.body {
+    height: 100 vh;
+}
+
 .search-result-container {
     height: 900px;
     overflow: auto;
