@@ -102,54 +102,8 @@ document.querySelector('#clear-deck').addEventListener('click', async (event) =>
 });
 
 
-// // Add AJAX to card search form
-// document.getElementById('card-search-form').addEventListener('submit', async (event) => {
-//     event.preventDefault();
-//     try {
-//         const response = await fetch('/api/cards/search', { method: 'GET' });
-//         const result = await response.json();
 
-//         // const query = new URLSearchParams(new FormData(event.target)).toString();
-//         // const response = await fetch(`/api/cards/search?${query}`, { method: 'GET' });
-//         // const result = await response.json();
-
-//         if (response.ok) {
-//             // display search results in search-result-container
-//             const searchResultContainer = document.querySelector('.search-result-container');
-//             searchResultContainer.innerHTML = '';
-
-//             result.forEach(card => {
-//                 console.log(card);
-//                 const cardFrame = document.createElement('div');
-//                 cardFrame.classList.add('card-frame');
-//                 cardFrame.dataset.cardDescription = card.desc;
-//                 cardFrame.innerHTML = `
-//                     <img src="${card.card_images[0].image_url_small}">
-//                     <div class="card-buttons-container container-fluid">
-//                         <div class="row">
-//                             <div class="col">
-//                                 <i class="fa-solid fa-square-plus add-card-icon" data-card-id="${card.id}"></i>
-//                             </div>
-//                             <div class="col">
-//                                 <i class="fa-solid fa-square-minus remove-card-icon" data-card-id="${card.id}"></i>
-//                             </div>
-//                         </div>
-//                     </div>
-//                 `;
-//                 searchResultContainer.appendChild(cardFrame);
-//             });
-
-//         } else {
-//             alert(result.error);
-//         }
-//     } catch (error) {
-//         console.error('Error searching cards:', error);
-
-//     }
-// }
-// );
-
-
+// Submitting card search form with AJAX
 document.getElementById('card-search-form').addEventListener('submit', async (event) => {
     event.preventDefault();
     try {
@@ -191,17 +145,18 @@ document.getElementById('card-search-form').addEventListener('submit', async (ev
     }
 });
 
-// Event listeners for adding cards using AJAX
-document.querySelectorAll('.add-card-icon').forEach(button => {
-    button.addEventListener('click', async (event) => {
+// Event delegation for adding and removing cards
+document.addEventListener('click', async (event) => {
+    const target = event.target;
+
+    // Handling add card event
+    if (target.classList.contains('add-card-icon')) {
         const deckId = getDeckIdFromUrl();
-        console.log('deck:' + deckId);
-        const cardId = button.dataset.cardId;
+        const cardId = target.dataset.cardId;
         try {
             const response = await fetch(`/decks/${deckId}/cards/add/${cardId}`, { method: 'POST' });
             const result = await response.json();
             if (response.ok) {
-                // alert(result.message);
                 updateMainDeckGrid(deckId);
             } else {
                 alert(result.error);
@@ -209,19 +164,16 @@ document.querySelectorAll('.add-card-icon').forEach(button => {
         } catch (error) {
             console.error('Error adding card:', error);
         }
-    });
-});
+    }
 
-// Event listeners for removing cards using AJAX
-document.querySelectorAll('.remove-card-icon').forEach(button => {
-    button.addEventListener('click', async (event) => {
-        const deckId = getDeckIdFromUrl();;
-        const cardId = button.dataset.cardId;
+    // Handling remove card event
+    if (target.classList.contains('remove-card-icon')) {
+        const deckId = getDeckIdFromUrl();
+        const cardId = target.dataset.cardId;
         try {
             const response = await fetch(`/decks/${deckId}/cards/remove/${cardId}`, { method: 'POST' });
             const result = await response.json();
             if (response.ok) {
-                // alert(result.message);
                 updateMainDeckGrid(deckId);
             } else {
                 alert(result.error);
@@ -229,10 +181,8 @@ document.querySelectorAll('.remove-card-icon').forEach(button => {
         } catch (error) {
             console.error('Error removing card:', error);
         }
-    });
+    }
 });
-
-
 
 
 // Initial update when the page loads
