@@ -1,5 +1,11 @@
 // Scripts will be written here
 
+// Function to extract deckId from the URL
+function getDeckIdFromUrl() {
+    const urlParts = window.location.pathname.split('/');
+    return urlParts[urlParts.length - 1];
+}
+
 // FUNCTION to FETCH the deck's cards and UPDATE THE MAIN DECK GRID
 async function updateMainDeckGrid(deckId) {
     try {
@@ -34,55 +40,6 @@ async function updateMainDeckGrid(deckId) {
         console.error('Error fetching deck cards:', error);
     }
 }
-
-
-// HOVER EFFECTS (View Card and Description)
-
-// Event listener for displaying the card IMAGE in 'card-view' when hovering over a card in the MAIN DECK
-document.querySelectorAll('.main-card-slot').forEach(cardSlot => {
-    cardSlot.addEventListener('mouseover', (event) => {
-        const cardImg = cardSlot.querySelector('img'); // Get the image inside the cardSlot
-        if (cardImg) {
-            document.querySelector('.card-view').src = cardImg.src; // Set the image source to the source of the image inside the cardSlot
-        }
-    });
-});
-
-
-// Event listener for displaying the card DESCRIPTION in 'description' when hovering over a card in the MAIN DECK
-document.querySelectorAll('.main-card-slot').forEach(cardSlot => {
-    cardSlot.addEventListener('mouseover', (event) => {
-        const cardDescription = cardSlot.dataset.cardDescription; // Get the description from the cardSlot's data attribute
-        document.querySelector('.description').textContent = cardDescription; // Set the description text to the cardDescription
-    });
-});
-
-// Event listener for displaying the card IMAGE in 'card-view' when hovering over a card in the SEARCH RESULTS
-document.querySelectorAll('.card-frame').forEach(cardSlot => {
-    cardSlot.addEventListener('mouseover', (event) => {
-        const cardImg = cardSlot.querySelector('img'); // Get the image inside the cardSlot
-        if (cardImg) {
-            document.querySelector('.card-view').src = cardImg.src; // Set the image source to the source of the image inside the cardSlot
-        }
-    });
-});
-
-// Event listener for displaying the card DESCRIPTION in 'description' when hovering over a card in the SEARCH RESULTS
-document.querySelectorAll('.card-frame').forEach(cardSlot => {
-    cardSlot.addEventListener('mouseover', (event) => {
-        const cardDescription = cardSlot.dataset.carddescription; // Get the description from the cardSlot's data attribute
-        document.querySelector('.description').textContent = cardDescription; // Set the description text to the cardDescription
-    });
-});
-
-
-
-// Function to extract deckId from the URL
-function getDeckIdFromUrl() {
-    const urlParts = window.location.pathname.split('/');
-    return urlParts[urlParts.length - 1];
-}
-
 
 // Add AJAX to clear deck
 document.querySelector('#clear-deck').addEventListener('click', async (event) => {
@@ -181,6 +138,30 @@ document.addEventListener('click', async (event) => {
         } catch (error) {
             console.error('Error removing card:', error);
         }
+    }
+});
+
+
+// HOVER EFFECTS (View Card and Description)
+document.addEventListener('mouseover', (event) => {
+    const target = event.target;
+
+    // Main deck cards hover effect
+    if (target.matches('.main-card-slot img')) {
+        const cardImgSrc = target.src;
+        document.querySelector('.card-view').src = cardImgSrc;
+
+        const cardDescription = target.closest('.main-card-slot').dataset.cardDescription;
+        document.querySelector('.description').textContent = cardDescription;
+    }
+
+    // Search result cards hover effect
+    if (target.matches('.card-frame img')) {
+        const cardImgSrc = target.src;
+        document.querySelector('.card-view').src = cardImgSrc;
+
+        const cardDescription = target.closest('.card-frame').dataset.cardDescription;
+        document.querySelector('.description').textContent = cardDescription;
     }
 });
 
