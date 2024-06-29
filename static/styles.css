@@ -11,7 +11,7 @@
     /* border: 1px solid #ff0000; */
 }
 
-.main-card-slot,
+/* .main-card-slot,
 .extra-card-slot {
     border: 1px solid #ccc;
     padding: 10px;
@@ -19,6 +19,29 @@
     width: 6rem;
     height: 8rem;
     background-color: rgba(168, 187, 187, 0.479);
+} */
+
+.main-deck-container .row .col,
+.extra-deck-container .row .col {
+    border: 1px solid #ccc;
+    /* padding: 10px; */
+    text-align: center;
+    width: 6rem;
+    height: 8rem;
+    background-color: rgba(168, 187, 187, 0.479);
+    display: flex;
+    align-items: center;
+    /* Center content vertically */
+    justify-content: center;
+    /* Center content horizontally */
+}
+
+.main-deck-container .row .col img,
+.extra-deck-container .row .col img {
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+    /* Maintain aspect ratio and fit within the container */
 }
 
 .card {
@@ -88,10 +111,14 @@
     /* border: 1px solid #0051ff; */
 }
 
+.main-card-img {
+    transition: transform 0.1s;
+}
 
-
-
-
+.main-card-img:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+}
 
 
 
@@ -156,16 +183,24 @@
     padding: 0;
 }
 
-.card-buttons-container .btn {
-    height: 100%;
-    border-radius: 0;
+.add-card-icon,
+.remove-card-icon {
+    cursor: pointer;
+    transition: color 0.3s;
 }
 
-.btn-success {
-    background-color: #66bd3e;
-    border: none;
+.add-card-icon {
+    color: #14A44D;
 }
 
-.btn-danger {
-    border: none;
+.remove-card-icon {
+    color: #dc3545;
+}
+
+.add-card-icon:hover {
+    color: #ACE1AF;
+}
+
+.remove-card-icon:hover {
+    color: #F88379;
 }

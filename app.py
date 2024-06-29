@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, flash, redirect, url_for, session, g
+from flask import Flask, render_template, request, flash, redirect, url_for, jsonify, session, g
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_bcrypt import Bcrypt
 from models import db, connect_db, User, Deck, Card, DeckCard
@@ -40,6 +40,26 @@ with app.app_context():
 # Create bcrypt instance
 bcrypt = Bcrypt(app)
 
+
+
+# GLOBAL ERROR HANDLERS
+@app.errorhandler(404)
+def not_found_error(error):
+    return jsonify({"error": "Resource not found"}), 404
+
+@app.errorhandler(500)
+def internal_error(error):
+    return jsonify({"error": "An unexpected error occurred"}), 500
+
+@app.errorhandler(Exception)
+def handle_exception(error):
+    response = {
+        "error": "An unexpected error occurred",
+        "message": str(error)
+    }
+    return jsonify(response), 500
+
+
 # Add user to Flask global
 @app.before_request
 def add_user_to_g():
@@ -51,10 +71,15 @@ def add_user_to_g():
     else:
         g.user = None
 
+# --------------
+# --- ROUTES ---
+# --------------
+
 # Home route
 @app.route('/')
 def homepage():
     """Home page."""
+
     if g.user:
         return render_template('home.html', user=g.user, decks=g.user.decks)
     else:
@@ -64,6 +89,7 @@ def homepage():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     """Register a user."""
+
     form = RegisterForm()
     if form.validate_on_submit():
         try:
@@ -155,13 +181,9 @@ def add_deck():
         deck = Deck(user_id=g.user.id, name=form.name.data, description=form.description.data)
         db.session.add(deck)
         db.session.commit()
-        flash("Deck added.", "success")
         return redirect(f"/decks/{deck.id}")
     
     return render_template('deck-add.html', form=form)
-
-
-# -------- DECK EDIT ROUTES -----------------------------------------------------------------------------------------------------------
 
 # Deck edit route
 @app.route('/decks/<int:deck_id>', methods=['GET', 'POST'])
@@ -249,8 +271,6 @@ def next_page(deck_id):
     
     return redirect(url_for('edit_deck', deck_id=deck_id, offset=new_offset, **form_data))
 
-# ------------------------------------------------------------------------------------------------------------------------------------
-
 # Delete deck route
 @app.route('/decks/<int:deck_id>/delete', methods=['GET', 'POST'])
 def delete_deck(deck_id):
@@ -268,97 +288,67 @@ def delete_deck(deck_id):
     return redirect("/")
 
 
-
 # Add card to deck route
-@app.route('/decks/<int:deck_id>/cards/add/<int:card_id>', methods=['GET', 'POST'])
+@app.route('/decks/<int:deck_id>/cards/add/<int:card_id>', methods=['POST'])
 def add_card_to_deck(deck_id, card_id):
-    """Add one card to a deck. If the user wants to add multiple copies of a card, they can do so by adding the card multiple times. Don't allow the user to add more than limit copies of a card to a deck. CardSearchForm fields should be preserved in the form."""
+    """Add one card to a deck. If the user wants to add multiple copies of a card, 
+    they can do so by adding the card multiple times. Don't allow the user to add 
+    more than limit copies of a card to a deck. CardSearchForm fields should be preserved 
+    in the form."""
 
-    # Check if user is logged in
     if not g.user:
-            flash("Access unauthorized.", "danger")
-            return redirect("/")
+        return jsonify({"error": "Access unauthorized."}), 401
 
     deck = Deck.query.get_or_404(deck_id)
-
-    # Fetch card from external database
     card = fetch_card_by_id(card_id)
 
-    # Flash message if card is not found in the API
     if not card:
-        flash("Card not found in the external database.", "danger")
-        return redirect(request.referrer or "/")
-    
-    # If card exists, add it to the db
+        return jsonify({"error": "Card not found."}), 404
+
     card = add_card_to_db(card)
-
-    # Check if the card is banned
     if card.limit == 0:
-        flash(f"{card.name} is banned and cannot be added to a deck.", "danger")
-        return redirect(request.referrer or f"/decks/{deck_id}")
+        return jsonify({"error": f"{card.name} is banned."}), 400
 
-    # Select deck_card from database if it exists
     deck_card = DeckCard.query.filter_by(deck_id=deck_id, card_id=card_id).first()
 
-    # Ceck if card is in deck
     if deck_card:
         if deck_card.quantity >= card.limit:
-            # If quantity is greater than or equal to limit, flash message
-            flash(f"Cannot add more than {card.limit} copies of {card.name}.", "danger")
-        else:
-            # Increment quantity and commit changes
-            deck_card.quantity += 1
-            db.session.commit()
-            flash(f"{card.name} added to {deck.name}.", "success")
+            return jsonify({"error": f"Cannot add more than {card.limit} copies of {card.name}."}), 400
+        deck_card.quantity += 1
     else:
-        # If card is not in deck, add card to deck
         deck_card = DeckCard(deck_id=deck_id, card_id=card.id, quantity=1)
         db.session.add(deck_card)
-        db.session.commit()
-        flash(f"{card.name} added to {deck.name}.", "success")
 
-    return redirect(f"/decks/{deck_id}")
-
+    db.session.commit()
+    return jsonify({"message": f"{card.name} added to {deck.name}."}), 200
 
 
 # Remove card from deck route
-@app.route('/decks/<int:deck_id>/cards/remove/<int:card_id>', methods=['GET', 'POST'])
+@app.route('/decks/<int:deck_id>/cards/remove/<int:card_id>', methods=['POST'])
 def remove_card_from_deck(deck_id, card_id):
-    """Remove one card from a deck. If the user wants to remove multiple copies of a card, they can do so by removing the card multiple times. CardSearchForm fields should be preserved in the form."""
+    """Remove one card from a deck. If the user wants to remove multiple copies of a card, 
+    they can do so by removing the card multiple times. CardSearchForm fields should be 
+    preserved in the form."""
 
-    # Check if user is logged in
     if not g.user:
-        flash("Access unauthorized.", "danger")
-        return redirect("/")
-    
+        return jsonify({"error": "Access unauthorized."}), 401
+
     deck = Deck.query.get_or_404(deck_id)
-
-    # Select deck_card from database if it exists
     deck_card = DeckCard.query.filter_by(deck_id=deck_id, card_id=card_id).first()
-
-    # Fetch card from external database
     card = fetch_card_by_id(card_id)
 
-    # Flash message if card is not found in the API
     if not card:
-        flash("Card not found in the external database.", "danger")
-        return redirect(request.referrer or "/")
-    
-    # If card exists, add it to the db
+        return jsonify({"error": "Card not found."}), 404
+
     card = add_card_to_db(card)
-
     if deck_card:
-        # Decrement quantity and commit changes
         deck_card.quantity -= 1
-        db.session.commit()
-        flash(f"{card.name} removed from {deck.name}.", "success")
-
-        # If quantity is 0, remove card from deck
         if deck_card.quantity == 0:
             db.session.delete(deck_card)
-            db.session.commit()
-    
-    return redirect(f"/decks/{deck_id}")
+        db.session.commit()
+        return jsonify({"message": f"{card.name} removed from {deck.name}."}), 200
+    return jsonify({"error": f"{card.name} is not in the deck."}), 400
+
 
 # Clear deck route
 @app.route('/decks/<int:deck_id>/clear', methods=['GET', 'POST'])
@@ -382,3 +372,30 @@ def clear_deck(deck_id):
     
     flash(f"{deck.name} cleared.", "success")
     return redirect(f"/decks/{deck_id}")
+
+
+
+# API ENDPOINTS
+
+# API endpoint to get all cards in a deck
+@app.route('/api/decks/<int:deck_id>/cards', methods=['GET'])
+def get_deck_cards(deck_id):
+    """API endpoint to get all cards in a deck."""
+
+    deck = Deck.query.get_or_404(deck_id)
+    cards = [{'id': dc.card_id, 'quantity': dc.quantity, 'img_url': dc.card.img_url, 'card_desc': dc.card.description} for dc in deck.deck_cards]
+    return jsonify(cards)
+
+# API endpoint to clear a deck
+@app.route('/api/decks/<int:deck_id>/clear', methods=['POST'])
+def clear_deck_api(deck_id):
+    """API endpoint to clear a deck of all cards."""
+
+    deck = Deck.query.get_or_404(deck_id)
+    deck_cards = DeckCard.query.filter_by(deck_id=deck_id).all()
+
+    for deck_card in deck_cards:
+        db.session.delete(deck_card)
+    db.session.commit()
+
+    return jsonify({"message": f"{deck.name} cleared."})
