@@ -35,8 +35,6 @@ async function updateMainDeckGrid(deckId) {
     }
 }
 
-
-
 // Event listeners for adding cards using AJAX
 document.querySelectorAll('.add-card-icon').forEach(button => {
     button.addEventListener('click', async (event) => {
@@ -56,7 +54,6 @@ document.querySelectorAll('.add-card-icon').forEach(button => {
         }
     });
 });
-
 
 // Event listeners for removing cards using AJAX
 document.querySelectorAll('.remove-card-icon').forEach(button => {
@@ -143,59 +140,6 @@ document.querySelector('#clear-deck').addEventListener('click', async (event) =>
         console.error('Error clearing deck:', error);
     }
 });
-
-
-
-
-
-// // Add AJAX to next and previous buttons
-// // Function to handle form submission via AJAX
-// const handleFormSubmission = async (form) => {
-//     try {
-//         const formData = new FormData(form);
-//         const deckId = getDeckIdFromUrl(); // Ensure you have a way to get deck_id if needed
-//         const url = form.getAttribute('action'); // Get the form action URL
-
-//         const response = await fetch(url, {
-//             method: 'POST',
-//             body: formData
-//         });
-
-//         if (!response.ok) {
-//             throw new Error('Failed to load page');
-//         }
-
-//         const data = await response.json();
-//         // Handle the response data as needed (e.g., update the search results)
-//         updateSearchResults(data); // Example function to update search results
-
-//     } catch (error) {
-//         console.error('Error loading page:', error);
-//         // Handle error (e.g., show an alert)
-//         alert('Failed to load page');
-//     }
-// };
-
-// // Event listener for next page form submission
-// const nextPageForm = document.getElementById('nextPageForm');
-// if (nextPageForm) {
-//     nextPageForm.addEventListener('submit', (event) => {
-//         event.preventDefault(); // Prevent the default form submission
-//         handleFormSubmission(nextPageForm); // Call function to handle AJAX submission
-//     });
-// }
-
-// // Event listener for previous page form submission
-// const prevPageForm = document.querySelector('form[action$="/cards/previous_page"]');
-// if (prevPageForm) {
-//     prevPageForm.addEventListener('submit', (event) => {
-//         event.preventDefault(); // Prevent the default form submission
-//         handleFormSubmission(prevPageForm); // Call function to handle AJAX submission
-//     });
-// }
-
-
-
 
 
 

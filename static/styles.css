@@ -112,16 +112,13 @@
 }
 
 .main-card-img {
-    transition: transform 0.3s;
+    transition: transform 0.1s;
 }
 
 .main-card-img:hover {
     cursor: pointer;
     transform: scale(1.1);
 }
-
-
-
 
 
 
