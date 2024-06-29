@@ -67,8 +67,8 @@
                             <div class="row">
                                 {% for col in range(15) %}
                                 <div class="col main-card-slot">
-                                    <img id="main-card-img-{{row * 15 + col + 1}}" src="/static/images/placeholder.png"
-                                        alt="">
+                                    <img class="main-card-img" id="main-card-img-{{row * 15 + col + 1}}"
+                                        src="/static/images/placeholder.png" alt="">
                                 </div>
                                 {% endfor %}
                             </div>
@@ -147,7 +147,7 @@
                                     </form>
                                 </div>
                                 <div class="col">
-                                    <form method="POST" action="/decks/{{deck.id}}/cards/next_page">
+                                    <form id="nextPageForm" method="POST" action="/decks/{{deck.id}}/cards/next_page">
                                         <input type="hidden" name="offset" value="{{ offset }}">
                                         <input type="hidden" name="name" value="{{ form.name.data }}">
                                         <input type="hidden" name="type" value="{{ form.type.data }}">

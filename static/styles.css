@@ -111,7 +111,14 @@
     /* border: 1px solid #0051ff; */
 }
 
+.main-card-img {
+    transition: transform 0.3s;
+}
 
+.main-card-img:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+}
 
 
 
