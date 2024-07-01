@@ -399,3 +399,53 @@ def clear_deck_api(deck_id):
     db.session.commit()
 
     return jsonify({"message": f"{deck.name} cleared."})
+
+
+@app.route('/api/cards/search', methods=['GET', 'POST'])
+def search_cards():
+    """API endpoint to search for cards."""
+    form = CardSearchForm()
+    per_page = 30
+
+    # Retrieve offset from request (POST for search form, GET for pagination)
+    if request.method == 'POST':
+        offset = int(request.form.get('offset', 0))
+    else:
+        offset = int(request.args.get('offset', 0))
+
+    if form.validate_on_submit() or request.method in ['POST', 'GET']:
+        # Preserve form data if available
+        if request.method == 'GET' or not form.validate_on_submit():
+            form.name.data = request.values.get('name', '')
+            form.type.data = request.values.get('type', '')
+            form.attribute.data = request.values.get('attribute', '')
+            form.race.data = request.values.get('race', '')
+            form.level.data = request.values.get('level', '')
+            form.attack.data = request.values.get('attack', '')
+            form.defense.data = request.values.get('defense', '')
+            form.offset.data = offset
+
+        cards_data = fetch_ygo_cards(
+            fname=form.name.data,
+            type=form.type.data if form.type.data != '' else None,
+            attribute=form.attribute.data if form.attribute.data != '' else None,
+            race=form.race.data if form.race.data != '' else None,
+            level=form.level.data if form.level.data != '' else None,
+            attack=f"gte{form.attack.data}" if form.attack.data != '' else None,
+            defense=f"gte{form.defense.data}" if form.defense.data != '' else None,
+            num=per_page,
+            offset=offset
+        )
+
+        if not cards_data:
+            return jsonify({"error": "No cards found that fit the filters."}), 404
+
+        # Extract relevant data for rendering
+        cards = cards_data['data']
+        pages_remaining = cards_data['meta']['pages_remaining']
+
+        return jsonify({"cards": cards, "offset": offset, "pages_remaining": pages_remaining})
+
+    return jsonify({"error": "Invalid form data."}), 400
+
+

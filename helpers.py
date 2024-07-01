@@ -2,7 +2,7 @@ import requests
 from models import db, Card
 
 # Function to fetch cards from API
-def fetch_ygo_cards(fname="", type=None, attribute=None, race=None, level=None, attack=None, defense=None, num=20, offset=0):
+def fetch_ygo_cards(fname="", type=None, attribute=None, race=None, level=None, attack=None, defense=None, num=30, offset=0):
     """Fetch Yu-Gi-Oh! cards from API by 'fname'."""
     # url = "https://db.ygoprodeck.com/api/v7/cardinfo.php?&num=20&offset=0"
     url = "https://db.ygoprodeck.com/api/v7/cardinfo.php"

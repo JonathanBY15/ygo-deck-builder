@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, TextAreaField, SelectField, IntegerField
+from wtforms import StringField, PasswordField, TextAreaField, SelectField, HiddenField
 from wtforms.validators import DataRequired, Email, Length, ValidationError
 
 class RegisterForm(FlaskForm):
@@ -198,4 +198,5 @@ class CardSearchForm(FlaskForm):
     ])
     attack = StringField('ATK')
     defense = StringField('DEF')
+    offset = HiddenField('Offset', default=0)
 
