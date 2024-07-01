@@ -332,4 +332,3 @@ document.addEventListener('DOMContentLoaded', () => {
     updateExtraDeckGrid(deckId);
 });
 
-
