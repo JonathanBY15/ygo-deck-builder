@@ -267,6 +267,12 @@ document.getElementById('card-search-form').addEventListener('submit', () => {
     form.querySelector('input[name="offset"]').value = 0;
 });
 
+// Add event listener to clear filter button
+document.getElementById('clear-filters-btn').addEventListener('click', async (event) => {
+    const form = document.getElementById('card-search-form');
+    form.reset();
+    form.querySelector('input[name="offset"]').value = 0;
+});
 
 // Initial update when the page loads
 document.addEventListener('DOMContentLoaded', () => {

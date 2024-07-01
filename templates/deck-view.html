@@ -94,6 +94,7 @@
                 <div class="search-col col-md-3">
                     <div class="container">
 
+
                         <form action="/decks/{{deck.id}}/cards/new_search" method="POST" id="card-search-form">
                             {{ form.hidden_tag() }}
 
@@ -103,8 +104,21 @@
                             {% endfor %}
                             {{ field(placeholder=field.label.text, class="form-control") }}
                             {% endfor %}
-                            <button type="submit" class="btn btn-primary w-100">Search</button>
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col">
+                                        <button type="submit" class="btn btn-primary w-100">Search</button>
+                                    </div>
+                                    <div class="col">
+                                        <button id="clear-filters-btn" class="btn btn-primary w-100">Clear
+                                            Filters</button>
+                                    </div>
+                                </div>
+                            </div>
                         </form>
+
+
+
 
                         <div class="search-result-container">
                             {% for card in cards %}

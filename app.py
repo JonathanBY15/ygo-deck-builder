@@ -400,7 +400,7 @@ def clear_deck_api(deck_id):
 
     return jsonify({"message": f"{deck.name} cleared."})
 
-
+# API endpoint to search for cards
 @app.route('/api/cards/search', methods=['GET', 'POST'])
 def search_cards():
     """API endpoint to search for cards."""
