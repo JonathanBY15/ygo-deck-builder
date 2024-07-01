@@ -16,7 +16,7 @@
 </head>
 
 <body>
-    <div class="outer-container">
+    <div class="deck-edit-page">
 
         <div class="container-fluid">
             <div class="row">
@@ -26,21 +26,24 @@
                     </div>
 
                     <div class="description-container container mb-3">
-                        <p class="description">Hover a card to read it's description.</p>
+                        <p class="description">Hover over a card to read it's description.</p>
                     </div>
 
                     <div class="buttons-container container mb-3">
                         <div class="row mb-1">
-                            <button class="btn btn-primary" id="clear-deck">Clear Deck</button>
-                        </div>
-                        <div class="row mb-1">
-                            <button class="btn btn-primary">Sort Cards</button>
-                        </div>
-                        <div class="row mb-1">
-                            <a href="/decks/{{deck.id}}/delete" class="btn btn-primary">Delete Deck</a>
-                        </div>
-                        <div class="row mb-1">
                             <a href="/" class="btn btn-primary">Back</a>
+                        </div>
+
+                        <div class="row mb-1">
+                            <button class="btn btn-primary">Select Cover Card</button>
+                        </div>
+
+                        <div class="row mb-1">
+                            <button class="btn btn-danger" id="clear-deck">Clear Deck</button>
+                        </div>
+
+                        <div class="row mb-1">
+                            <a href="/decks/{{deck.id}}/delete" class="btn btn-danger">Delete Deck</a>
                         </div>
                     </div>
                 </div>
@@ -92,7 +95,7 @@
                 </div>
 
                 <div class="search-col col-md-3">
-                    <div class="container">
+                    <div class="container-fluid">
 
 
                         <form action="/decks/{{deck.id}}/cards/new_search" method="POST" id="card-search-form">
@@ -110,7 +113,7 @@
                                         <button type="submit" class="btn btn-primary w-100">Search</button>
                                     </div>
                                     <div class="col">
-                                        <button id="clear-filters-btn" class="btn btn-primary w-100">Clear
+                                        <button id="clear-filters-btn" class="btn btn-danger w-100">Clear
                                             Filters</button>
                                     </div>
                                 </div>
@@ -159,7 +162,7 @@
                                         <input type="hidden" name="defense" value="{{ form.defense.data }}">
                                         <button type="submit" class="btn btn-primary w-100">Prev</button>
                                     </form> -->
-                                    <button id="prevPageBtn" class="btn btn-primary w-100" disabled>Prev</button>
+                                    <button id="prevPageBtn" class="btn btn-secondary w-100" disabled>Prev</button>
                                 </div>
                                 <div class="col">
                                     <!-- <form id="nextPageForm" method="POST" action="/decks/{{deck.id}}/cards/next_page">
@@ -174,7 +177,7 @@
                                         <button type="submit" class="btn btn-primary w-100" {% if pages_remaining==0
                                             %}disabled{% endif %}>Next</button>
                                     </form> -->
-                                    <button id="nextPageBtn" class="btn btn-primary w-100">Next</button>
+                                    <button id="nextPageBtn" class="btn btn-secondary w-100">Next</button>
                                 </div>
                             </div>
                         </div>

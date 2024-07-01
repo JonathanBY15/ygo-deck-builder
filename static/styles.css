@@ -1,11 +1,11 @@
-.body {
-    height: 100 vh;
+body {
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    background-color: #222831;
 }
 
-.outer-container {
-    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.15) 0%, rgba(0, 0, 0, 0.15) 100%), radial-gradient(at top center, rgba(255, 255, 255, 0.40) 0%, rgba(0, 0, 0, 0.40) 120%) #989898;
-    background-blend-mode: multiply, multiply;
-}
+
 
 .search-result-container {
     height: 900px;
@@ -70,7 +70,7 @@
     height: 300px;
     overflow: auto;
     padding: 20px;
-    background-color: white;
+    background-color: #31363F;
 
     /* border: 1px solid #ff0000; */
 }
@@ -210,8 +210,29 @@
     color: #EEEEEE;
 }
 
+#home-page {
+    background-color: #222831;
+    color: #EEEEEE;
+}
+
+.deck-edit-page {
+    /* background-color: #222831; */
+    color: #EEEEEE;
+}
 
 
+.deck-cover {
+    width: 10rem;
+    height: 15rem;
+}
+
+.deck-option {
+    width: 10rem;
+    height: 15rem;
+    background-color: #222831;
+    color: #EEEEEE;
+    border: none;
+}
 
 
 /* PRIMARY BUTTON */
@@ -228,4 +249,46 @@
 .btn-primary:active:hover {
     background-color: #5C8D8F;
     border-color: #5C8D8F;
+}
+
+.btn-primary:disabled {
+    background-color: #76ABAE;
+    border-color: #76ABAE;
+}
+
+/* SECONDARY BUTTON */
+.btn-secondary {
+    background-color: #6B8A7A;
+    border-color: #6B8A7A;
+}
+
+.btn-secondary:hover {
+    background-color: #4D6357;
+    border-color: #4D6357;
+}
+
+.btn-secondary:active:hover {
+    background-color: #4D6357;
+    border-color: #4D6357;
+}
+
+.btn-secondary:disabled {
+    background-color: #6B8A7A;
+    border-color: #6B8A7A;
+}
+
+/* DANGER BUTTON */
+.btn-danger {
+    background-color: #DD5746;
+    border-color: #DD5746;
+}
+
+.btn-danger:hover {
+    background-color: #8B322C;
+    border-color: #8B322C;
+}
+
+.btn-danger:active:hover {
+    background-color: #8B322C;
+    border-color: #8B322C;
 }
