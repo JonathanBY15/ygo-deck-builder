@@ -84,12 +84,14 @@
                         <div class="extra-deck-container container">
                             <div class="row">
                                 {% for col in range(15) %}
-                                <div class="col extra-card-slot-{{ col + 1 }}">
-                                    <img src="" alt="">
+                                <div class="col extra-card-slot">
+                                    <img class="extra-card-img" id="extra-card-img-{{col + 1}}"
+                                        src="/static/images/placeholder.png" alt="">
                                 </div>
                                 {% endfor %}
                             </div>
                         </div>
+
 
                     </div>
                 </div>

@@ -38,7 +38,8 @@ body {
     text-align: center;
     width: 6rem;
     height: 8rem;
-    background-color: rgba(168, 187, 187, 0.479);
+    /* background-color: rgba(168, 187, 187, 0.479); */
+    background-color: #3c3f44;
     display: flex;
     align-items: center;
     /* Center content vertically */
@@ -121,15 +122,17 @@ body {
     /* border: 1px solid #0051ff; */
 }
 
-.main-card-img {
+.main-card-img,
+.extra-card-img {
     transition: transform 0.1s;
 }
 
-.main-card-img:hover {
+.main-card-img:hover,
+.extra-card-img:hover {
     cursor: pointer;
     transform: scale(1.1);
+    /* filter: brightness(90%) saturate(80%) hue-rotate(90deg); */
 }
-
 
 
 
