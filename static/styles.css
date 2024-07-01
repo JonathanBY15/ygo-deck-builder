@@ -198,3 +198,34 @@
 .remove-card-icon:hover {
     color: #F88379;
 }
+
+
+#home-anon-page {
+    background-color: #222831;
+    color: #EEEEEE;
+}
+
+#register-page {
+    background-color: #222831;
+    color: #EEEEEE;
+}
+
+
+
+
+
+/* PRIMARY BUTTON */
+.btn-primary {
+    background-color: #76ABAE;
+    border-color: #76ABAE;
+}
+
+.btn-primary:hover {
+    background-color: #5C8D8F;
+    border-color: #5C8D8F;
+}
+
+.btn-primary:active:hover {
+    background-color: #5C8D8F;
+    border-color: #5C8D8F;
+}
