@@ -1,10 +1,10 @@
-// Scripts will be written here
 
 // Function to extract deckId from the URL
 function getDeckIdFromUrl() {
     const urlParts = window.location.pathname.split('/');
     return urlParts[urlParts.length - 1];
 }
+
 
 // FUNCTION to FETCH the deck's cards and UPDATE THE MAIN DECK GRID
 async function updateMainDeckGrid(deckId) {
@@ -41,6 +41,7 @@ async function updateMainDeckGrid(deckId) {
     }
 }
 
+
 // Add AJAX to clear deck
 document.querySelector('#clear-deck').addEventListener('click', async (event) => {
     const deckId = getDeckIdFromUrl();
@@ -59,48 +60,48 @@ document.querySelector('#clear-deck').addEventListener('click', async (event) =>
 });
 
 
-
 // Submitting card search form with AJAX
-document.getElementById('card-search-form').addEventListener('submit', async (event) => {
-    event.preventDefault();
-    try {
-        const query = new URLSearchParams(new FormData(event.target)).toString();
-        const response = await fetch(`/api/cards/search?${query}`, { method: 'GET' });
-        const result = await response.json();
+// document.getElementById('card-search-form').addEventListener('submit', async (event) => {
+//     event.preventDefault();
+//     try {
+//         const query = new URLSearchParams(new FormData(event.target)).toString();
+//         const response = await fetch(`/api/cards/search?${query}`, { method: 'GET' });
+//         const result = await response.json();
 
-        if (response.ok) {
-            const searchResultContainer = document.querySelector('.search-result-container');
-            searchResultContainer.innerHTML = '';
+//         if (response.ok) {
+//             const searchResultContainer = document.querySelector('.search-result-container');
+//             searchResultContainer.innerHTML = '';
 
-            result.cards.forEach(card => {
-                const cardFrame = document.createElement('div');
-                cardFrame.classList.add('card-frame');
-                cardFrame.dataset.cardDescription = card.desc;
-                cardFrame.innerHTML = `
-                    <img src="${card.card_images[0].image_url_small}">
-                    <div class="card-buttons-container container-fluid">
-                        <div class="row">
-                            <div class="col">
-                                <i class="fa-solid fa-square-plus add-card-icon" data-card-id="${card.id}"></i>
-                            </div>
-                            <div class="col">
-                                <i class="fa-solid fa-square-minus remove-card-icon" data-card-id="${card.id}"></i>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                searchResultContainer.appendChild(cardFrame);
-            });
+//             result.cards.forEach(card => {
+//                 const cardFrame = document.createElement('div');
+//                 cardFrame.classList.add('card-frame');
+//                 cardFrame.dataset.cardDescription = card.desc;
+//                 cardFrame.innerHTML = `
+//                     <img src="${card.card_images[0].image_url_small}">
+//                     <div class="card-buttons-container container-fluid">
+//                         <div class="row">
+//                             <div class="col">
+//                                 <i class="fa-solid fa-square-plus add-card-icon" data-card-id="${card.id}"></i>
+//                             </div>
+//                             <div class="col">
+//                                 <i class="fa-solid fa-square-minus remove-card-icon" data-card-id="${card.id}"></i>
+//                             </div>
+//                         </div>
+//                     </div>
+//                 `;
+//                 searchResultContainer.appendChild(cardFrame);
+//             });
 
-        } else {
-            console.error('Error searching cards:', result.error);
-            alert('Error searching cards. Please try again later.');
-        }
-    } catch (error) {
-        console.error('Error searching cards:', error);
-        alert('Error searching cards. Please try again later.');
-    }
-});
+//         } else {
+//             console.error('Error searching cards:', result.error);
+//             alert('Error searching cards. Please try again later.');
+//         }
+//     } catch (error) {
+//         console.error('Error searching cards:', error);
+//         alert('Error searching cards. Please try again later.');
+//     }
+// });
+
 
 // Event delegation for adding and removing cards
 document.addEventListener('click', async (event) => {
@@ -163,6 +164,107 @@ document.addEventListener('mouseover', (event) => {
         const cardDescription = target.closest('.card-frame').dataset.cardDescription;
         document.querySelector('.description').textContent = cardDescription;
     }
+});
+
+
+
+// TODO: Add AJAX for pagination
+
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('card-search-form').addEventListener('submit', async (event) => {
+        event.preventDefault();
+        await fetchCards(0);
+    });
+
+    document.getElementById('nextPageBtn').addEventListener('click', async (event) => {
+        event.preventDefault();
+        await paginate(30);
+    });
+
+    document.getElementById('prevPageBtn').addEventListener('click', async (event) => {
+        event.preventDefault();
+        await paginate(-30);
+    });
+});
+
+async function fetchCards(offsetChange) {
+    const form = document.getElementById('card-search-form');
+    const formData = new FormData(form);
+    const currentOffset = parseInt(formData.get('offset')) || 0;
+    const newOffset = currentOffset + offsetChange;
+
+    formData.set('offset', newOffset);
+
+    try {
+        const response = await fetch('/api/cards/search', {
+            method: 'POST',
+            body: formData
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        const result = await response.json();
+
+        if (result.error) {
+            console.error(result.error);
+            alert('Error searching cards. Please try again later.');
+            return;
+        }
+
+        // Update the search results container with the new search results
+        const searchResultContainer = document.querySelector('.search-result-container');
+        searchResultContainer.innerHTML = '';
+
+        result.cards.forEach(card => {
+            const cardFrame = document.createElement('div');
+            cardFrame.classList.add('card-frame');
+            cardFrame.dataset.cardDescription = card.desc;
+            cardFrame.innerHTML = `
+                <img src="${card.card_images[0].image_url_small}">
+                <div class="card-buttons-container container-fluid">
+                    <div class="row">
+                        <div class="col">
+                            <i class="fa-solid fa-square-plus add-card-icon" data-card-id="${card.id}"></i>
+                        </div>
+                        <div class="col">
+                            <i class="fa-solid fa-square-minus remove-card-icon" data-card-id="${card.id}"></i>
+                        </div>
+                    </div>
+                </div>
+            `;
+            searchResultContainer.appendChild(cardFrame);
+        });
+
+        // Update the offset input value
+        document.querySelector('input[name="offset"]').value = newOffset;
+
+        // Enable or disable pagination buttons
+        document.getElementById('prevPageBtn').disabled = newOffset <= 0;
+        document.getElementById('nextPageBtn').disabled = result.pages_remaining === 0;
+
+    } catch (error) {
+        console.error('Error searching cards:', error);
+        alert('Error searching cards. Please try again later.');
+    }
+}
+
+async function paginate(offsetChange) {
+    const form = document.getElementById('card-search-form');
+    const formData = new FormData(form);
+    const currentOffset = parseInt(formData.get('offset')) || 0;
+    const newOffset = currentOffset + offsetChange;
+
+    formData.set('offset', newOffset);
+
+    await fetchCards(offsetChange);
+}
+
+// Reset the offset to 0 when a new search is submitted
+document.getElementById('card-search-form').addEventListener('submit', () => {
+    const form = event.target;
+    form.querySelector('input[name="offset"]').value = 0;
 });
 
 

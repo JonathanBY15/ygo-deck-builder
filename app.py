@@ -400,27 +400,30 @@ def clear_deck_api(deck_id):
 
     return jsonify({"message": f"{deck.name} cleared."})
 
-# API endpoint to search for cards
-@app.route('/api/cards/search', methods=['GET'])
+
+@app.route('/api/cards/search', methods=['GET', 'POST'])
 def search_cards():
     """API endpoint to search for cards."""
-
     form = CardSearchForm()
     per_page = 30
-    offset = request.args.get('offset', 0, type=int)
 
+    # Retrieve offset from request (POST for search form, GET for pagination)
+    if request.method == 'POST':
+        offset = int(request.form.get('offset', 0))
+    else:
+        offset = int(request.args.get('offset', 0))
 
-    if form.validate_on_submit() or request.method == 'GET':
-
+    if form.validate_on_submit() or request.method in ['POST', 'GET']:
         # Preserve form data if available
-        if not form.validate_on_submit():
-            form.name.data = request.args.get('name', '')
-            form.type.data = request.args.get('type', '')
-            form.attribute.data = request.args.get('attribute', '')
-            form.race.data = request.args.get('race', '')
-            form.level.data = request.args.get('level', '')
-            form.attack.data = request.args.get('attack', '')
-            form.defense.data = request.args.get('defense', '')
+        if request.method == 'GET' or not form.validate_on_submit():
+            form.name.data = request.values.get('name', '')
+            form.type.data = request.values.get('type', '')
+            form.attribute.data = request.values.get('attribute', '')
+            form.race.data = request.values.get('race', '')
+            form.level.data = request.values.get('level', '')
+            form.attack.data = request.values.get('attack', '')
+            form.defense.data = request.values.get('defense', '')
+            form.offset.data = offset
 
         cards_data = fetch_ygo_cards(
             fname=form.name.data,
@@ -435,13 +438,14 @@ def search_cards():
         )
 
         if not cards_data:
-            flash("No cards found that fit the filters", "danger")
-            return jsonify({"error": "No cards found that fit the filters."})
+            return jsonify({"error": "No cards found that fit the filters."}), 404
 
         # Extract relevant data for rendering
         cards = cards_data['data']
         pages_remaining = cards_data['meta']['pages_remaining']
 
         return jsonify({"cards": cards, "offset": offset, "pages_remaining": pages_remaining})
+
+    return jsonify({"error": "Invalid form data."}), 400
 
 

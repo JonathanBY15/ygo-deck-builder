@@ -16,7 +16,7 @@
 </head>
 
 <body>
-    <div class="outer-container bg-secondary">
+    <div class="outer-container">
 
         <div class="container-fluid">
             <div class="row">
@@ -133,7 +133,8 @@
                         <div class="container-fluid">
                             <div class="row">
                                 <div class="col">
-                                    <form method="POST" action="/decks/{{deck.id}}/cards/previous_page">
+                                    <!-- <form id="prevPageForm" method="POST"
+                                        action="/decks/{{deck.id}}/cards/previous_page">
                                         <input type="hidden" name="offset" value="{{ offset }}">
                                         <input type="hidden" name="name" value="{{ form.name.data }}">
                                         <input type="hidden" name="type" value="{{ form.type.data }}">
@@ -142,12 +143,12 @@
                                         <input type="hidden" name="level" value="{{ form.level.data }}">
                                         <input type="hidden" name="attack" value="{{ form.attack.data }}">
                                         <input type="hidden" name="defense" value="{{ form.defense.data }}">
-                                        <button type="submit" class="btn btn-primary w-100" {% if offset==0 %}disabled{%
-                                            endif %}>Prev</button>
-                                    </form>
+                                        <button type="submit" class="btn btn-primary w-100">Prev</button>
+                                    </form> -->
+                                    <button id="prevPageBtn" class="btn btn-primary w-100" disabled>Prev</button>
                                 </div>
                                 <div class="col">
-                                    <form id="nextPageForm" method="POST" action="/decks/{{deck.id}}/cards/next_page">
+                                    <!-- <form id="nextPageForm" method="POST" action="/decks/{{deck.id}}/cards/next_page">
                                         <input type="hidden" name="offset" value="{{ offset }}">
                                         <input type="hidden" name="name" value="{{ form.name.data }}">
                                         <input type="hidden" name="type" value="{{ form.type.data }}">
@@ -158,7 +159,8 @@
                                         <input type="hidden" name="defense" value="{{ form.defense.data }}">
                                         <button type="submit" class="btn btn-primary w-100" {% if pages_remaining==0
                                             %}disabled{% endif %}>Next</button>
-                                    </form>
+                                    </form> -->
+                                    <button id="nextPageBtn" class="btn btn-primary w-100">Next</button>
                                 </div>
                             </div>
                         </div>
