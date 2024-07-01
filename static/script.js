@@ -32,6 +32,7 @@ async function updateMainDeckGrid(deckId) {
                 cardImg = document.getElementById(`main-card-img-${cardIndex + 1}`)
                 cardImg.src = card.img_url;
                 cardImg.parentElement.dataset.cardDescription = card.card_desc;
+                cardImg.parentElement.dataset.cardId = card.id;
                 cardIndex++;
             }
         });
@@ -143,6 +144,27 @@ document.addEventListener('click', async (event) => {
 });
 
 
+// Let user remove card from main deck by clicking on the card
+document.addEventListener('click', async (event) => {
+    const target = event.target;
+    if (target.matches('.main-card-slot img') && target.closest('.main-card-slot').dataset.cardId) {
+        const deckId = getDeckIdFromUrl();
+        const cardId = target.closest('.main-card-slot').dataset.cardId;
+        try {
+            const response = await fetch(`/decks/${deckId}/cards/remove/${cardId}`, { method: 'POST' });
+            const result = await response.json();
+            if (response.ok) {
+                updateMainDeckGrid(deckId);
+            } else {
+                alert(result.error);
+            }
+        } catch (error) {
+            console.error('Error removing card:', error);
+        }
+    }
+});
+
+
 // HOVER EFFECTS (View Card and Description)
 document.addEventListener('mouseover', (event) => {
     const target = event.target;
@@ -168,8 +190,8 @@ document.addEventListener('mouseover', (event) => {
 
 
 
-// TODO: Add AJAX for pagination
 
+// Pagination
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('card-search-form').addEventListener('submit', async (event) => {
         event.preventDefault();
