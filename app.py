@@ -76,14 +76,24 @@ def add_user_to_g():
 # --------------
 
 # Home route
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def homepage():
     """Home page."""
-
     if g.user:
         return render_template('home.html', user=g.user, decks=g.user.decks)
+    
     else:
-        return render_template('/home-anon.html')
+        form = LoginForm()
+
+        if form.validate_on_submit():
+            user = User.authenticate(form.username.data, form.password.data)
+            if user:
+                session[CURR_USER_KEY] = user.id
+                # flash(f"Welcome back {user.username}!", 'success')
+                return redirect('/')
+            flash("Invalid credentials", 'danger')
+
+        return render_template('/home-anon.html', form=LoginForm())
 
 # Register route
 @app.route('/register', methods=['GET', 'POST'])
@@ -101,7 +111,7 @@ def register():
             return render_template('register.html', form=form)
         
         session[CURR_USER_KEY] = user.id
-        flash(f"Welcome {user.username}!", 'success')
+        # flash(f"Welcome {user.username}!", 'success')
         return redirect('/')
     
     return render_template('register.html', form=form)
@@ -117,7 +127,7 @@ def login():
         if user:
             # Add user to session and redirect to home
             session[CURR_USER_KEY] = user.id
-            flash(f"Welcome back {user.username}!", 'success')
+            # flash(f"Welcome back {user.username}!", 'success')
             return redirect('/')
         
         flash("Invalid credentials", 'danger')
@@ -132,7 +142,7 @@ def logout():
     if CURR_USER_KEY in session:
         # Remove user from session, if it exists and redirect to home
         del session[CURR_USER_KEY]
-        flash("You have successfully logged out.", "success")
+        # flash("You have successfully logged out.", "success")
         return redirect("/")
     else:
         # If no user is logged in, flash message and redirect to home
@@ -284,7 +294,7 @@ def delete_deck(deck_id):
     
     db.session.delete(deck)
     db.session.commit()
-    flash("Deck deleted.", "success")
+    # flash("Deck deleted.", "success")
     return redirect("/")
 
 
@@ -370,7 +380,7 @@ def clear_deck(deck_id):
         db.session.delete(deck_card)
     db.session.commit()
     
-    flash(f"{deck.name} cleared.", "success")
+    # flash(f"{deck.name} cleared.", "success")
     return redirect(f"/decks/{deck_id}")
 
 
