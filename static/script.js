@@ -147,7 +147,7 @@ document.addEventListener('click', async (event) => {
 // Let user remove card from main deck by clicking on the card
 document.addEventListener('click', async (event) => {
     const target = event.target;
-    if (target.matches('.main-card-slot img') && target.closest('.main-card-slot').dataset.cardId) {
+    if ((target.matches('.main-card-slot img') && target.closest('.main-card-slot').dataset.cardId)) {
         const deckId = getDeckIdFromUrl();
         const cardId = target.closest('.main-card-slot').dataset.cardId;
         try {
@@ -155,6 +155,26 @@ document.addEventListener('click', async (event) => {
             const result = await response.json();
             if (response.ok) {
                 updateMainDeckGrid(deckId);
+            } else {
+                alert(result.error);
+            }
+        } catch (error) {
+            console.error('Error removing card:', error);
+        }
+    }
+});
+
+// Let user remove card from extra deck by clicking on the card
+document.addEventListener('click', async (event) => {
+    const target = event.target;
+    if ((target.matches('.extra-card-slot img') && target.closest('.extra-card-slot').dataset.cardId)) {
+        const deckId = getDeckIdFromUrl();
+        const cardId = target.closest('.extra-card-slot').dataset.cardId;
+        try {
+            const response = await fetch(`/decks/${deckId}/cards/remove/${cardId}`, { method: 'POST' });
+            const result = await response.json();
+            if (response.ok) {
+                updateExtraDeckGrid(deckId);
             } else {
                 alert(result.error);
             }
