@@ -3,6 +3,7 @@ body {
     margin: 0;
     padding: 0;
     background-color: #222831;
+    color: #EEEEEE;
 }
 
 
@@ -200,7 +201,8 @@ body {
 }
 
 
-#home-anon-page {
+/* PAGES */
+/* #home-anon-page {
     background-color: #222831;
     color: #EEEEEE;
 }
@@ -215,15 +217,20 @@ body {
     color: #EEEEEE;
 }
 
-.deck-edit-page {
-    /* background-color: #222831; */
+#deck-edit-page {
+    background-color: #222831;
     color: #EEEEEE;
 }
+
+#new-deck-page {
+    background-color: #222831;
+    color: #EEEEEE;
+} */
 
 
 .deck-cover {
     width: 10rem;
-    height: 15rem;
+    height: 12rem;
 }
 
 .deck-option {
@@ -291,4 +298,8 @@ body {
 .btn-danger:active:hover {
     background-color: #8B322C;
     border-color: #8B322C;
+}
+
+textarea {
+    height: 100px;
 }

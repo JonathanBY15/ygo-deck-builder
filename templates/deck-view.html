@@ -16,7 +16,7 @@
 </head>
 
 <body>
-    <div class="deck-edit-page">
+    <div id="deck-edit-page">
 
         <div class="container-fluid">
             <div class="row">
@@ -31,7 +31,11 @@
 
                     <div class="buttons-container container mb-3">
                         <div class="row mb-1">
-                            <a href="/" class="btn btn-primary">Back</a>
+                            <button class="btn btn-danger" id="clear-deck">Clear Deck</button>
+                        </div>
+
+                        <div class="row mb-1">
+                            <a href="/decks/{{deck.id}}/delete" class="btn btn-danger">Delete Deck</a>
                         </div>
 
                         <div class="row mb-1">
@@ -39,11 +43,7 @@
                         </div>
 
                         <div class="row mb-1">
-                            <button class="btn btn-danger" id="clear-deck">Clear Deck</button>
-                        </div>
-
-                        <div class="row mb-1">
-                            <a href="/decks/{{deck.id}}/delete" class="btn btn-danger">Delete Deck</a>
+                            <a href="/" class="btn btn-primary">Back</a>
                         </div>
                     </div>
                 </div>

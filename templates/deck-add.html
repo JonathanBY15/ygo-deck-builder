@@ -11,10 +11,11 @@
     <script src="https://unpkg.com/popper"></script>
     <script src="https://unpkg.com/bootstrap"></script>
 
+    <link rel="stylesheet" href="/static/styles.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
 </head>
 
-<body>
+<body id="new-deck-page">
     <div class="container">
         <div class="container">
             {% with messages = get_flashed_messages(with_categories=true) %}
@@ -28,20 +29,28 @@
             {% endwith %}
             {% block content %}{% endblock %}
         </div>
-        <h1>New Deck</h1>
-        <div class="container">
-            <form method="POST" id="register-form">
-                {{ form.hidden_tag() }}
 
-                {% for field in form if field.widget.input_type != 'hidden' %}
-                {% for error in field.errors %}
-                <span class="text-danger">{{ error }}</span>
-                {% endfor %}
-                {{ field(placeholder=field.label.text, class="form-control") }}
-                {% endfor %}
-                <button type="submit" class="btn btn-primary">Add Deck</button>
-            </form>
+        <div class="d-flex justify-content-center align-items-center vh-100">
+            <div class="container text-center" style="width: 30%;">
+                <h1>New Deck</h1>
+
+                <form method="POST" id="register-form">
+                    {{ form.hidden_tag() }}
+
+                    {% for field in form if field.widget.input_type != 'hidden' %}
+                    {% for error in field.errors %}
+                    <span class="text-danger">{{ error }}</span>
+                    {% endfor %}
+                    {{ field(placeholder=field.label.text, class="form-control") }}
+                    {% endfor %}
+                    <button type="submit" class="btn btn-primary w-100">Add Deck</button>
+                    <br>
+                    <br>
+                    <a href="/" class="btn btn-danger w-100">Back</a>
+                </form>
+            </div>
         </div>
+
     </div>
 </body>
 

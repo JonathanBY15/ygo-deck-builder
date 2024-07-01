@@ -34,42 +34,21 @@
     <div class="container">
         <h1>Yu-Gi-Oh! Deck Builder</h1>
 
-        <a href="/decks/new" class="btn btn-primary w-100">New Deck</a>
-
-        <!-- <div class="container">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Deck Name</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for deck in decks %}
-                    <tr>
-                        <td>
-                            <span><img class="deck-cover" src="/static/images/placeholder.png" alt=""></span>
-                            <div>{{ deck.name }}</div>
-                        </td>
-
-                        <td>
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col">
-                                        <a href="/decks/{{ deck.id }}" class="btn btn-primary w-100">View Deck</a>
-                                    </div>
-                                    <div class="col">
-                                        <a href="/decks/{{ deck.id }}/delete" class="btn btn-danger w-100">Delete
-                                            Deck</a>
-                                    </div>
-                                </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-6">
+                    <a href="/decks/new" class="btn btn-primary w-100">New Deck</a>
+                </div>
+                <div class="col">
+                    <a href="/user/edit" class="btn btn-secondary w-100">Edit Profile</a>
+                </div>
+                <div class="col">
+                    <a href="/logout" class="btn btn-danger w-100">Log out</a>
+                </div>
+            </div>
+        </div>
 
 
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div> -->
 
         <div class="container">
             <div class="row">
@@ -93,22 +72,6 @@
                 {% endfor %}
             </div>
         </div>
-
-
-        <br>
-        <br>
-
-        <div class="container">
-            <div class="row">
-                <div class="col">
-                    <a href="/user/edit" class="btn btn-primary w-100">Edit Profile</a>
-                </div>
-                <div class="col">
-                    <a href="/logout" class="btn btn-danger w-100">Log out</a>
-                </div>
-            </div>
-        </div>
-
 
 
     </div>
