@@ -139,9 +139,6 @@ body {
     /* filter: brightness(90%) saturate(80%) hue-rotate(90deg); */
 }
 
-
-
-
 .search-result-container {
     height: 900px;
     overflow: auto;
@@ -153,12 +150,19 @@ body {
 }
 
 .card-frame {
-    width: 6rem;
-    height: 7.5rem;
+    width: 5.2rem;
+    height: 7rem;
     float: left;
     margin-right: 10px;
     margin-bottom: 10px;
+    transition: transform 0.1s;
     /* border: #ff0000 1px solid; */
+}
+
+.card-frame:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+    /* filter: brightness(90%) saturate(80%) hue-rotate(90deg); */
 }
 
 .card-frame img {

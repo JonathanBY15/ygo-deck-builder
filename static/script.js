@@ -185,6 +185,27 @@ document.addEventListener('click', async (event) => {
     }
 });
 
+// Let user add card from search results by clicking on the card
+document.addEventListener('click', async (event) => {
+    const target = event.target;
+    if (target.matches('.card-frame img') && target.closest('.card-frame').dataset.cardId) {
+        const deckId = getDeckIdFromUrl();
+        const cardId = target.closest('.card-frame').dataset.cardId;
+        try {
+            const response = await fetch(`/decks/${deckId}/cards/add/${cardId}`, { method: 'POST' });
+            const result = await response.json();
+            if (response.ok) {
+                updateMainDeckGrid(deckId);
+                updateExtraDeckGrid(deckId);
+            } else {
+                alert(result.error);
+            }
+        } catch (error) {
+            console.error('Error adding card:', error);
+        }
+    }
+});
+
 
 // HOVER EFFECTS (View Card and Description)
 document.addEventListener('mouseover', (event) => {
