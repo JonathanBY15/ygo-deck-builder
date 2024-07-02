@@ -320,6 +320,10 @@ textarea {
     height: 100px;
 }
 
+.modal-content {
+    background-color: #31363f;
+    color: #EEEEEE;
+}
 
 /* Apply to all input fields */
 input.form-control {

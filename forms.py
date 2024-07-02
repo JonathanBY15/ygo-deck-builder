@@ -82,7 +82,7 @@ class UserEditForm(FlaskForm):
 class DeckForm(FlaskForm):
     """Form for adding a deck."""
     
-    name = StringField('Name', validators=[DataRequired(), Length(min=1, max=50)])
+    name = StringField('Name', validators=[DataRequired(), Length(min=1, max=13)])
     description = TextAreaField('Description')
     
     # def validate_cover_card_id(self, cover_card_id):
@@ -200,3 +200,7 @@ class CardSearchForm(FlaskForm):
     defense = StringField('DEF')
     offset = HiddenField('Offset', default=0)
 
+class RenameDeckForm(FlaskForm):
+    """Form for renaming a deck."""
+    
+    name = StringField('New Name', validators=[DataRequired(), Length(min=1, max=13)])

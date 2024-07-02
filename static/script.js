@@ -347,6 +347,12 @@ document.getElementById('clear-filters-btn').addEventListener('click', async (ev
     form.querySelector('input[name="offset"]').value = 0;
 });
 
+// Submit rename deck form
+document.getElementById('submit-rename-form').addEventListener('click', function () {
+    document.getElementById('rename-deck-form').submit();
+});
+
+
 // Initial update when the page loads
 document.addEventListener('DOMContentLoaded', () => {
     const deckId = getDeckIdFromUrl();

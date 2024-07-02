@@ -39,7 +39,8 @@
                         </div>
 
                         <div class="row mb-1">
-                            <a href="" class="btn btn-primary">Rename Deck</a>
+                            <button class="btn btn-primary" data-toggle="modal" data-target="#renameDeckModal">Rename
+                                Deck</a>
                         </div>
 
                         <div class="row mb-1">
@@ -48,6 +49,46 @@
 
                         <div class="row mb-1">
                             <a href="/" class="btn btn-primary">Back</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal -->
+                <div class="modal fade" id="renameDeckModal" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLongTitle">Rename Deck</h5>
+                            </div>
+                            <div class="modal-body">
+
+                                <form action="/api/{{deck.id}}/rename" method="POST" id="rename-deck-form">
+                                    {{ renameDeckForm.hidden_tag() }}
+
+                                    {% for field in renameDeckForm if field.widget.input_type != 'hidden' %}
+                                    {% for error in field.errors %}
+                                    <span class="text-danger">{{ error }}</span>
+                                    {% endfor %}
+                                    {{ field(placeholder=field.label.text, class="form-control") }}
+                                    {% endfor %}
+                                </form>
+
+                            </div>
+                            <div class="modal-footer">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col">
+                                            <button type="submit" class="btn btn-primary w-100"
+                                                id="submit-rename-form">Save</button>
+                                        </div>
+                                        <div class="col">
+                                            <button type="button" class="btn btn-danger w-100"
+                                                data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -172,6 +213,9 @@
         </div>
 
     </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <script src="/static/script.js"></script>
 </body>

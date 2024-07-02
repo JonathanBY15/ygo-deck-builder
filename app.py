@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, flash, redirect, url_for, jso
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_bcrypt import Bcrypt
 from models import db, connect_db, User, Deck, Card, DeckCard
-from forms import RegisterForm, LoginForm, UserEditForm, DeckForm, CardSearchForm
+from forms import RegisterForm, LoginForm, UserEditForm, DeckForm, CardSearchForm, RenameDeckForm
 from sqlalchemy.exc import IntegrityError
 from helpers import fetch_ygo_cards, calculate_card_limit, add_card_to_db, fetch_card_by_id, is_extra_deck
 
@@ -203,6 +203,7 @@ def edit_deck(deck_id):
     deck = Deck.query.get_or_404(deck_id)
 
     form = CardSearchForm()
+    renameDeckForm = RenameDeckForm()
     offset = request.args.get('offset', 0, type=int)
     per_page = 30  # Number of cards per page
 
@@ -232,15 +233,15 @@ def edit_deck(deck_id):
 
         if not cards_data:
             flash("No cards found that fit the filters", "danger")
-            return render_template('deck-view.html', deck=deck, form=form, cards=[], offset=offset)
+            return render_template('deck-view.html', deck=deck, form=form, cards=[], offset=offset, renameDeckForm=renameDeckForm)
 
         # Extract relevant data for rendering
         cards = cards_data['data']
         pages_remaining = cards_data['meta']['pages_remaining']
 
-        return render_template('deck-view.html', deck=deck, cards=cards, form=form, offset=offset, pages_remaining=pages_remaining)
+        return render_template('deck-view.html', deck=deck, cards=cards, form=form, offset=offset, pages_remaining=pages_remaining, renameDeckForm=renameDeckForm)
 
-    return render_template('deck-view.html', deck=deck, form=form, cards=[], offset=0)
+    return render_template('deck-view.html', deck=deck, form=form, cards=[], offset=0, renameDeckForm=renameDeckForm)
 
 
 # New Search route for edit deck
@@ -467,5 +468,24 @@ def search_cards():
         pages_remaining = cards_data['meta']['pages_remaining']
 
         return jsonify({"cards": cards, "offset": offset, "pages_remaining": pages_remaining})
+
+    return jsonify({"error": "Invalid form data."}), 400
+
+# API endpoint to rename a deck
+@app.route('/api/<int:deck_id>/rename', methods=['POST'])
+def rename_deck(deck_id):
+    """API endpoint to rename a deck."""
+    deck = Deck.query.get_or_404(deck_id)
+
+    # Check if user is logged in
+    if not g.user:
+        return jsonify({"error": "Access unauthorized."}), 401
+
+    form = RenameDeckForm()
+
+    if form.validate_on_submit():
+        deck.name = form.name.data
+        db.session.commit()
+        return redirect(f"/decks/{deck_id}")
 
     return jsonify({"error": "Invalid form data."}), 400
