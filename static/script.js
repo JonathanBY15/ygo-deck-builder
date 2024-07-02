@@ -93,6 +93,7 @@ document.querySelector('#clear-deck').addEventListener('click', async (event) =>
         if (response.ok) {
             // alert(result.message);
             updateMainDeckGrid(deckId);
+            updateExtraDeckGrid(deckId);
         } else {
             alert(result.error);
         }

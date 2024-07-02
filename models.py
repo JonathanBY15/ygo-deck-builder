@@ -66,6 +66,19 @@ class Deck(db.Model):
             if cover_card_id not in card_ids_in_deck:
                 raise ValueError("Cover card must be one of the cards in the deck.")
         return cover_card_id
+    
+
+    # function that returns the total number of cards in the main deck (cards have an extra_deck attribute)
+    @property
+    def main_deck_count(self):
+        return sum([deck_card.quantity for deck_card in self.deck_cards if not deck_card.card.extra_deck])
+    
+    @property
+    # function that returns the total number of cards in the extra deck (cards have an extra_deck attribute)
+    def extra_deck_count(self):
+        return sum([deck_card.quantity for deck_card in self.deck_cards if deck_card.card.extra_deck])
+    
+    
 
 class Card(db.Model):
     """A card."""

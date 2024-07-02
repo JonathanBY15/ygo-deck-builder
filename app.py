@@ -316,6 +316,18 @@ def add_card_to_deck(deck_id, card_id):
         return jsonify({"error": "Card not found."}), 404
 
     card = add_card_to_db(card)
+
+    # If there are more than 60 cards with card.extra_deck = False, don't allow the user to add more cards
+    if (not card.extra_deck) and (deck.main_deck_count >= 60):
+        return jsonify({"error": "Cannot add more than 60 cards to the main deck."}), 400
+
+
+    # If there are more than 15 cards with card.extra_deck = True, don't allow the user to add more cards
+    if card.extra_deck and (deck.extra_deck_count >= 15):
+        return jsonify({"error": "Cannot add more than 15 cards to the extra deck."}), 400
+    
+
+
     if card.limit == 0:
         return jsonify({"error": f"{card.name} is banned."}), 400
 
@@ -457,5 +469,3 @@ def search_cards():
         return jsonify({"cards": cards, "offset": offset, "pages_remaining": pages_remaining})
 
     return jsonify({"error": "Invalid form data."}), 400
-
-

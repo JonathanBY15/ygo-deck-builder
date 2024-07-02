@@ -4,7 +4,7 @@ body {
     padding: 0;
     background-color: #222831;
     color: #EEEEEE;
-    background-image: url('https://images8.alphacoders.com/131/thumb-1920-1313037.png');
+    /* background-image: url('https://images3.alphacoders.com/131/thumb-1920-1313033.jpg'); */
     background-size: cover;
     /* Cover the whole page */
     background-position: center;
@@ -44,7 +44,7 @@ body {
     width: 6rem;
     height: 8rem;
     /* background-color: rgba(168, 187, 187, 0.479); */
-    background-color: #31363f6c;
+    background-color: #31363f;
     display: flex;
     align-items: center;
     /* Center content vertically */
@@ -77,7 +77,7 @@ body {
     height: 300px;
     overflow: auto;
     padding: 20px;
-    background-color: #31363f6c;
+    background-color: #31363f;
 
     /* border: 1px solid #ff0000; */
 }
@@ -210,13 +210,11 @@ body {
 
 
 /* PAGES */
-#home-anon-page {
+/* #home-anon-page {
     background-image: url('https://images3.alphacoders.com/131/thumb-1920-1313033.jpg');
     background-size: cover;
-    /* Cover the whole page */
     background-position: center;
-    /* Center the image */
-}
+} */
 
 /* #register-page {
     background-color: #222831;
@@ -228,15 +226,18 @@ body {
     color: #EEEEEE;
 }
 
-#deck-edit-page {
-    background-color: #222831;
-    color: #EEEEEE;
-}
-
 #new-deck-page {
     background-color: #222831;
     color: #EEEEEE;
 } */
+
+/* #deck-edit-page {
+    background-image: url('https://images5.alphacoders.com/131/thumb-1920-1313043.jpg');
+    background-size: cover;
+    background-position: center;
+} */
+
+
 
 
 .deck-cover {
