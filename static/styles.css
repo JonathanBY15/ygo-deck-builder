@@ -210,12 +210,15 @@ body {
 
 
 /* PAGES */
-/* #home-anon-page {
-    background-color: #222831;
-    color: #EEEEEE;
+#home-anon-page {
+    background-image: url('https://images3.alphacoders.com/131/thumb-1920-1313033.jpg');
+    background-size: cover;
+    /* Cover the whole page */
+    background-position: center;
+    /* Center the image */
 }
 
-#register-page {
+/* #register-page {
     background-color: #222831;
     color: #EEEEEE;
 }
