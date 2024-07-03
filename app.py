@@ -489,3 +489,18 @@ def rename_deck(deck_id):
         return redirect(f"/decks/{deck_id}")
 
     return jsonify({"error": "Invalid form data."}), 400
+
+# API endpoint to set a decks cover image
+@app.route('/api/<int:deck_id>/set_cover/<int:card_id>', methods=['GET', 'POST'])
+def set_deck_cover(deck_id, card_id):
+    """API endpoint to set a decks cover image."""
+    deck = Deck.query.get_or_404(deck_id)
+    card = fetch_card_by_id(card_id)
+
+    if not card:
+        return jsonify({"error": "Card not found."}), 404
+
+    deck.cover_card_url = card['card_images'][0]['image_url_small']
+    db.session.commit()
+    return jsonify({"message": f"Cover image set to {card['name']}."}), 200
+

@@ -352,6 +352,53 @@ document.getElementById('submit-rename-form').addEventListener('click', function
     document.getElementById('rename-deck-form').submit();
 });
 
+// TODO: Select cover card image
+// // If a user right-clicks on a card in main deck or extra deck, set it as the cover image of the deck
+// document.addEventListener('contextmenu', async (event) => {
+//     const target = event.target;
+//     if ((target.matches('.main-card-slot img') && target.closest('.main-card-slot').dataset.cardId) ||
+//         (target.matches('.extra-card-slot img') && target.closest('.extra-card-slot').dataset.cardId)) {
+//         event.preventDefault();
+//         const deckId = getDeckIdFromUrl();
+//         const cardId = target.closest('.main-card-slot').dataset.cardId || target.closest('.extra-card-slot').dataset.cardId;
+//         try {
+//             const response = await fetch(`/api/${deckId}/set_cover/${cardId}`, { method: 'POST' });
+//             const result = await response.json();
+//             if (response.ok) {
+//                 alert(result.message);
+//             } else {
+//                 alert(result.error);
+//             }
+//         } catch (error) {
+//             console.error('Error setting cover image:', error);
+//         }
+//     }
+// });
+
+
+
+// If a user right-clicks on a card in main deck or extra deck, set it as the cover image of the deck
+document.addEventListener('contextmenu', async (event) => {
+    const target = event.target;
+    if ((target.matches('.main-card-slot img') && target.closest('.main-card-slot').dataset.cardId) ||
+        (target.matches('.extra-card-slot img') && target.closest('.extra-card-slot').dataset.cardId)) {
+        event.preventDefault();
+        const deckId = getDeckIdFromUrl();
+        const cardId = target.closest('.main-card-slot') ? target.closest('.main-card-slot').dataset.cardId : target.closest('.extra-card-slot').dataset.cardId;
+        try {
+            const response = await fetch(`/api/${deckId}/set_cover/${cardId}`, { method: 'POST' });
+            const result = await response.json();
+            if (response.ok) {
+                alert(result.message);
+            } else {
+                alert(result.error);
+            }
+        } catch (error) {
+            console.error('Error setting cover image:', error);
+        }
+    }
+});
+
 
 // Initial update when the page loads
 document.addEventListener('DOMContentLoaded', () => {

@@ -60,7 +60,7 @@ def calculate_card_limit(card):
     }
 
     # Get banlist info from card
-    if card.get('banlist_info'):
+    if card.get('banlist_info') and card['banlist_info']['ban_tcg']:
         limit = card['banlist_info']['ban_tcg']
     else:
         limit = 'Unlimited'

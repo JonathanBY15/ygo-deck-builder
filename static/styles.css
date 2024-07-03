@@ -4,7 +4,7 @@ body {
     padding: 0;
     background-color: #222831;
     color: #EEEEEE;
-    /* background-image: url('https://images3.alphacoders.com/131/thumb-1920-1313033.jpg'); */
+    /* background-image: url('https://images5.alphacoders.com/125/thumb-1920-1256204.jpg'); */
     background-size: cover;
     /* Cover the whole page */
     background-position: center;
@@ -370,4 +370,10 @@ select.form-control:focus {
     /* Remove default outline */
     box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.25);
     /* Optional: add a subtle shadow */
+}
+
+
+#back-card {
+    background-color: #d43b20;
+    color: #EEEEEE;
 }
