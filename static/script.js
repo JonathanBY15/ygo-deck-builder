@@ -210,36 +210,36 @@ document.addEventListener('click', async (event) => {
 // HOVER EFFECTS (View Card and Description)
 document.addEventListener('mouseover', (event) => {
     const target = event.target;
+    const cardView = document.querySelector('.card-view');
+    const description = document.querySelector('.description');
+
+    // Function to update card view and description
+    const updateCardView = (imgSrc, cardDesc) => {
+        cardView.src = imgSrc;
+        description.textContent = cardDesc;
+    };
 
     // Main deck cards hover effect
-    if (target.matches('.main-card-slot img')) {
+    if (target.matches('.main-card-slot img') && target.src !== '/static/images/placeholder.png') {
         const cardImgSrc = target.src;
-        document.querySelector('.card-view').src = cardImgSrc;
-
         const cardDescription = target.closest('.main-card-slot').dataset.cardDescription;
-        document.querySelector('.description').textContent = cardDescription;
+        updateCardView(cardImgSrc, cardDescription);
     }
 
     // Extra deck cards hover effect
-    if (target.matches('.extra-card-slot img')) {
+    if (target.matches('.extra-card-slot img') && target.src !== '/static/images/placeholder.png') {
         const cardImgSrc = target.src;
-        document.querySelector('.card-view').src = cardImgSrc;
-
         const cardDescription = target.closest('.extra-card-slot').dataset.cardDescription;
-        document.querySelector('.description').textContent = cardDescription;
+        updateCardView(cardImgSrc, cardDescription);
     }
 
     // Search result cards hover effect
     if (target.matches('.card-frame img')) {
         const cardImgSrc = target.src;
-        document.querySelector('.card-view').src = cardImgSrc;
-
         const cardDescription = target.closest('.card-frame').dataset.cardDescription;
-        document.querySelector('.description').textContent = cardDescription;
+        updateCardView(cardImgSrc, cardDescription);
     }
 });
-
-
 
 
 // Pagination
