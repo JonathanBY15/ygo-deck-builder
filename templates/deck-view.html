@@ -18,6 +18,42 @@
 </head>
 
 <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg">
+        <a class="navbar-brand" href="/">YGO Deck Builder</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                {% if g.user %}
+                <!-- Navbar for logged-in users -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/decks">My Decks</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/user/edit">Edit Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">Logout</a>
+                </li>
+                {% else %}
+                <!-- Navbar for guests (not logged in) -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/login">Login</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
     <div id="deck-edit-page">
 
         <div class="container-fluid">
@@ -53,7 +89,7 @@
                         </div>
 
                         <div class="row mb-1">
-                            <a href="/" class="btn btn-primary">Back</a>
+                            <a href="/decks" class="btn btn-primary">Back</a>
                         </div>
                     </div>
                 </div>
@@ -67,16 +103,16 @@
                                 <h5 class="modal-title" id="exampleModalLongTitle">Rename Deck</h5>
                             </div>
                             <div class="modal-body">
-
-                                <form action="/api/{{deck.id}}/rename" method="POST" id="rename-deck-form">
+                                <form action="/api/{{ deck.id }}/rename" method="POST" id="rename-deck-form">
                                     {{ renameDeckForm.hidden_tag() }}
-
-                                    {% for field in renameDeckForm if field.widget.input_type != 'hidden' %}
-                                    {% for error in field.errors %}
-                                    <span class="text-danger">{{ error }}</span>
-                                    {% endfor %}
-                                    {{ field(placeholder=field.label.text, class="form-control") }}
-                                    {% endfor %}
+                                    <div class="form-group">
+                                        {{ renameDeckForm.name.label(class="form-label") }}
+                                        {{ renameDeckForm.name(class="form-control", id="deck-rename-input",
+                                        placeholder=deck.name) }}
+                                        {% for error in renameDeckForm.name.errors %}
+                                        <span class="text-danger">{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
                                 </form>
 
                             </div>

@@ -94,6 +94,28 @@ def homepage():
             flash("Invalid credentials", 'danger')
 
         return render_template('/home-anon.html', form=LoginForm())
+    
+
+
+# Decks route
+@app.route('/decks', methods=['GET', 'POST'])
+def decks_view():
+    """User decks page."""
+    if g.user:
+        return render_template('decks.html', user=g.user, decks=g.user.decks)
+    
+    else:
+        form = LoginForm()
+
+        if form.validate_on_submit():
+            user = User.authenticate(form.username.data, form.password.data)
+            if user:
+                session[CURR_USER_KEY] = user.id
+                # flash(f"Welcome back {user.username}!", 'success')
+                return redirect('/')
+            flash("Invalid credentials", 'danger')
+
+        return render_template('/home-anon.html', form=LoginForm())
 
 # Register route
 @app.route('/register', methods=['GET', 'POST'])

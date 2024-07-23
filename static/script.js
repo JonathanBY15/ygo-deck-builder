@@ -410,4 +410,3 @@ document.addEventListener('DOMContentLoaded', () => {
     updateMainDeckGrid(deckId);
     updateExtraDeckGrid(deckId);
 });
-

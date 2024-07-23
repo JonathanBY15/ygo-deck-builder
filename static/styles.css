@@ -377,3 +377,31 @@ select.form-control:focus {
     background-color: #d43b20;
     color: #EEEEEE;
 }
+
+.navbar {
+    background-color: #1a1f25;
+    color: #EEEEEE;
+    padding: 40px;
+}
+
+.nav-link,
+.navbar-brand {
+    color: #EEEEEE;
+}
+
+.nav-link:hover,
+.navbar-brand:hover {
+    color: #a7a7a7;
+}
+
+.nav-link {
+    font-size: 1.4em;
+}
+
+.navbar-brand {
+    font-size: 2em;
+}
+
+.navbar-nav {
+    margin-left: auto;
+}

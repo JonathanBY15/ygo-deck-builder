@@ -17,6 +17,42 @@
 </head>
 
 <body id="register-page">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg">
+        <a class="navbar-brand" href="/">YGO Deck Builder</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                {% if g.user %}
+                <!-- Navbar for logged-in users -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/decks">My Decks</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/user/edit">Edit Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">Logout</a>
+                </li>
+                {% else %}
+                <!-- Navbar for guests (not logged in) -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/login">Login</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
     <div class="container">
         <div class="container">
             {% with messages = get_flashed_messages(with_categories=true) %}
@@ -48,7 +84,7 @@
                     <button type="submit" class="btn btn-primary w-100">Sign Up</button>
                     <br>
                     <br>
-                    <a href="/" class="btn btn-danger w-100">Back</a>
+                    <a href="/login" class="btn btn-secondary w-100">I Already Have an Account</a>
                 </form>
             </div>
         </div>

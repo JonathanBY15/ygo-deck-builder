@@ -18,63 +18,45 @@
 
 <body id="home-page">
 
-    <div class="container">
-        {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-        <div class="flashes">
-            {% for category, message in messages %}
-            <div class="alert alert-{{ category }}">{{ message }}</div>
-            {% endfor %}
-        </div>
-        {% endif %}
-        {% endwith %}
-        {% block content %}{% endblock %}
-    </div>
-
-    <div class="container">
-        <h1>Yu-Gi-Oh! Deck Builder</h1>
-
-        <div class="container">
-            <div class="row">
-                <div class="col-6">
-                    <a href="/decks/new" class="btn btn-primary w-100">New Deck</a>
-                </div>
-                <div class="col">
-                    <a href="/user/edit" class="btn btn-secondary w-100">Edit Profile</a>
-                </div>
-                <div class="col">
-                    <a href="/logout" class="btn btn-danger w-100">Log out</a>
-                </div>
-            </div>
-        </div>
-
-
-
-        <div class="container">
-            <div class="row">
-                {% for deck in decks %}
-                <div class=" col-md-2 mb-4"> <!-- 6 columns per row (12/2 = 6) -->
-                    <div class="deck-option card h-100">
-                        <div class="card-body text-center">
-                            <img class="deck-cover img-fluid" src="{{deck.cover_card_url}}" alt="">
-                            <h5 class="card-title">{{ deck.name }}</h5>
-                            <div class="mt-3">
-                                <a href="/decks/{{ deck.id }}" class="btn btn-primary w-100 mb-2">Edit Deck</a>
-                                <a href="/decks/{{ deck.id }}/delete" class="btn btn-danger w-100">Delete Deck</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                {% if loop.index % 6 == 0 %}
-            </div>
-            <div class="row"> <!-- Close the current row and start a new one after every 6 items -->
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg">
+        <a class="navbar-brand" href="/">YGO Deck Builder</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                {% if g.user %}
+                <!-- Navbar for logged-in users -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/decks">My Decks</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/user/edit">Edit Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">Logout</a>
+                </li>
+                {% else %}
+                <!-- Navbar for guests (not logged in) -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/login">Login</a>
+                </li>
                 {% endif %}
-                {% endfor %}
-            </div>
+            </ul>
         </div>
+    </nav>
 
 
-    </div>
+
+
 
     <script src="/static/script.js"></script>
 </body>
