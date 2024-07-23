@@ -33,12 +33,19 @@
 
                     <div class="buttons-container container mb-3">
                         <div class="row mb-1">
-                            <button class="btn btn-danger" id="clear-deck">Clear Deck</button>
+                            <button class="btn btn-danger" id="clear-deck" data-toggle="modal"
+                                data-target="#confirmClearDeckModal">Clear Deck</button>
                         </div>
 
-                        <div class="row mb-1">
+                        <!-- <div class="row mb-1">
                             <a href="/decks/{{deck.id}}/delete" class="btn btn-danger">Delete Deck</a>
+                        </div> -->
+
+                        <div class="row mb-1">
+                            <button class="btn btn-danger" data-toggle="modal"
+                                data-target="#confirmDeleteDeckModal">Delete Deck</button>
                         </div>
+
 
                         <div class="row mb-1">
                             <button class="btn btn-primary" data-toggle="modal" data-target="#renameDeckModal">Rename
@@ -51,7 +58,7 @@
                     </div>
                 </div>
 
-                <!-- Modal -->
+                <!-- Rename Deck Modal -->
                 <div class="modal fade" id="renameDeckModal" tabindex="-1" role="dialog"
                     aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -83,6 +90,64 @@
                                         <div class="col">
                                             <button type="button" class="btn btn-danger w-100"
                                                 data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Confirm Clear Deck Modal -->
+                <div class="modal fade" id="confirmClearDeckModal" tabindex="-1" role="dialog"
+                    aria-labelledby="confirmClearDeckModalTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="confirmClearDeckModalTitle">Confirm Clear Deck</h5>
+                            </div>
+                            <div class="modal-body">
+                                <p>Are you sure you want to clear your deck?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col">
+                                            <button type="button" class="btn btn-danger w-100" id="confirm-clear-deck"
+                                                data-dismiss="modal">Yes, Clear Deck</button>
+                                        </div>
+                                        <div class="col">
+                                            <button type="button" class="btn btn-secondary w-100"
+                                                data-dismiss="modal">Cancel</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Confirm Delete Deck Modal -->
+                <div class="modal fade" id="confirmDeleteDeckModal" tabindex="-1" role="dialog"
+                    aria-labelledby="confirmDeleteDeckModalTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="confirmDeleteDeckModalTitle">Confirm Delete Deck</h5>
+                            </div>
+                            <div class="modal-body">
+                                <p>Are you sure you want to delete your deck?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col">
+                                            <button type="button" class="btn btn-danger w-100" id="confirm-delete-deck"
+                                                data-dismiss="modal">Yes, Delete Deck</button>
+                                        </div>
+                                        <div class="col">
+                                            <button type="button" class="btn btn-secondary w-100"
+                                                data-dismiss="modal">Cancel</button>
                                         </div>
                                     </div>
                                 </div>

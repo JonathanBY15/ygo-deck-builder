@@ -85,7 +85,7 @@ async function updateExtraDeckGrid(deckId) {
 }
 
 // Add AJAX to clear deck
-document.querySelector('#clear-deck').addEventListener('click', async (event) => {
+document.querySelector('#confirm-clear-deck').addEventListener('click', async (event) => {
     const deckId = getDeckIdFromUrl();
     try {
         const response = await fetch(`/api/decks/${deckId}/clear`, { method: 'POST' });
@@ -99,6 +99,23 @@ document.querySelector('#clear-deck').addEventListener('click', async (event) =>
         }
     } catch (error) {
         console.error('Error clearing deck:', error);
+    }
+});
+
+
+// Add AJAX to delete deck
+document.getElementById('confirm-delete-deck').addEventListener('click', async (event) => {
+    const deckId = getDeckIdFromUrl();
+
+    try {
+        const response = await fetch(`/decks/${deckId}/delete`, { method: 'POST' });
+        if (response.ok) {
+            location.href = '/'; // Redirect to home page
+        } else {
+            alert('Failed to delete the deck.');
+        }
+    } catch (error) {
+        console.error('Error deleting deck:', error);
     }
 });
 
@@ -375,6 +392,16 @@ document.addEventListener('contextmenu', async (event) => {
         }
     }
 });
+
+
+
+
+
+
+
+
+
+
 
 
 // Initial update when the page loads
