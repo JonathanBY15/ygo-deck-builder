@@ -307,7 +307,7 @@ def edit_user():
             # Update user and commit changes
             g.user.username = form.username.data
             g.user.email = form.email.data
-            g.user.image_url = form.image_url.data
+            g.user.img_url = form.img_url.data
 
             db.session.commit()
             flash("You successfully updated your profile.", "success")

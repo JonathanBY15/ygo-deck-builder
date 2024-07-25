@@ -392,9 +392,7 @@ select.form-control:focus {
     color: #48937E;
 }
 
-#nav-logout:hover {
-    color: #c73737;
-}
+
 
 .nav-link {
     font-size: 1.4em;
@@ -435,4 +433,41 @@ select.form-control:focus {
     background-color: #48937E;
     color: #242424;
     font-size: 1.4em;
+}
+
+.dropdown-menu {
+    background-color: #3e4957;
+}
+
+.dropdown-item {
+    color: #EEEEEE;
+}
+
+.dropdown-item:hover {
+    color: #48937E;
+    background-color: #3e4957;
+}
+
+.dropdown-logout:hover {
+    color: #c24343;
+}
+
+/* Ensures the dropdown menu stays within the viewport */
+.navbar-nav .dropdown-menu {
+    max-width: 300px;
+    /* Adjust as needed */
+    overflow-x: hidden;
+    white-space: nowrap;
+    /* Prevents text from wrapping and ensures scroll */
+}
+
+/* Positioning the dropdown menu correctly */
+.navbar-nav .dropdown-menu {
+    position: absolute;
+    top: 100%;
+    /* Ensures the dropdown is below the navbar item */
+    left: 0;
+    /* Aligns the dropdown with the left edge of the navbar item */
+    transform: translateX(-50%);
+    /* Centers the dropdown horizontally */
 }

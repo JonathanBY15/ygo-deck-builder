@@ -51,7 +51,7 @@ class UserEditForm(FlaskForm):
     
     username = StringField('Username', validators=[Length(min=3, max=20)])
     email = StringField('Email', validators=[Email()])
-    image_url = StringField('Image URL')
+    img_url = StringField('Image URL')
     password = PasswordField('Password', validators=[DataRequired(), Length(min=6)])
     password_confirm = PasswordField('Confirm Password', validators=[DataRequired(), Length(min=6)])
 
