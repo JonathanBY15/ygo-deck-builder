@@ -346,7 +346,7 @@ def edit_deck(deck_id):
     form = CardSearchForm()
     renameDeckForm = RenameDeckForm()
     offset = request.args.get('offset', 0, type=int)
-    per_page = 30  # Number of cards per page
+    per_page = 24  # Number of cards per page
 
     if form.validate_on_submit() or request.method == 'GET':
 

@@ -195,7 +195,7 @@
                     </div>
                 </div>
 
-                <div class="deck-col col-md-7">
+                <div class="deck-col col-md-7 text-center">
                     {% with messages = get_flashed_messages(with_categories=true) %}
                     {% if messages %}
                     <div class="flashes">
@@ -208,8 +208,15 @@
 
                     <div class="container">
 
-                        <div class="container text-center">
+
+
+                        <div class="container">
+
                             <h1>{{deck.name}}</h1>
+                        </div>
+
+                        <div id="tip">
+                            <p>Right Click a card in your deck to set it as the cover card.</p>
                         </div>
 
                         <div class="main-deck-container container">
@@ -238,6 +245,9 @@
                                 {% endfor %}
                             </div>
                         </div>
+
+
+
 
 
                     </div>

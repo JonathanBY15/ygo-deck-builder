@@ -11,13 +11,6 @@ body {
     /* Center the image */
 }
 
-
-
-.search-result-container {
-    height: 900px;
-    overflow: auto;
-}
-
 .main-deck-container {
     /* border: 1px solid #ff0000; */
 }
@@ -140,7 +133,7 @@ body {
 }
 
 .search-result-container {
-    height: 900px;
+    height: 800px;
     overflow: auto;
     display: flex;
     flex-wrap: wrap;
@@ -436,4 +429,10 @@ select.form-control:focus {
 .example-deck .card-body {
     width: 100%;
     text-align: center;
+}
+
+#tip {
+    background-color: #48937E;
+    color: #242424;
+    font-size: 1.4em;
 }
