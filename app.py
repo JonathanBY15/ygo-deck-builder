@@ -79,8 +79,74 @@ def add_user_to_g():
 @app.route('/', methods=['GET', 'POST'])
 def homepage():
     """Home page."""
+
+    popular_decks = [
+    {
+        'image_url': 'https://images.ygoprodeck.com/images/cards_small/88284599.jpg',
+        'deck_name': 'voice voi',
+        'href': 'https://ygoprodeck.com/deck/voice-voi-512763'
+    },
+    {
+        'image_url': 'https://images.ygoprodeck.com/images/cards_small/28143384.jpg',
+        'deck_name': 'Yubel Fiendsmith',
+        'href': 'https://ygoprodeck.com/deck/yubel-fiendsmith-july-2024-512480'
+    },
+    {
+        'image_url': 'https://images.ygoprodeck.com/images/cards_small/73542331.jpg',
+        'deck_name': 'Pure Build Kashtira',
+        'href': 'https://ygoprodeck.com/deck/pure-build-kashtira-512751'
+    },
+    {
+        'image_url': 'https://images.ygoprodeck.com/images/cards_small/27204311.jpg',
+        'deck_name': 'Fiendsmith Centur-Ion',
+        'href': 'https://ygoprodeck.com/deck/fiendsmith-centur-ion-july-2024-512714'
+    },
+    {
+        'image_url': 'https://images.ygoprodeck.com/images/cards_small/93860227.jpg',
+        'deck_name': 'Voiceless Voice Fiendsmith Tune',
+        'href': 'https://ygoprodeck.com/deck/voiceless-voice-fiendsmith-tune-512705'
+    },
+    {
+        'image_url': 'https://images.ygoprodeck.com/images/cards_small/96030710.jpg',
+        'deck_name': 'Centur-Ion',
+        'href': 'https://ygoprodeck.com/deck/centur-ion-july-2024-512626'
+    },
+    {
+        'image_url': 'https://images.ygoprodeck.com/images/cards_small/91810826.jpg',
+        'deck_name': 'Tenpai deck',
+        'href': 'https://ygoprodeck.com/deck/tenpai-deck-512615'
+    },
+    {
+        'image_url': 'https://images.ygoprodeck.com/images/cards_small/10000020.jpg',
+        'deck_name': 'Osiris - The Sky Dragon',
+        'href': 'https://ygoprodeck.com/deck/osiris-the-sky-dragon-512609'
+    },
+    {
+        'image_url': 'https://images.ygoprodeck.com/images/cards_small/53842431.jpg',
+        'deck_name': 'Trif',
+        'href': 'https://ygoprodeck.com/deck/trif-512603'
+    },
+    {
+        'image_url': 'https://images.ygoprodeck.com/images/cards_small/44822037.jpg',
+        'deck_name': 'White Wood v 6.0',
+        'href': 'https://ygoprodeck.com/deck/white-wood-v-6-0-512598'
+    },
+    {
+        'image_url': 'https://images.ygoprodeck.com/images/cards_small/23657016.jpg',
+        'deck_name': 'Tenpai Dragon',
+        'href': 'https://ygoprodeck.com/deck/tenpai-dragon-512591'
+    },
+    {
+        'image_url': 'https://images.ygoprodeck.com/images/cards_small/37617348.jpg',
+        'deck_name': 'Rescue-ACE Fiendsmith',
+        'href': 'https://ygoprodeck.com/deck/rescue-ace-fiendsmith-512583'
+    }
+]
+
+
+
     if g.user:
-        return render_template('home.html', user=g.user, decks=g.user.decks)
+        return render_template('home.html', user=g.user, decks=g.user.decks, popular_decks=popular_decks)
     
     else:
         form = LoginForm()
@@ -92,8 +158,8 @@ def homepage():
                 # flash(f"Welcome back {user.username}!", 'success')
                 return redirect('/')
             flash("Invalid credentials", 'danger')
-
-        return render_template('/home-anon.html', form=LoginForm())
+            
+        return render_template('/home-anon.html', popular_decks=popular_decks)
     
 
 
@@ -105,17 +171,71 @@ def decks_view():
         return render_template('decks.html', user=g.user, decks=g.user.decks)
     
     else:
-        form = LoginForm()
 
-        if form.validate_on_submit():
-            user = User.authenticate(form.username.data, form.password.data)
-            if user:
-                session[CURR_USER_KEY] = user.id
-                # flash(f"Welcome back {user.username}!", 'success')
-                return redirect('/')
-            flash("Invalid credentials", 'danger')
+        popular_decks = [
+    {
+        'image_url': 'https://images.ygoprodeck.com/images/cards_small/88284599.jpg',
+        'deck_name': 'voice voi',
+        'href': 'https://ygoprodeck.com/deck/voice-voi-512763'
+    },
+    {
+        'image_url': 'https://images.ygoprodeck.com/images/cards_small/28143384.jpg',
+        'deck_name': 'Yubel Fiendsmith',
+        'href': 'https://ygoprodeck.com/deck/yubel-fiendsmith-july-2024-512480'
+    },
+    {
+        'image_url': 'https://images.ygoprodeck.com/images/cards_small/73542331.jpg',
+        'deck_name': 'Pure Build Kashtira',
+        'href': 'https://ygoprodeck.com/deck/pure-build-kashtira-512751'
+    },
+    {
+        'image_url': 'https://images.ygoprodeck.com/images/cards_small/27204311.jpg',
+        'deck_name': 'Fiendsmith Centur-Ion',
+        'href': 'https://ygoprodeck.com/deck/fiendsmith-centur-ion-july-2024-512714'
+    },
+    {
+        'image_url': 'https://images.ygoprodeck.com/images/cards_small/93860227.jpg',
+        'deck_name': 'Voiceless Voice Fiendsmith Tune',
+        'href': 'https://ygoprodeck.com/deck/voiceless-voice-fiendsmith-tune-512705'
+    },
+    {
+        'image_url': 'https://images.ygoprodeck.com/images/cards_small/96030710.jpg',
+        'deck_name': 'Centur-Ion',
+        'href': 'https://ygoprodeck.com/deck/centur-ion-july-2024-512626'
+    },
+    {
+        'image_url': 'https://images.ygoprodeck.com/images/cards_small/91810826.jpg',
+        'deck_name': 'Tenpai deck',
+        'href': 'https://ygoprodeck.com/deck/tenpai-deck-512615'
+    },
+    {
+        'image_url': 'https://images.ygoprodeck.com/images/cards_small/10000020.jpg',
+        'deck_name': 'Osiris - The Sky Dragon',
+        'href': 'https://ygoprodeck.com/deck/osiris-the-sky-dragon-512609'
+    },
+    {
+        'image_url': 'https://images.ygoprodeck.com/images/cards_small/53842431.jpg',
+        'deck_name': 'Trif',
+        'href': 'https://ygoprodeck.com/deck/trif-512603'
+    },
+    {
+        'image_url': 'https://images.ygoprodeck.com/images/cards_small/44822037.jpg',
+        'deck_name': 'White Wood v 6.0',
+        'href': 'https://ygoprodeck.com/deck/white-wood-v-6-0-512598'
+    },
+    {
+        'image_url': 'https://images.ygoprodeck.com/images/cards_small/23657016.jpg',
+        'deck_name': 'Tenpai Dragon',
+        'href': 'https://ygoprodeck.com/deck/tenpai-dragon-512591'
+    },
+    {
+        'image_url': 'https://images.ygoprodeck.com/images/cards_small/37617348.jpg',
+        'deck_name': 'Rescue-ACE Fiendsmith',
+        'href': 'https://ygoprodeck.com/deck/rescue-ace-fiendsmith-512583'
+    }
+]
 
-        return render_template('/home-anon.html', form=LoginForm())
+        return render_template('/home-anon.html', popular_decks=popular_decks)
 
 # Register route
 @app.route('/register', methods=['GET', 'POST'])

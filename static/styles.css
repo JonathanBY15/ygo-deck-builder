@@ -405,3 +405,26 @@ select.form-control:focus {
 .navbar-nav {
     margin-left: auto;
 }
+
+#user_image {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+
+
+.example-deck {
+    display: inline-block;
+    width: 100%;
+}
+
+.example-deck img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.example-deck .card-body {
+    width: 100%;
+    text-align: center;
+}
