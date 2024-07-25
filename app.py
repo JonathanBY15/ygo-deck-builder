@@ -158,7 +158,7 @@ def homepage():
                 # flash(f"Welcome back {user.username}!", 'success')
                 return redirect('/')
             flash("Invalid credentials", 'danger')
-            
+
         return render_template('/home-anon.html', popular_decks=popular_decks)
     
 
@@ -171,7 +171,6 @@ def decks_view():
         return render_template('decks.html', user=g.user, decks=g.user.decks)
     
     else:
-
         popular_decks = [
     {
         'image_url': 'https://images.ygoprodeck.com/images/cards_small/88284599.jpg',
@@ -316,7 +315,7 @@ def edit_user():
         
         flash("Invalid credentials.", "danger")
 
-    return render_template('user-edit.html', form=form)
+    return render_template('user-edit.html', form=form, user=g.user)
 
 # Add deck route
 @app.route('/decks/new', methods=['GET', 'POST'])
@@ -335,7 +334,7 @@ def add_deck():
         db.session.commit()
         return redirect(f"/decks/{deck.id}")
     
-    return render_template('deck-add.html', form=form)
+    return render_template('deck-add.html', form=form, user=g.user)
 
 # Deck edit route
 @app.route('/decks/<int:deck_id>', methods=['GET', 'POST'])
@@ -375,15 +374,15 @@ def edit_deck(deck_id):
 
         if not cards_data:
             flash("No cards found that fit the filters", "danger")
-            return render_template('deck-view.html', deck=deck, form=form, cards=[], offset=offset, renameDeckForm=renameDeckForm)
+            return render_template('deck-view.html', deck=deck, form=form, cards=[], offset=offset, renameDeckForm=renameDeckForm, user=g.user)
 
         # Extract relevant data for rendering
         cards = cards_data['data']
         pages_remaining = cards_data['meta']['pages_remaining']
 
-        return render_template('deck-view.html', deck=deck, cards=cards, form=form, offset=offset, pages_remaining=pages_remaining, renameDeckForm=renameDeckForm)
+        return render_template('deck-view.html', deck=deck, cards=cards, form=form, offset=offset, pages_remaining=pages_remaining, renameDeckForm=renameDeckForm, user=g.user)
 
-    return render_template('deck-view.html', deck=deck, form=form, cards=[], offset=0, renameDeckForm=renameDeckForm)
+    return render_template('deck-view.html', deck=deck, form=form, cards=[], offset=0, renameDeckForm=renameDeckForm, user=g.user)
 
 
 # New Search route for edit deck
@@ -438,7 +437,7 @@ def delete_deck(deck_id):
     db.session.delete(deck)
     db.session.commit()
     # flash("Deck deleted.", "success")
-    return redirect("/")
+    return redirect("/decks")
 
 
 # Add card to deck route

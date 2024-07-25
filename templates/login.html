@@ -20,7 +20,7 @@
 
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg">
-        <a class="navbar-brand" href="/">YGO Deck Builder</a>
+        <a class="navbar-brand" href="/"><img id="nav-logo" src="/static/images/logo.png" alt="logo"></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -38,13 +38,19 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/user/edit">Edit Profile</a>
                 </li>
+                <!-- <li class="nav-item">
+                    <img id="user_image" src="{{user.img_url}}" alt="user_image">
+                </li> -->
                 <li class="nav-item">
-                    <a class="nav-link" href="/logout">Logout</a>
+                    <a id="nav-logout" class="nav-link" href="/logout">Logout</a>
                 </li>
                 {% else %}
                 <!-- Navbar for guests (not logged in) -->
                 <li class="nav-item">
                     <a class="nav-link" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/register">Sign Up</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/login">Login</a>

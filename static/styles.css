@@ -382,6 +382,11 @@ select.form-control:focus {
     background-color: #1a1f25;
     color: #EEEEEE;
     padding: 40px;
+    max-height: 100px;
+}
+
+#nav-logo {
+    max-width: 300px;
 }
 
 .nav-link,
@@ -391,7 +396,11 @@ select.form-control:focus {
 
 .nav-link:hover,
 .navbar-brand:hover {
-    color: #a7a7a7;
+    color: #48937E;
+}
+
+#nav-logout:hover {
+    color: #c73737;
 }
 
 .nav-link {
