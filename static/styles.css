@@ -4,7 +4,7 @@ body {
     padding: 0;
     background-color: #222831;
     color: #EEEEEE;
-    /* background-image: url('https://images5.alphacoders.com/125/thumb-1920-1256204.jpg'); */
+    background-image: url('https://images5.alphacoders.com/125/thumb-1920-1256204.jpg');
     background-size: cover;
     /* Cover the whole page */
     background-position: center;
@@ -245,7 +245,7 @@ body {
 .deck-option {
     width: 10rem;
     height: 15rem;
-    background-color: #22283133;
+    background-color: #22283186;
     color: #EEEEEE;
     border: none;
 }
@@ -372,7 +372,7 @@ select.form-control:focus {
 }
 
 .navbar {
-    background-color: #1a1f25;
+    background-color: #1a1f258e;
     color: #EEEEEE;
     padding: 40px;
     max-height: 100px;
@@ -430,7 +430,7 @@ select.form-control:focus {
 }
 
 #tip {
-    background-color: #48937E;
+    background-color: #48937e;
     color: #242424;
     font-size: 1.4em;
 }
@@ -470,4 +470,22 @@ select.form-control:focus {
     /* Aligns the dropdown with the left edge of the navbar item */
     transform: translateX(-50%);
     /* Centers the dropdown horizontally */
+}
+
+.text-bg {
+    background-color: #000000c4;
+}
+
+.pop-decks-text {
+    color: #000000d8;
+}
+
+.vh-not100 {
+    height: 90vh;
+}
+
+.font-background-div {
+    background-color: #31363f8e;
+    padding: 20px;
+    border-radius: 10px;
 }

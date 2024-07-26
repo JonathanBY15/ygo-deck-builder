@@ -73,11 +73,11 @@
     </div>
 
     <div class="container text-center">
-        <h1>Popular Decks</h1>
+        <h1 class="pop-decks-text">Popular Decks</h1>
 
         <!-- Container for the grid -->
         <div class="container mt-4">
-            <div class="row d-flex justify-content-between">
+            <div class="row d-flex justify-content-between ">
                 {% for deck in popular_decks %}
                 <div class="col-md-2 mb-4">
                     <div class="example-deck text-center">
@@ -85,12 +85,15 @@
                             <img src="{{ deck.image_url }}" alt="Card Image">
                         </a>
                         <div class="card-body">
-                            <p>{{ deck.deck_name }}</p>
+                            <div class="text-bg">
+                                <p>{{ deck.deck_name }}</p>
+                            </div>
                         </div>
                     </div>
                 </div>
                 {% if loop.index % 4 == 0 and not loop.last %}
             </div>
+
             <div class="row d-flex justify-content-between">
                 {% endif %}
                 {% endfor %}
@@ -98,6 +101,8 @@
         </div>
 
     </div>
+
+
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
