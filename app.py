@@ -311,7 +311,7 @@ def edit_user():
 
             db.session.commit()
             flash("You successfully updated your profile.", "success")
-            return redirect("/")
+            return redirect("/user/edit")
         
         flash("Invalid credentials.", "danger")
 
