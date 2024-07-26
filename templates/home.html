@@ -13,7 +13,7 @@
 
     <link rel="icon" type="image/png" href="/static/images/favicon.ico">
     <link rel="stylesheet" href="/static/styles.css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.6.0/css/all.css">
 </head>
 
 <body id="home-page">
@@ -28,12 +28,13 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="/">Home</a>
+                    <a class="nav-link" href="/"><i class="fa-solid fa-house"></i> Home</a>
                 </li>
                 {% if g.user %}
                 <!-- Navbar for logged-in users -->
                 <li class="nav-item">
-                    <a class="nav-link" href="/decks/new">New Deck</a>
+                    <a class="nav-link" href="/decks/new"><i class="fa-solid fa-plus"></i> New
+                        Deck</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
@@ -41,20 +42,25 @@
                         <img id="user_image" src="{{user.img_url}}" alt="user_image">
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="/decks">My Decks</a>
+                        <a class="dropdown-item" href="/decks"><span><i
+                                    class="fa-solid fa-wand-sparkles icon-dropdown"></i></span>My
+                            Decks</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="/user/edit">Edit Profile</a>
+                        <a class="dropdown-item" href="/user/edit"><span><i
+                                    class="fa-solid fa-user icon-dropdown"></i></span>Edit
+                            Profile</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item dropdown-logout" href="/logout">Logout</a>
+                        <a class="dropdown-item dropdown-logout" href="/logout"><span><i
+                                    class="fa-solid fa-arrow-right-from-bracket icon-dropdown"></i></span>Logout</a>
                     </div>
                 </li>
                 {% else %}
                 <!-- Navbar for guests (not logged in) -->
                 <li class="nav-item">
-                    <a class="nav-link" href="/register">Sign Up</a>
+                    <a class="nav-link" href="/register"><i class="fa-solid fa-user-plus"></i> Sign Up</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/login">Login</a>
+                    <a class="nav-link" href="/login"><i class="fa-solid fa-arrow-right-to-bracket"></i> Login</a>
                 </li>
                 {% endif %}
             </ul>

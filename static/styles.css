@@ -389,7 +389,7 @@ select.form-control:focus {
 
 .nav-link:hover,
 .navbar-brand:hover {
-    color: #48937E;
+    color: #a08633;
 }
 
 
@@ -444,7 +444,7 @@ select.form-control:focus {
 }
 
 .dropdown-item:hover {
-    color: #48937E;
+    color: #a08633;
     background-color: #3e4957;
 }
 
@@ -472,6 +472,10 @@ select.form-control:focus {
     /* Centers the dropdown horizontally */
 }
 
+.nav-item {
+    margin-left: 20px;
+}
+
 .text-bg {
     background-color: #000000c4;
 }
@@ -495,4 +499,8 @@ select.form-control:focus {
     height: 50px;
     border-radius: 50%;
     margin-right: 10px;
+}
+
+.icon-dropdown {
+    margin-right: 14px;
 }
