@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YGO Deck Builder</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap/dist/css/bootstrap.css">
+    <script src="https://unpkg.com/jquery"></script>
+    <script src="https://unpkg.com/popper.js"></script>
+    <script src="https://unpkg.com/bootstrap"></script>
+    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="icon" type="image/png" href="/static/images/favicon.ico">
+
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.6.0/css/all.css">
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg">
+        <a class="navbar-brand" href="/"><img id="nav-logo" src="/static/images/logo3.png" alt="logo"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/"><i class="fa-solid fa-house"></i> Home</a>
+                </li>
+                {% if g.user %}
+                <!-- Navbar for logged-in users -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/decks/new"><i class="fa-solid fa-plus"></i> New
+                        Deck</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {{user.username}}
+                        <img id="user_image" src="{{user.img_url}}" alt="user_image">
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="/decks"><span><i
+                                    class="fa-solid fa-wand-sparkles icon-dropdown"></i></span>My
+                            Decks</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="/user/edit"><span><i
+                                    class="fa-solid fa-user icon-dropdown"></i></span>Edit
+                            Profile</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item dropdown-logout" href="/logout"><span><i
+                                    class="fa-solid fa-arrow-right-from-bracket icon-dropdown"></i></span>Logout</a>
+                    </div>
+                </li>
+                {% else %}
+                <!-- Navbar for guests (not logged in) -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/register"><i class="fa-solid fa-user-plus"></i> Sign Up</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/login"><i class="fa-solid fa-arrow-right-to-bracket"></i> Login</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+
+    <div id="deck-edit-page">
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="left-col col-md-2">
+                    <div class="card-view-container container mb-3">
+                        <img src="/static/images/placeholder.png" alt="" class="card-view">
+                    </div>
+
+                    <div class="description-container container mb-3">
+                        <p class="description">Hover over a card to read it's description.</p>
+                    </div>
+
+                    <div class="buttons-container container mb-3">
+                        <div class="row mb-1">
+                            <button class="btn btn-danger" id="clear-deck" data-toggle="modal"
+                                data-target="#confirmClearDeckModal">Clear Deck</button>
+                        </div>
+
+                        <!-- <div class="row mb-1">
+                            <a href="/decks/{{deck.id}}/delete" class="btn btn-danger">Delete Deck</a>
+                        </div> -->
+
+                        <div class="row mb-1">
+                            <button class="btn btn-danger" data-toggle="modal"
+                                data-target="#confirmDeleteDeckModal">Delete Deck</button>
+                        </div>
+
+
+                        <div class="row mb-1">
+                            <button class="btn btn-primary" data-toggle="modal" data-target="#renameDeckModal">Rename
+                                Deck</a>
+                        </div>
+
+                        <div class="row mb-1">
+                            <a href="/decks" class="btn btn-primary">Back</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rename Deck Modal -->
+                <div class="modal fade" id="renameDeckModal" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLongTitle">Rename Deck</h5>
+                            </div>
+                            <div class="modal-body">
+                                <form action="/api/{{ deck.id }}/rename" method="POST" id="rename-deck-form">
+                                    {{ renameDeckForm.hidden_tag() }}
+                                    <div class="form-group">
+                                        {{ renameDeckForm.name.label(class="form-label") }}
+                                        {{ renameDeckForm.name(class="form-control", id="deck-rename-input",
+                                        placeholder=deck.name) }}
+                                        {% for error in renameDeckForm.name.errors %}
+                                        <span class="text-danger">{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                </form>
+
+                            </div>
+                            <div class="modal-footer">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col">
+                                            <button type="submit" class="btn btn-primary w-100"
+                                                id="submit-rename-form">Save</button>
+                                        </div>
+                                        <div class="col">
+                                            <button type="button" class="btn btn-danger w-100"
+                                                data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Confirm Clear Deck Modal -->
+                <div class="modal fade" id="confirmClearDeckModal" tabindex="-1" role="dialog"
+                    aria-labelledby="confirmClearDeckModalTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="confirmClearDeckModalTitle">Confirm Clear Deck</h5>
+                            </div>
+                            <div class="modal-body">
+                                <p>Are you sure you want to clear your deck?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col">
+                                            <button type="button" class="btn btn-danger w-100" id="confirm-clear-deck"
+                                                data-dismiss="modal">Yes, Clear Deck</button>
+                                        </div>
+                                        <div class="col">
+                                            <button type="button" class="btn btn-secondary w-100"
+                                                data-dismiss="modal">Cancel</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Confirm Delete Deck Modal -->
+                <div class="modal fade" id="confirmDeleteDeckModal" tabindex="-1" role="dialog"
+                    aria-labelledby="confirmDeleteDeckModalTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="confirmDeleteDeckModalTitle">Confirm Delete Deck</h5>
+                            </div>
+                            <div class="modal-body">
+                                <p>Are you sure you want to delete your deck?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col">
+                                            <button type="button" class="btn btn-danger w-100" id="confirm-delete-deck"
+                                                data-dismiss="modal">Yes, Delete Deck</button>
+                                        </div>
+                                        <div class="col">
+                                            <button type="button" class="btn btn-secondary w-100"
+                                                data-dismiss="modal">Cancel</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="deck-col col-md-7 text-center">
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                    <div class="flashes">
+                        {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    {% endwith %}
+
+                    <div class="container">
+
+
+
+                        <div class="container">
+
+                            <h1>{{deck.name}}</h1>
+                        </div>
+
+                        <div id="tip">
+                            <p>Tip: Right Click a card in your deck to set it as the cover card.</p>
+                        </div>
+
+                        <div class="main-deck-container container">
+                            {% for row in range(4) %}
+                            <div class="row">
+                                {% for col in range(15) %}
+                                <div class="col main-card-slot">
+                                    <img class="main-card-img" id="main-card-img-{{row * 15 + col + 1}}"
+                                        src="/static/images/placeholder.png" alt="">
+                                </div>
+                                {% endfor %}
+                            </div>
+                            {% endfor %}
+                        </div>
+
+                        <br>
+                        <br>
+
+                        <div class="extra-deck-container container">
+                            <div class="row">
+                                {% for col in range(15) %}
+                                <div class="col extra-card-slot">
+                                    <img class="extra-card-img" id="extra-card-img-{{col + 1}}"
+                                        src="/static/images/placeholder.png" alt="">
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+
+
+
+
+                    </div>
+                </div>
+
+                <div class="search-col col-md-3">
+                    <div class="container-fluid">
+
+
+                        <form action="/decks/{{deck.id}}/cards/new_search" method="POST" id="card-search-form">
+                            {{ form.hidden_tag() }}
+
+                            {% for field in form if field.widget.input_type != 'hidden' %}
+                            {% for error in field.errors %}
+                            <span class="text-danger">{{ error }}</span>
+                            {% endfor %}
+                            {{ field(placeholder=field.label.text, class="form-control") }}
+                            {% endfor %}
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col">
+                                        <button type="submit" class="btn btn-primary w-100">Search</button>
+                                    </div>
+                                    <div class="col">
+                                        <button id="clear-filters-btn" class="btn btn-danger w-100">Clear
+                                            Filters</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+
+
+
+                        <div class="search-result-container">
+                            {% for card in cards %}
+                            <div class="card-frame" data-card-description="{{card['desc']}}"
+                                data-card-id="{{card['id']}}">
+
+                                <img src="{{ card['card_images'][0]['image_url_small'] }}">
+
+                                <div class="card-buttons-container container-fluid">
+                                    <div class="row">
+
+                                        <div class="col">
+                                            <i class="fa-solid fa-square-plus add-card-icon"
+                                                data-card-id="{{card['id']}}"></i>
+                                        </div>
+                                        <div class="col">
+                                            <i class="fa-solid fa-square-minus remove-card-icon"
+                                                data-card-id="{{card['id']}}"></i>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col">
+                                    <button id="prevPageBtn" class="btn btn-secondary w-100" disabled>Prev</button>
+                                </div>
+                                <div class="col">
+                                    <button id="nextPageBtn" class="btn btn-secondary w-100">Next</button>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script src="/static/script.js"></script>
+</body>
+
+</html>

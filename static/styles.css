@@ -245,7 +245,7 @@ body {
 .deck-option {
     width: 10rem;
     height: 15rem;
-    background-color: #22283186;
+    background-color: #1a1d22b2;
     color: #EEEEEE;
     border: none;
 }
@@ -481,7 +481,10 @@ select.form-control:focus {
 }
 
 .pop-decks-text {
-    color: #000000d8;
+    color: #ffffff;
+    background-color: #1a1d22b2;
+    margin-top: 10px;
+    padding: 10px;
 }
 
 .vh-not100 {
@@ -489,7 +492,7 @@ select.form-control:focus {
 }
 
 .font-background-div {
-    background-color: #31363f8e;
+    background-color: #1a1d22b2;
     padding: 20px;
     border-radius: 10px;
 }
@@ -503,4 +506,8 @@ select.form-control:focus {
 
 .icon-dropdown {
     margin-right: 14px;
+}
+
+#new-deck-btn {
+    margin: 20px 0;
 }

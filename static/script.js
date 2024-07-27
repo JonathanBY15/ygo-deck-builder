@@ -277,6 +277,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+
+// Function to fetch cards from the API
 async function fetchCards(offsetChange) {
     const form = document.getElementById('card-search-form');
     const formData = new FormData(form);
