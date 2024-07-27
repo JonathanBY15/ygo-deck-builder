@@ -103,7 +103,7 @@ def homepage():
         },
         {
             'image_url': 'https://images.ygoprodeck.com/images/cards_small/93860227.jpg',
-            'deck_name': 'Voiceless Voice Fiendsmith Tune',
+            'deck_name': 'Fiendsmith Tune',
             'href': 'https://ygoprodeck.com/deck/voiceless-voice-fiendsmith-tune-512705'
         },
         {
@@ -193,7 +193,7 @@ def decks_view():
             },
             {
                 'image_url': 'https://images.ygoprodeck.com/images/cards_small/93860227.jpg',
-                'deck_name': 'Voiceless Voice Fiendsmith Tune',
+                'deck_name': 'Fiendsmith Tune',
                 'href': 'https://ygoprodeck.com/deck/voiceless-voice-fiendsmith-tune-512705'
             },
             {
