@@ -37,7 +37,7 @@ body {
     width: 6rem;
     height: 8rem;
     /* background-color: rgba(168, 187, 187, 0.479); */
-    background-color: #31363f;
+    background-color: #31363fb0;
     display: flex;
     align-items: center;
     /* Center content vertically */
@@ -70,7 +70,7 @@ body {
     height: 300px;
     overflow: auto;
     padding: 20px;
-    background-color: #31363f;
+    background-color: #31363f8f;
 
     /* border: 1px solid #ff0000; */
 }
