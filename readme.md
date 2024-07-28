@@ -141,6 +141,15 @@ The user can add, view, edit, and delete their own decks. They can use filter fu
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
+<!-- FUTURE UPDATES -->
+## Future Updates
+* Perform web scraping for improved Popular Decks functionality.
+  * The app will scrape the web to find and update the most popular decks.
+  * The popular decks list will be updated daily.
+
+* Improved filters
+  * Card search filters will be updated for better user experience.
+  * The filter layout will be improved.
 
 
 
