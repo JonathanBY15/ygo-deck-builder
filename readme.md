@@ -4,13 +4,14 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/JonathanBY15/ygo-deck-builder">
+  <a href="https://ygo-deck-builder-df65.onrender.com">
     <img src="static\images\logo-bg-wide.png" alt="Logo" width="480" height="100">
   </a>
 
   <p align="center" style="font-size: 24px">
     A web app for building Yu-Gi-Oh! decks.
     <br />
+    <a href="https://ygo-deck-builder-df65.onrender.com">View Deployed App</a>
     <br />
     <br />
   </p>
@@ -180,6 +181,7 @@ Project Link: [https://github.com/JonathanBY15/ygo-deck-builder](https://github.
 * [Yu-Gi-Oh! API by YGOPRODeck](https://ygoprodeck.com/api-guide/)
 * [Font Awesome](https://fontawesome.com)
 * [Supabase](https://supabase.com/)
+* [Render](https://render.com/)
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
