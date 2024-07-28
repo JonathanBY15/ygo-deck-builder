@@ -4,14 +4,14 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/othneildrew/Best-README-Template">
+  <a href="https://github.com/JonathanBY15/ygo-deck-builder">
     <img src="static\images\logo-bg-wide.png" alt="Logo" width="320" height="100">
   </a>
 
   <p align="center">
     A web app for building Yu-Gi-Oh! decks.
     <br />
-    <a href="https://github.com/othneildrew/Best-README-Template">View Demo</a>
+    <a href="https://github.com/JonathanBY15/ygo-deck-builder">View Demo</a>
   </p>
 </div>
 
