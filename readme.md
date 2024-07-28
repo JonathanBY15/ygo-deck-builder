@@ -147,7 +147,9 @@ The user can add, view, edit, and delete their own decks. They can use filter fu
 <!-- CONTACT -->
 ## Contact
 Email: jonathanyaprak@gmail.com
+<br />
 LinkedIn: [LinkedIn](https://www.linkedin.com/in/jonathan-yaprak/)
+<br />
 Project Link: [https://github.com/JonathanBY15/ygo-deck-builder](https://github.com/JonathanBY15/ygo-deck-builder)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
