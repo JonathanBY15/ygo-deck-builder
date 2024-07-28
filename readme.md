@@ -46,7 +46,20 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-The Yu-Gi-Oh! Deck Builder provides a user-friendly platform for Yu-Gi-Oh! players to build, manage, and analyze their decks. Users can access the entire Yu-Gi-Oh! card database and build their own decks using search, filter, and sort functionalities.
+The Yu-Gi-Oh! Deck Builder provides a user-friendly platform for Yu-Gi-Oh! players to build, manage, and analyze their decks. Users can access the entire Yu-Gi-Oh! card database and build their own decks using search, filter, and sort functionalities. Users can create an account to add, view, edit, and delete their own decks. They can use filters to search the YGO card database and build their decks. Users can also view popular decks on the homepage.
+
+
+### Deck Edit Page
+<img src="/static/images/deck-edit-page.png" height="500" width="889" alt="deck-edit"/>
+
+### Homepage
+<img src="/static/images/homepage.png" height="500" width="889" alt="homepage"/>
+
+### User Decks Page
+<img src="/static/images/user-decks.png" height="500" width="889" alt="user-decks"/>
+
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Features:
 
@@ -81,22 +94,7 @@ The Yu-Gi-Oh! Deck Builder provides a user-friendly platform for Yu-Gi-Oh! playe
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
-<!-- USAGE EXAMPLES -->
-## Usage
 
-Users can create an account to add, view, edit, and delete their own decks. They can use filters to search the YGO card database and build their decks. Users can also view popular decks on the homepage.
-
-### Deck Edit Page
-<img src="/static/images/deck-edit-page.png" height="500" alt="deck-edit"/>
-
-### Homepage
-<img src="/static/images/homepage.png" height="500" alt="homepage"/>
-
-### User Decks Page
-<img src="/static/images/user-decks.png" height="500" alt="user-decks"/>
-
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 <!-- GETTING STARTED -->
