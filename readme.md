@@ -5,7 +5,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/JonathanBY15/ygo-deck-builder">
-    <img src="static\images\logo-bg-wide.png" alt="Logo" width="320" height="100">
+    <img src="static\images\logo-bg-wide.png" alt="Logo" width="480" height="100">
   </a>
 
   <p align="center">
