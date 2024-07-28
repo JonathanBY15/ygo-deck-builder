@@ -8,10 +8,11 @@
     <img src="static\images\logo-bg-wide.png" alt="Logo" width="480" height="100">
   </a>
 
-  <p align="center">
+  <p align="center" style="font-size: 24px">
     A web app for building Yu-Gi-Oh! decks.
     <br />
-    <a href="https://github.com/JonathanBY15/ygo-deck-builder">View Demo</a>
+    <br />
+    <br />
   </p>
 </div>
 
