@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YGO Deck Builder</title>
+    <title>{% block title %}YGO Deck Builder{% endblock %}</title>
 
     <link rel="stylesheet" href="https://unpkg.com/bootstrap/dist/css/bootstrap.css">
     <script src="https://unpkg.com/jquery"></script>
@@ -16,7 +16,8 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.6.0/css/all.css">
 </head>
 
-<body id="register-page">
+<body id="home-page">
+
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg">
         <a class="navbar-brand" href="/"><img id="nav-logo" src="/static/images/logo3.png" alt="logo"></a>
@@ -32,26 +33,23 @@
                 {% if g.user %}
                 <!-- Navbar for logged-in users -->
                 <li class="nav-item">
-                    <a class="nav-link" href="/decks/new"><i class="fa-solid fa-plus"></i> New
-                        Deck</a>
+                    <a class="nav-link" href="/decks/new"><i class="fa-solid fa-plus"></i> New Deck</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        {{user.username}}
-                        <img id="user_image" src="{{user.img_url}}" alt="user_image">
+                        {{ user.username }}
+                        <img id="user_image" src="{{ user.img_url }}" alt="user_image">
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="/decks"><span><i
-                                    class="fa-solid fa-wand-sparkles icon-dropdown"></i></span>My
-                            Decks</a>
+                                    class="fa-solid fa-wand-sparkles icon-dropdown"></i></span> My Decks</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="/user/edit"><span><i
-                                    class="fa-solid fa-user icon-dropdown"></i></span>Edit
-                            Profile</a>
+                                    class="fa-solid fa-user icon-dropdown"></i></span> Edit Profile</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item dropdown-logout" href="/logout"><span><i
-                                    class="fa-solid fa-arrow-right-from-bracket icon-dropdown"></i></span>Logout</a>
+                                    class="fa-solid fa-arrow-right-from-bracket icon-dropdown"></i></span> Logout</a>
                     </div>
                 </li>
                 {% else %}
@@ -68,47 +66,22 @@
     </nav>
 
     <div class="container">
-        <div class="container">
-            {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-            <div class="flashes">
-                {% for category, message in messages %}
-                <div class="alert alert-{{ category }}">{{ message }}</div>
-                {% endfor %}
-            </div>
-            {% endif %}
-            {% endwith %}
-            {% block content %}{% endblock %}
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <div class="flashes">
+            {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
         </div>
-
-
-        <div class="d-flex justify-content-center align-items-center vh-not100">
-
-            <div class="container text-center font-background-div" style="width: 30%;">
-                <h1>Sign Up</h1>
-                <form method="POST" id="register-form">
-                    {{ form.hidden_tag() }}
-
-                    {% for field in form if field.widget.input_type != 'hidden' %}
-                    {% for error in field.errors %}
-                    <span class="text-danger">{{ error }}</span>
-                    {% endfor %}
-                    {{ field(placeholder=field.label.text, class="form-control") }}
-                    {% endfor %}
-                    <button type="submit" class="btn btn-primary w-100">Sign Up</button>
-                    <br>
-                    <br>
-                    <a href="/login" class="btn btn-secondary w-100">I Already Have an Account</a>
-                </form>
-            </div>
-        </div>
+        {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-    <script src="/static/scripts.js"></script>
+    <script src="/static/script.js"></script>
 </body>
 
 </html>

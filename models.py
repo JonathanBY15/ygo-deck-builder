@@ -51,22 +51,15 @@ class Deck(db.Model):
     name = db.Column(db.String(50), nullable=False)
     description = db.Column(db.Text, nullable=True)
     cover_card_url = db.Column(db.String, nullable=False, default="/static/images/placeholder.png")
+    # Popular column
+    popular = db.Column(db.Boolean, nullable=True)
+
+
+
 
     # Relationships
     user = db.relationship("User", back_populates="decks")
-    deck_cards = db.relationship("DeckCard", back_populates="deck", cascade="all, delete-orphan")
-    # cover_card = db.relationship("Card", foreign_keys=[cover_card_id], uselist=False)
-
-    # Methods
-    # @validates('cover_card_id')
-    # def validate_cover_card(self, key, cover_card_id):
-    #     """Validate that cover card is in the deck."""
-    #     if cover_card_id is not None:
-    #         card_ids_in_deck = [deck_card.card_id for deck_card in self.deck_cards]
-    #         if cover_card_id not in card_ids_in_deck:
-    #             raise ValueError("Cover card must be one of the cards in the deck.")
-    #     return cover_card_id
-    
+    deck_cards = db.relationship("DeckCard", back_populates="deck", cascade="all, delete-orphan")    
 
     # function that returns the total number of cards in the main deck (cards have an extra_deck attribute)
     @property

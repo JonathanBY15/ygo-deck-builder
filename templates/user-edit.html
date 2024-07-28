@@ -1,114 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YGO Deck Builder</title>
+{% block content %}
+<div class="d-flex justify-content-center align-items-center vh-not100">
+    <div class="container text-center font-background-div" style="width: 30%;">
+        <h1><span><img id="profile-page-pic" src="{{user.img_url}}" alt=""></span>Edit Profile</h1>
 
-    <link rel="stylesheet" href="https://unpkg.com/bootstrap/dist/css/bootstrap.css">
-    <script src="https://unpkg.com/jquery"></script>
-    <script src="https://unpkg.com/popper"></script>
-    <script src="https://unpkg.com/bootstrap"></script>
+        <form method="POST" id="register-form">
+            {{ form.hidden_tag() }}
 
-    <link rel="icon" type="image/png" href="/static/images/favicon.ico">
-    <link rel="stylesheet" href="/static/styles.css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.6.0/css/all.css">
-</head>
-
-<body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg">
-        <a class="navbar-brand" href="/"><img id="nav-logo" src="/static/images/logo3.png" alt="logo"></a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="/"><i class="fa-solid fa-house"></i> Home</a>
-                </li>
-                {% if g.user %}
-                <!-- Navbar for logged-in users -->
-                <li class="nav-item">
-                    <a class="nav-link" href="/decks/new"><i class="fa-solid fa-plus"></i> New
-                        Deck</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        {{user.username}}
-                        <img id="user_image" src="{{user.img_url}}" alt="user_image">
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="/decks"><span><i
-                                    class="fa-solid fa-wand-sparkles icon-dropdown"></i></span>My
-                            Decks</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="/user/edit"><span><i
-                                    class="fa-solid fa-user icon-dropdown"></i></span>Edit
-                            Profile</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item dropdown-logout" href="/logout"><span><i
-                                    class="fa-solid fa-arrow-right-from-bracket icon-dropdown"></i></span>Logout</a>
-                    </div>
-                </li>
-                {% else %}
-                <!-- Navbar for guests (not logged in) -->
-                <li class="nav-item">
-                    <a class="nav-link" href="/register"><i class="fa-solid fa-user-plus"></i> Sign Up</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/login"><i class="fa-solid fa-arrow-right-to-bracket"></i> Login</a>
-                </li>
-                {% endif %}
-            </ul>
-        </div>
-    </nav>
-
-    <div class="container">
-        <div class="container">
-            {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-            <div class="flashes">
-                {% for category, message in messages %}
-                <div class="alert alert-{{ category }}">{{ message }}</div>
-                {% endfor %}
-            </div>
-            {% endif %}
-            {% endwith %}
-            {% block content %}{% endblock %}
-        </div>
-
-        <div class="d-flex justify-content-center align-items-center vh-not100">
-            <div class="container text-center font-background-div" style="width: 30%;">
-                <h1><span><img id="profile-page-pic" src="{{user.img_url}}" alt=""></span>Edit Profile</h1>
-
-                <form method="POST" id="register-form">
-                    {{ form.hidden_tag() }}
-
-                    {% for field in form if field.widget.input_type != 'hidden' %}
-                    {% for error in field.errors %}
-                    <span class="text-danger">{{ error }}</span>
-                    {% endfor %}
-                    {{ field(placeholder=field.label.text, class="form-control") }}
-                    {% endfor %}
-                    <button type="submit" class="btn btn-primary w-100">Save</button>
-                    <br>
-                    <br>
-                    <a href="/" class="btn btn-danger w-100">Back</a>
-                </form>
-            </div>
-        </div>
-
+            {% for field in form if field.widget.input_type != 'hidden' %}
+            {% for error in field.errors %}
+            <span class="text-danger">{{ error }}</span>
+            {% endfor %}
+            {{ field(placeholder=field.label.text, class="form-control") }}
+            {% endfor %}
+            <button type="submit" class="btn btn-primary w-100">Save</button>
+            <br>
+            <br>
+            <a href="/" class="btn btn-danger w-100">Back</a>
+        </form>
     </div>
-
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-    <script src="/static/scripts.js"></script>
-</body>
-
-</html>
+</div>
+{% endblock %}

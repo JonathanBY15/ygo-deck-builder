@@ -65,7 +65,6 @@ async function updateExtraDeckGrid(deckId) {
         // Update the grid with deck's cards
         let cardIndex = 0;
         deckCards.forEach(card => {
-            console.log(card);
             if (card.is_extra_deck) {
                 for (let i = 0; i < card.quantity; i++) {
                     const row = Math.floor(cardIndex / 15);

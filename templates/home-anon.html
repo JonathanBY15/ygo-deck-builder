@@ -1,124 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YGO Deck Builder</title>
+{% block content %}
+<div class="container text-center">
+    <h1 class="pop-decks-text">Popular Decks</h1>
 
-    <link rel="stylesheet" href="https://unpkg.com/bootstrap/dist/css/bootstrap.css">
-    <script src="https://unpkg.com/jquery"></script>
-    <script src="https://unpkg.com/popper"></script>
-    <script src="https://unpkg.com/bootstrap"></script>
-
-    <link rel="icon" type="image/png" href="/static/images/favicon.ico">
-    <link rel="stylesheet" href="/static/styles.css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.6.0/css/all.css">
-</head>
-
-<body id="home-anon-page">
-
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg">
-        <a class="navbar-brand" href="/"><img id="nav-logo" src="/static/images/logo3.png" alt="logo"></a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="/"><i class="fa-solid fa-house"></i> Home</a>
-                </li>
-                {% if g.user %}
-                <!-- Navbar for logged-in users -->
-                <li class="nav-item">
-                    <a class="nav-link" href="/decks/new"><i class="fa-solid fa-plus"></i> New
-                        Deck</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        {{user.username}}
-                        <img id="user_image" src="{{user.img_url}}" alt="user_image">
+    <!-- Container for the grid -->
+    <div class="container mt-4">
+        <div class="row d-flex justify-content-between ">
+            {% for deck in popular_decks %}
+            <div class="col-md-2 mb-4">
+                <div class="example-deck text-center">
+                    <a href="{{ deck.href }}" target="_blank">
+                        <img src="{{ deck.image_url }}" alt="Card Image">
                     </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="/decks"><span><i
-                                    class="fa-solid fa-wand-sparkles icon-dropdown"></i></span>My
-                            Decks</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="/user/edit"><span><i
-                                    class="fa-solid fa-user icon-dropdown"></i></span>Edit
-                            Profile</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item dropdown-logout" href="/logout"><span><i
-                                    class="fa-solid fa-arrow-right-from-bracket icon-dropdown"></i></span>Logout</a>
-                    </div>
-                </li>
-                {% else %}
-                <!-- Navbar for guests (not logged in) -->
-                <li class="nav-item">
-                    <a class="nav-link" href="/register"><i class="fa-solid fa-user-plus"></i> Sign Up</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/login"><i class="fa-solid fa-arrow-right-to-bracket"></i> Login</a>
-                </li>
-                {% endif %}
-            </ul>
-        </div>
-    </nav>
-
-    <div class="container">
-        {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-        <div class="flashes">
-            {% for category, message in messages %}
-            <div class="alert alert-{{ category }}">{{ message }}</div>
-            {% endfor %}
-        </div>
-        {% endif %}
-        {% endwith %}
-        {% block content %}{% endblock %}
-    </div>
-
-    <div class="container text-center">
-        <h1 class="pop-decks-text">Popular Decks</h1>
-
-        <!-- Container for the grid -->
-        <div class="container mt-4">
-            <div class="row d-flex justify-content-between ">
-                {% for deck in popular_decks %}
-                <div class="col-md-2 mb-4">
-                    <div class="example-deck text-center">
-                        <a href="{{ deck.href }}" target="_blank">
-                            <img src="{{ deck.image_url }}" alt="Card Image">
-                        </a>
-                        <div class="card-body">
-                            <div class="text-bg">
-                                <p>{{ deck.deck_name }}</p>
-                            </div>
+                    <div class="card-body">
+                        <div class="text-bg">
+                            <p>{{ deck.deck_name }}</p>
                         </div>
                     </div>
                 </div>
-                {% if loop.index % 4 == 0 and not loop.last %}
             </div>
-
-            <div class="row d-flex justify-content-between">
-                {% endif %}
-                {% endfor %}
-            </div>
+            {% if loop.index % 4 == 0 and not loop.last %}
         </div>
 
+        <div class="row d-flex justify-content-between">
+            {% endif %}
+            {% endfor %}
+        </div>
     </div>
 
-
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-    <script src="/static/scripts.js"></script>
-</body>
-
-
-
-</html>
+</div>
+{% endblock %}

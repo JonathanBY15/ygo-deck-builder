@@ -6,43 +6,20 @@ body {
     color: #EEEEEE;
     background-image: url('https://images5.alphacoders.com/125/thumb-1920-1256204.jpg');
     background-size: cover;
-    /* Cover the whole page */
     background-position: center;
-    /* Center the image */
 }
 
-.main-deck-container {
-    /* border: 1px solid #ff0000; */
-}
-
-.extra-deck-container {
-    /* border: 1px solid #ff0000; */
-}
-
-/* .main-card-slot,
-.extra-card-slot {
-    border: 1px solid #ccc;
-    padding: 10px;
-    text-align: center;
-    width: 6rem;
-    height: 8rem;
-    background-color: rgba(168, 187, 187, 0.479);
-} */
 
 .main-deck-container .row .col,
 .extra-deck-container .row .col {
     border: 1px solid #ccc;
-    /* padding: 10px; */
     text-align: center;
     width: 6rem;
     height: 8rem;
-    /* background-color: rgba(168, 187, 187, 0.479); */
     background-color: #31363fb0;
     display: flex;
     align-items: center;
-    /* Center content vertically */
     justify-content: center;
-    /* Center content horizontally */
 }
 
 .main-deck-container .row .col img,
@@ -50,7 +27,6 @@ body {
     height: 100%;
     width: 100%;
     object-fit: contain;
-    /* Maintain aspect ratio and fit within the container */
 }
 
 .card {
@@ -65,20 +41,15 @@ body {
     height: 1rem;
 }
 
-/* Testing Styles */
 .description-container {
     height: 300px;
     overflow: auto;
     padding: 20px;
     background-color: #31363f8f;
-
-    /* border: 1px solid #ff0000; */
 }
 
 .card-view-container {
     padding: 0px;
-
-    /* border: 1px solid #ff0000; */
 }
 
 .card-view {
@@ -90,16 +61,12 @@ body {
     align-items: center;
     justify-content: center;
     height: 100vh;
-
-    /* border: 1px solid #ff0000; */
 }
 
 .left-col {
     display: flex;
     flex-direction: column;
     justify-content: center;
-
-    /* border: 1px solid #ff0000; */
 }
 
 
@@ -108,16 +75,12 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
-    /* border: 1px solid #51ff00; */
 }
 
 .search-col {
     display: flex;
     flex-direction: column;
     justify-content: center;
-
-    /* border: 1px solid #0051ff; */
 }
 
 .main-card-img,
@@ -129,7 +92,6 @@ body {
 .extra-card-img:hover {
     cursor: pointer;
     transform: scale(1.1);
-    /* filter: brightness(90%) saturate(80%) hue-rotate(90deg); */
 }
 
 .search-result-container {
@@ -139,7 +101,6 @@ body {
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    /* border: #51ff00 1px solid; */
 }
 
 .card-frame {
@@ -149,33 +110,25 @@ body {
     margin-right: 10px;
     margin-bottom: 10px;
     transition: transform 0.1s;
-    /* border: #ff0000 1px solid; */
 }
 
 .card-frame:hover {
     cursor: pointer;
     transform: scale(1.1);
-    /* filter: brightness(90%) saturate(80%) hue-rotate(90deg); */
 }
 
 .card-frame img {
     width: 100%;
     height: 100%;
-
-    /* border: #51ff00 1px solid; */
 }
 
 .card-buttons-container {
     width: 100%;
     height: 1rem;
-
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 0;
-
-
-    /* border: #51ff00 1px solid; */
 }
 
 .card-buttons-container .col {
@@ -204,38 +157,6 @@ body {
 .remove-card-icon:hover {
     color: #F88379;
 }
-
-
-/* PAGES */
-/* #home-anon-page {
-    background-image: url('https://images3.alphacoders.com/131/thumb-1920-1313033.jpg');
-    background-size: cover;
-    background-position: center;
-} */
-
-/* #register-page {
-    background-color: #222831;
-    color: #EEEEEE;
-}
-
-#home-page {
-    background-color: #222831;
-    color: #EEEEEE;
-}
-
-#new-deck-page {
-    background-color: #222831;
-    color: #EEEEEE;
-} */
-
-/* #deck-edit-page {
-    background-image: url('https://images5.alphacoders.com/131/thumb-1920-1313043.jpg');
-    background-size: cover;
-    background-position: center;
-} */
-
-
-
 
 .deck-cover {
     width: 10rem;
@@ -321,32 +242,25 @@ textarea {
 /* Apply to all input fields */
 input.form-control {
     background-color: #31363f6c;
-    /* Example dark background color */
     color: #EEEEEE;
-    /* Text color for better contrast */
-    /* border: 1px solid #666; */
-    /* Border color to match the background */
 }
 
 /* Apply to all textarea fields */
 textarea.form-control {
     background-color: #31363f6c;
     color: #EEEEEE;
-    /* border: 1px solid #666; */
 }
 
 /* Apply to all select fields */
 select.form-control {
     background-color: #31363f6c;
     color: #EEEEEE;
-    /* border: 1px solid #666; */
 }
 
 /* Placeholder text color */
 input.form-control::placeholder,
 textarea.form-control::placeholder {
     color: #EEEEEE !important;
-    /* Example placeholder color */
 }
 
 
@@ -355,14 +269,10 @@ input.form-control:focus,
 textarea.form-control:focus,
 select.form-control:focus {
     background-color: #31363f6c;
-    /* Slightly lighter background on focus */
     border-color: #4e4545;
-    /* Slightly lighter border on focus */
     color: #FFFFFF;
     outline: none;
-    /* Remove default outline */
     box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.25);
-    /* Optional: add a subtle shadow */
 }
 
 
@@ -455,21 +365,16 @@ select.form-control:focus {
 /* Ensures the dropdown menu stays within the viewport */
 .navbar-nav .dropdown-menu {
     max-width: 300px;
-    /* Adjust as needed */
     overflow-x: hidden;
     white-space: nowrap;
-    /* Prevents text from wrapping and ensures scroll */
 }
 
 /* Positioning the dropdown menu correctly */
 .navbar-nav .dropdown-menu {
     position: absolute;
     top: 100%;
-    /* Ensures the dropdown is below the navbar item */
     left: 0;
-    /* Aligns the dropdown with the left edge of the navbar item */
     transform: translateX(-50%);
-    /* Centers the dropdown horizontally */
 }
 
 .nav-item {
