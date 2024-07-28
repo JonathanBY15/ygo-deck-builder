@@ -178,7 +178,8 @@ Project Link: [https://github.com/JonathanBY15/ygo-deck-builder](https://github.
 ## Acknowledgments
 
 * [Yu-Gi-Oh! API by YGOPRODeck](https://ygoprodeck.com/api-guide/)
-* [GitHub Pages](https://pages.github.com)
 * [Font Awesome](https://fontawesome.com)
+* [Supabase](https://supabase.com/)
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>

@@ -17,7 +17,7 @@ load_dotenv()
 CURR_USER_KEY = "curr_user"
 
 # Get the database URI and secret key from .env
-SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URI')
+SQLALCHEMY_DATABASE_URI = os.getenv('SUPABASE_URI')
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # Create and configure app
@@ -28,7 +28,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 app.config['SQLALCHEMY_ECHO'] = False
 
-toolbar = DebugToolbarExtension(app)
+# toolbar = DebugToolbarExtension(app)
 
 # Connect to database
 connect_db(app)
